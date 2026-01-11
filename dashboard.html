@@ -44,16 +44,17 @@
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
     body{
-  margin:0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-  color: var(--text);
-  background:
-    radial-gradient(900px 520px at 62% 18%, rgba(179,136,255,0.08), transparent 55%),
-    radial-gradient(700px 520px at 15% 30%, rgba(255,255,255,0.05), transparent 60%),
-    radial-gradient(1000px 600px at 60% 70%, rgba(255,255,255,0.03), transparent 60%),
-    var(--bg);
-  overflow-x:hidden;
-}
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    color: var(--text);
+    background:
+      radial-gradient(900px 520px at 62% 18%, rgba(120,170,120,0.035), transparent 60%),
+      radial-gradient(700px 520px at 15% 30%, rgba(255,255,255,0.02), transparent 65%),
+      var(--bg);
+    overflow-x:hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+
 
 
     /* subtle star/speckle */
@@ -322,7 +323,7 @@
       height: 360px;
       border-radius: 18px;
       border: 1px solid rgba(255,255,255,0.10);
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      background: rgba(255,255,255,0.02);
       display:grid;
       place-items:center;
       text-align:center;
@@ -333,10 +334,26 @@
     .work-inner::before{
       content:"";
       position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(520px 220px at 50% 75%, rgba(255,255,255,0.04), transparent 60%),
-        radial-gradient(500px 240px at 30% 35%, rgba(179,136,255,0.06), transparent 60%);
+      inset: 0;
+      background: none;
+      pointer-events:none;
+    }
+
+    .work-inner {
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.02);
+      /* background: black ; */
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .work-inner::before {
+      content:"";
+      position:absolute;
+      inset: 0;
+      background: none;
       pointer-events:none;
     }
 

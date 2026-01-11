@@ -40,7 +40,7 @@
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
-    body{
+    /* body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color: var(--text);
@@ -51,7 +51,21 @@
         var(--bg);
       overflow-x:hidden;
       -webkit-text-size-adjust: 100%;
-    }
+    } */
+
+   body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    color: var(--text);
+    background:
+      radial-gradient(900px 520px at 62% 18%, rgba(120,170,120,0.035), transparent 60%),
+      radial-gradient(700px 520px at 15% 30%, rgba(255,255,255,0.02), transparent 65%),
+      var(--bg);
+    overflow-x:hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+
+
 
     /* subtle star/speckle */
     .speckle{
@@ -273,10 +287,14 @@
     /* ===== New Artwork UI ===== */
     .form-panel{
       padding: 18px;
-      background: var(--panel);
+      background: rgba(255,255,255,0.05);  /* flatter, less “wash” */
+      background: rgba(255, 255, 255, 0.052);  /* flatter, less “wash” */
+      background: rgba(255, 255, 255, 0.042);  /* flatter, less “wash” */
+      border: 1px solid rgba(255,255,255,0.10);
     }
 
-    .form-inner{
+
+    /* .form-inner{
       border-radius: 18px;
       border: 1px solid rgba(255,255,255,0.10);
       background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
@@ -284,6 +302,7 @@
       position:relative;
       overflow:hidden;
     }
+
     .form-inner::before{
       content:"";
       position:absolute;
@@ -292,7 +311,27 @@
         radial-gradient(520px 220px at 50% 75%, rgba(255,255,255,0.04), transparent 60%),
         radial-gradient(500px 240px at 30% 35%, rgba(179,136,255,0.06), transparent 60%);
       pointer-events:none;
+    } */
+
+    .form-inner{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.02);
+      background: rgba(17, 16, 16, 0.02);
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
     }
+
+    .form-inner::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: none;  /* kill gradients */
+      pointer-events:none;
+    }
+
+
 
     .form-head{
       position:relative;
@@ -517,7 +556,12 @@
     /* Responsive */
     @media (max-width: 980px){
       .brand-title{ display:none; }
-      .nav a span, .settings-link span{ display:none; }
+      /* Only hide labels in the TOP BAR (desktop sidebar converted), not inside the mobile dropdown */
+      .sidebar > .nav a span,
+      .sidebar > .sidebar-footer .settings-link span{
+        display: none;
+      }
+
       .sidebar{ padding: 18px 10px; }
       .layout{ flex-direction: column; }
 
@@ -634,10 +678,6 @@
 
     @media (max-width: 980px){
       /* Show labels inside the dropdown menu */
-      .mobile-menu .nav a span,
-      .mobile-menu .settings-link span{
-        display: inline !important;
-      }
 
       /* Optional: keep icon + label aligned nicely */
       .mobile-menu .nav a{
@@ -648,7 +688,30 @@
         border: 1px solid rgba(255,255,255,0.10);
       }
 
+      .form-panel{
+        background: rgba(255,255,255,0.05);  /* flatter, less “wash” */
+        border: 1px solid rgba(255,255,255,0.10);
+      }
+
+
     }
+
+    @media (max-width: 980px){
+      .mobile-footer .settings-link{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .mobile-footer .settings-link span{
+        display: block;     /* gives it a real box */
+        width: 100%;        /* so text-align can center reliably */
+        text-align: center;
+      }
+
+    }
+
 
   </style>
 </head>
