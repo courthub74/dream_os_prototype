@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dream OS — Distribute</title>
+
+  <style>
+    :root{
+      --bg: #040406;
+      --panel: rgba(255,255,255,0.035);
+      --stroke: rgba(255,255,255,0.07);
+
+      --text: rgba(255,255,255,0.88);
+      --muted: rgba(255,255,255,0.48);
+      --muted2: rgba(255,255,255,0.40);
+
+      --shadow: 0 24px 70px rgba(0,0,0,0.45);
+      --radius: 18px;
+      --radius-lg: 22px;
+      --sidebar-w: 268px;
+      --gap: 18px;
+
+      /* Accent system (green + grey) */
+      --accent: rgba(120, 170, 120, 0.90);
+      --accent-soft: rgba(120, 170, 120, 0.15);
+
+      --lights: rgba(120, 229, 69, 0.85);
+      --brand-badge: rgba(94, 176, 84, 0.423);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background:
+        radial-gradient(700px 520px at 15% 30%, rgba(255,255,255,0.05), transparent 60%),
+        radial-gradient(1000px 600px at 60% 70%, rgba(255,255,255,0.03), transparent 60%),
+        var(--bg);
+      overflow-x:hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* subtle speckle */
+    .speckle{
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.09) 0 1px, transparent 2px),
+        radial-gradient(circle at 30% 80%, rgba(255,255,255,0.06) 0 1px, transparent 2px),
+        radial-gradient(circle at 60% 30%, rgba(255,255,255,0.07) 0 1px, transparent 2px),
+        radial-gradient(circle at 85% 55%, rgba(255,255,255,0.05) 0 1px, transparent 2px),
+        radial-gradient(circle at 50% 90%, rgba(255,255,255,0.06) 0 1px, transparent 2px);
+      opacity: 0.35;
+      filter: blur(0.2px);
+    }
+
+    .app{
+      display:grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      min-height:100vh;
+    }
+
+    /* Sidebar */
+    .sidebar{
+      position: sticky;
+      top:0;
+      height: 100vh;
+      padding: 18px 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      background-color: var(--bg);
+      border-right: 1px solid var(--stroke);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap:10px;
+      padding: 10px 10px 14px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .brand-left{ display:flex; align-items:center; gap:10px; }
+    .brand-badge{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: var(--brand-badge);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+      display:grid;
+      place-items:center;
+    }
+    .brand-title{
+      font-weight: 650;
+      letter-spacing: 0.2px;
+    }
+
+    .nav{
+      margin-top: 20px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .nav a{
+      text-decoration:none;
+      color: var(--muted);
+      padding: 10px 12px;
+      border-radius: 12px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      border: 1px solid transparent;
+      transition: 160ms ease;
+    }
+    .nav a:hover{
+      color: var(--text);
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.06);
+    }
+    .nav a.active{
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.10);
+    }
+    .nav .icon{
+      width:18px;height:18px; opacity:0.9;
+    }
+
+    .sidebar-footer{
+      position:absolute;
+      left:16px;
+      right:16px;
+      bottom: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .settings-link{
+      width:100%;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      text-decoration:none;
+      transition: 160ms ease;
+    }
+    .settings-link:hover{
+      color: var(--text);
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.06);
+    }
+    .settings-link .icon{ width:18px;height:18px; opacity:0.85; }
+
+    /* Main */
+    .main{
+      padding: 26px 26px 34px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .greeting h1{
+      margin:0;
+      font-size: 30px;
+      letter-spacing: 0.2px;
+    }
+    .greeting p{
+      margin:6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .top-actions{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+    .btn{
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      transition: 160ms ease;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+    }
+    .btn:hover{
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+      transform: translateY(-1px);
+    }
+    .btn.primary{
+      border-color: rgba(120,170,120,0.40);
+      background: linear-gradient(180deg, rgba(120,170,120,0.22), rgba(120,170,120,0.10));
+      box-shadow: 0 14px 34px rgba(0,0,0,0.30);
+    }
+
+    .panel{
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Content grid for this page */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: var(--gap);
+      align-items:start;
+      margin-top: 10px;
+    }
+
+    .section-title{
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 12px;
+    }
+
+    /* Connections */
+    .connections{ padding: 16px; }
+    .conn-list{
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .conn{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.10);
+      transition: 160ms ease;
+    }
+    .conn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.14);
+    }
+    .conn-left{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .pill{
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      background: rgba(120,170,120,0.10);
+      background: var(--brand-badge);
+      border: 1px solid rgba(120,170,120,0.22);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+    .conn-meta{ min-width:0; }
+    .conn-name{
+      margin:0;
+      font-weight: 650;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .conn-sub{
+      margin:3px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .state{
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:999px;
+      background: rgba(255,255,255,0.18);
+      box-shadow: 0 0 0 6px rgba(255,255,255,0.05);
+    }
+    .dot.live{
+      background: var(--lights);
+      box-shadow: 0 0 0 6px var(--accent-soft);
+    }
+
+    .mini-actions{
+      display:flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .mini-actions .btn{ flex: 1; justify-content:center; }
+
+    /* Release Queue */
+    .queue{ padding: 16px; }
+    .queue-card{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      padding: 14px;
+    }
+
+    .queue-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.10);
+      margin-top: 10px;
+    }
+    .qleft{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      min-width:0;
+    }
+    .tag{
+      font-size: 11px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.70);
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.04);
+      padding: 6px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .tag.scheduled{
+      border-color: rgba(120,170,120,0.22);
+      background: rgba(120,170,120,0.10);
+      color: rgba(255,255,255,0.82);
+    }
+    .qtitle{
+      margin:0;
+      font-weight: 650;
+      font-size: 13px;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      max-width: 320px;
+    }
+    .qsub{
+      margin:3px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      max-width: 320px;
+    }
+    .go{ opacity:0.7; }
+
+    /* Right column panels */
+    .rightcol{
+      display:flex;
+      flex-direction:column;
+      gap: var(--gap);
+    }
+
+    .summary{ padding: 16px; }
+    .stat{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 12px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.10);
+      margin-top: 10px;
+    }
+    .stat span{ color: var(--muted); font-size: 12px; letter-spacing: 0.10em; text-transform: uppercase; }
+    .stat strong{ font-size: 16px; }
+
+    .status{
+      margin-top: 18px;
+      color: var(--muted2);
+      font-size: 12px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .status .led{
+      width:7px;height:7px;border-radius:99px;
+      background: var(--lights);
+      box-shadow: 0 0 0 6px var(--accent-soft);
+    }
+
+    /* reveal animation */
+    .reveal{
+      opacity: 0;
+      transform: translateY(14px);
+      filter: blur(6px);
+      will-change: transform, opacity, filter;
+    }
+    .reveal.is-in{
+      animation: riseIn 680ms cubic-bezier(.2,.9,.2,1) forwards;
+    }
+    @keyframes riseIn{
+      0%{ opacity: 0; transform: translateY(14px); filter: blur(8px); }
+      55%{ opacity: 1; filter: blur(1px); }
+      100%{ opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+    .d1{ animation-delay: 60ms; }
+    .d2{ animation-delay: 140ms; }
+    .d3{ animation-delay: 220ms; }
+    .d4{ animation-delay: 300ms; }
+    .d5{ animation-delay: 380ms; }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+      .sidebar{
+        position: sticky;
+        top: 0;
+        height: auto;
+        z-index: 50;
+        border-right: none;
+        border-bottom: 1px solid var(--stroke);
+        background: rgba(10,10,12,0.72);
+        backdrop-filter: blur(12px);
+      }
+      .sidebar-footer{ position: static; margin-top: 10px; }
+      .nav{ flex-direction: row; overflow-x:auto; -webkit-overflow-scrolling: touch; scrollbar-width:none; }
+      .nav::-webkit-scrollbar{ display:none; }
+      .nav a{ flex:0 0 auto; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); }
+      .main{ padding: 16px 12px 22px; }
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="speckle"></div>
+
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand d1">
+        <div class="brand-left">
+          <div class="brand-badge" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2l1.7 6.1L20 10l-6.3 1.9L12 18l-1.7-6.1L4 10l6.3-1.9L12 2z"
+                stroke="rgba(255,255,255,0.9)" stroke-width="1.6" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="brand-title">Dream OS</div>
+        </div>
+      </div>
+
+      <nav class="nav d2" aria-label="Primary">
+        <a href="dashboard.html">
+          <svg class="icon" viewBox="0 0 24 24" fill="none">
+            <path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"
+              stroke="currentColor" stroke-width="1.6"/>
+          </svg>
+          <span>Command</span>
+        </a>
+
+        <a href="create.html">
+          <svg class="icon" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <span>Create</span>
+        </a>
+
+        <a href="collections.html">
+          <svg class="icon" viewBox="0 0 24 24" fill="none">
+            <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <span>Collections</span>
+        </a>
+
+        <a href="drops.html">
+          <svg class="icon" viewBox="0 0 24 24" fill="none">
+            <path d="M7 7h10v10H7V7zm-3 3h3m10 0h3m-13 7v3m6-3v3"
+              stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <span>Drops</span>
+        </a>
+
+        <a href="social-media.html">
+          <svg class="icon" viewBox="0 0 24 24" fill="none">
+            <path d="M7 17l10-10M7 7h10v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Social</span>
+        </a>
+
+        <!-- Distribute replaces Marketplaces -->
+        <a class="active" href="distribute.html">
+          <svg class="icon" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3l7 4v10l-7 4-7-4V7l7-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M12 7v14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <span>Distribute</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer d3">
+        <a class="settings-link" href="#">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M19.4 15a8 8 0 0 0 .1-6l-2.1.4a6.2 6.2 0 0 0-1.4-1.4l.4-2.1a8 8 0 0 0-6-.1l.4 2.1c-.5.3-1 .8-1.4 1.4L7 9a8 8 0 0 0-.1 6l2.1-.4c.3.5.8 1 1.4 1.4l-.4 2.1a8 8 0 0 0 6 .1l-.4-2.1c.5-.3 1-.8 1.4-1.4l2.4.4z"
+              stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+          </svg>
+          <span>Settings</span>
+        </a>
+
+        <a class="settings-link" href="login.html">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M10 7V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2v-1"
+              stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M3 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M6 9l-3 3 3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <div class="topbar">
+        <div class="greeting reveal d1">
+          <h1>Distribute</h1>
+          <p>Connect channels, schedule releases, and control visibility.</p>
+        </div>
+
+        <div class="top-actions reveal d2">
+          <button class="btn" type="button">
+            Connect channel
+            <span aria-hidden="true">↗</span>
+          </button>
+          <button class="btn primary" type="button">
+            Publish now
+            <span aria-hidden="true">↗</span>
+          </button>
+        </div>
+      </div>
+
+      <section class="grid">
+        <!-- Left column -->
+        <div class="leftcol">
+          <div class="panel connections reveal d2">
+            <p class="section-title">Connected channels</p>
+
+            <div class="conn-list">
+              <div class="conn">
+                <div class="conn-left">
+                  <div class="pill" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path d="M7 17l10-10M7 7h10v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <div class="conn-meta">
+                    <p class="conn-name">XRP Café</p>
+                    <p class="conn-sub">Ready to publish drops</p>
+                  </div>
+                </div>
+                <div class="state">
+                  <span class="dot live" aria-hidden="true"></span>
+                  <span>Connected</span>
+                </div>
+              </div>
+
+              <div class="conn">
+                <div class="conn-left">
+                  <div class="pill" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div class="conn-meta">
+                    <p class="conn-name">OpenSea</p>
+                    <p class="conn-sub">Connection pending</p>
+                  </div>
+                </div>
+                <div class="state">
+                  <span class="dot" aria-hidden="true"></span>
+                  <span>Not connected</span>
+                </div>
+              </div>
+
+              <div class="conn">
+                <div class="conn-left">
+                  <div class="pill" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path d="M8 7h8M6 11h12M8 15h8M6 19h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div class="conn-meta">
+                    <p class="conn-name">SuperRare</p>
+                    <p class="conn-sub">Connection pending</p>
+                  </div>
+                </div>
+                <div class="state">
+                  <span class="dot" aria-hidden="true"></span>
+                  <span>Not connected</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mini-actions">
+              <button class="btn" type="button">Manage connections</button>
+              <button class="btn" type="button">API keys</button>
+            </div>
+          </div>
+
+          <div class="panel queue reveal d3" style="margin-top: var(--gap);">
+            <p class="section-title">Release queue</p>
+
+            <div class="queue-card">
+              <div class="queue-row">
+                <div class="qleft">
+                  <span class="tag scheduled">Scheduled</span>
+                  <div style="min-width:0;">
+                    <p class="qtitle">Untitled Work #001</p>
+                    <p class="qsub">XRP Café • Jan 18, 2026 • 7:00 PM</p>
+                  </div>
+                </div>
+                <span class="go">↗</span>
+              </div>
+
+              <div class="queue-row">
+                <div class="qleft">
+                  <span class="tag">Draft</span>
+                  <div style="min-width:0;">
+                    <p class="qtitle">Collection Drop: Signals & Ascensions</p>
+                    <p class="qsub">Not assigned • Add platform + time</p>
+                  </div>
+                </div>
+                <span class="go">↗</span>
+              </div>
+
+              <div class="queue-row">
+                <div class="qleft">
+                  <span class="tag">Private</span>
+                  <div style="min-width:0;">
+                    <p class="qtitle">Work: “Mean and Clean”</p>
+                    <p class="qsub">Visibility locked • Awaiting approval</p>
+                  </div>
+                </div>
+                <span class="go">↗</span>
+              </div>
+            </div>
+
+            <div class="status reveal d5">
+              <span class="led" aria-hidden="true"></span>
+              <span>System operational</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <aside class="rightcol">
+          <div class="panel summary reveal d3">
+            <p class="section-title">Distribution summary</p>
+
+            <div class="stat">
+              <span>Connected</span>
+              <strong>1</strong>
+            </div>
+            <div class="stat">
+              <span>Scheduled</span>
+              <strong>1</strong>
+            </div>
+            <div class="stat">
+              <span>Drafts</span>
+              <strong>1</strong>
+            </div>
+            <div class="stat">
+              <span>Private</span>
+              <strong>1</strong>
+            </div>
+
+            <div class="mini-actions" style="margin-top:12px;">
+              <button class="btn" type="button">Visibility rules</button>
+              <button class="btn" type="button">Pricing presets</button>
+            </div>
+          </div>
+
+          <div class="panel summary reveal d4">
+            <p class="section-title">Quick actions</p>
+
+            <div class="conn" style="margin-top:0;">
+              <div class="conn-left">
+                <div class="pill" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div class="conn-meta">
+                  <p class="conn-name">Schedule drop</p>
+                  <p class="conn-sub">Choose platform + time</p>
+                </div>
+              </div>
+              <span class="go">↗</span>
+            </div>
+
+            <div class="conn">
+              <div class="conn-left">
+                <div class="pill" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 7h7l2 2h7v10H4V7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="conn-meta">
+                  <p class="conn-name">Assign marketplace</p>
+                  <p class="conn-sub">Attach a channel to a work</p>
+                </div>
+              </div>
+              <span class="go">↗</span>
+            </div>
+
+            <div class="conn">
+              <div class="conn-left">
+                <div class="pill" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M7 7h10v10H7V7z" stroke="currentColor" stroke-width="1.6"/>
+                    <path d="M9 9h6v6H9V9z" stroke="currentColor" stroke-width="1.6"/>
+                  </svg>
+                </div>
+                <div class="conn-meta">
+                  <p class="conn-name">Export metadata</p>
+                  <p class="conn-sub">JSON, attributes, editions</p>
+                </div>
+              </div>
+              <span class="go">↗</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".reveal").forEach(el => el.classList.add("is-in"));
+    });
+  </script>
+</body>
+</html>
