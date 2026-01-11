@@ -249,6 +249,7 @@
 
     .panel{
       background: var(--panel);
+      background: rgba(255,255,255,0.02);
       border: 1px solid var(--stroke);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow);
@@ -319,32 +320,18 @@
     .work-panel{
       padding: 18px;
     }
-    .work-inner{
+
+    .work-inner {
       height: 360px;
       border-radius: 18px;
       border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.02);
+      /* background: rgba(255,255,255,0.02); */
+      background: rgba(17, 16, 16, 0.02);
+      background: var(--panel);
       display:grid;
       place-items:center;
       text-align:center;
       padding: 26px;
-      position:relative;
-      overflow:hidden;
-    }
-    .work-inner::before{
-      content:"";
-      position:absolute;
-      inset: 0;
-      background: none;
-      pointer-events:none;
-    }
-
-    .work-inner {
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.02);
-      /* background: black ; */
-      padding: 18px;
       position:relative;
       overflow:hidden;
     }
