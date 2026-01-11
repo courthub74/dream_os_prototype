@@ -7,39 +7,51 @@
 
   <style>
     :root{
-      --bg: #07080b;
-      --panel: rgba(255,255,255,0.06);
-      --panel2: rgba(255,255,255,0.04);
+      --bg: #040406;
+      --panel: rgba(255,255,255,0.035);
+      --stroke: rgba(255,255,255,0.07);
+
+      --text: rgba(255,255,255,0.9);
+      --muted: rgba(255,255,255,0.48);
+
+      --panel-2: rgba(255,255,255,0.04);
       --stroke: rgba(255,255,255,0.10);
-      --stroke2: rgba(255,255,255,0.14);
+      --stroke-2: rgba(255,255,255,0.14);
       --text: rgba(255,255,255,0.88);
-      --muted: rgba(255,255,255,0.58);
       --muted2: rgba(255,255,255,0.40);
-      --accent: #b4cf6a;
-      --accentSoft: rgba(180,207,106,0.18);
+
       --shadow: 0 24px 70px rgba(0,0,0,0.45);
       --radius: 18px;
-      --radiusLg: 22px;
-      --sidebarW: 268px;
+      --radius-lg: 22px;
+      --sidebar-w: 268px;
       --gap: 18px;
+
+      --lights: rgba(120, 229, 69, 0.85);
+      --brand-badge: rgba(94, 176, 84, 0.423);
+      --accent: rgba(120, 170, 120, 0.9);
+      --accent-soft: rgba(120, 170, 120, 0.15);
     }
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
+
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color: var(--text);
       background:
-        radial-gradient(900px 500px at 62% 18%, rgba(180,207,106,0.10), transparent 55%),
-        radial-gradient(700px 520px at 15% 30%, rgba(255,255,255,0.05), transparent 60%),
-        radial-gradient(1000px 600px at 60% 70%, rgba(255,255,255,0.03), transparent 60%),
+        radial-gradient(900px 520px at 62% 18%, rgba(120,170,120,0.035), transparent 60%),
+        radial-gradient(700px 520px at 15% 30%, rgba(255,255,255,0.02), transparent 65%),
         var(--bg);
       overflow-x:hidden;
+      -webkit-text-size-adjust: 100%;
     }
 
+    /* subtle star/speckle */
     .speckle{
-      position: fixed; inset: 0; pointer-events:none;
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
       background-image:
         radial-gradient(circle at 10% 20%, rgba(255,255,255,0.09) 0 1px, transparent 2px),
         radial-gradient(circle at 30% 80%, rgba(255,255,255,0.06) 0 1px, transparent 2px),
@@ -52,7 +64,7 @@
 
     .app{
       display:grid;
-      grid-template-columns: var(--sidebarW) 1fr;
+      grid-template-columns: var(--sidebar-w) 1fr;
       min-height:100vh;
     }
 
@@ -63,33 +75,53 @@
       height: 100vh;
       padding: 18px 16px;
       background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      background-color: var(--bg);
       border-right: 1px solid var(--stroke);
-      backdrop-filter: blur(10px);
     }
+
     .brand{
-      display:flex; align-items:center; gap:10px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap:10px;
       padding: 10px 10px 14px;
       margin-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .brand-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
     }
     .brand-badge{
-      width: 34px; height: 34px; border-radius: 12px;
-      background: radial-gradient(circle at 30% 30%, rgba(180,207,106,0.35), rgba(255,255,255,0.06));
-      border: 1px solid rgba(180,207,106,0.35);
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: var(--brand-badge);
+      border: 1px solid rgba(179,136,255,0.30);
       box-shadow: 0 10px 28px rgba(0,0,0,0.35);
-      display:grid; place-items:center;
+      display:grid;
+      place-items:center;
     }
-    .brand-title{ font-weight: 650; letter-spacing: 0.2px; }
+    .brand-title{
+      font-weight: 650;
+      letter-spacing: 0.2px;
+    }
 
     .nav{
-      margin-top: 10px;
-      display:flex; flex-direction:column; gap:6px;
+      margin-top: 20px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
     }
     .nav a{
       text-decoration:none;
       color: var(--muted);
       padding: 10px 12px;
       border-radius: 12px;
-      display:flex; align-items:center; gap:10px;
+      display:flex;
+      align-items:center;
+      gap:10px;
       border: 1px solid transparent;
       transition: 160ms ease;
     }
@@ -103,20 +135,26 @@
       background: rgba(255,255,255,0.06);
       border-color: rgba(255,255,255,0.10);
     }
-    .nav .icon{ width:18px; height:18px; opacity:0.9; }
+    .nav .icon{
+      width:18px;height:18px; opacity:0.9;
+    }
 
     .sidebar-footer{
       position:absolute;
-      left:16px; right:16px; bottom: 14px;
+      left:16px;
+      right:16px;
+      bottom: 14px;
       padding-top: 12px;
       border-top: 1px solid rgba(255,255,255,0.08);
       display:flex;
       flex-direction:column;
-      gap: 10px;
+      gap: 6px;
     }
     .settings-link{
       width:100%;
-      display:flex; align-items:center; gap:10px;
+      display:flex;
+      align-items:center;
+      gap:10px;
       padding: 10px 12px;
       border-radius: 12px;
       color: var(--muted);
@@ -129,15 +167,66 @@
       background: rgba(255,255,255,0.04);
       border-color: rgba(255,255,255,0.06);
     }
-    .sidebar-email{
-      color: rgba(255,255,255,0.38);
-      font-size: 12px;
-      padding: 0 12px;
-      user-select:none;
+    .sidebar-footer .icon{
+      width:18px;
+      height:18px;
+      opacity:0.85;
     }
 
+    /* Burger Menu (Mobile) */
+    .burger{
+      display:none;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+      cursor:pointer;
+      transition: 160ms ease;
+      align-items:center;
+      justify-content:center;
+      gap: 5px;
+    }
+    .burger:hover{
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.14);
+      transform: translateY(-1px);
+    }
+    .burger span{
+      display:block;
+      display:flex;
+      flex-direction: column;
+      width: 18px;
+      height: 2px;
+      background: var(--brand-badge);
+      border-radius: 999px;
+    }
+    .sidebar.is-open .burger span{
+      background: var(--lights);
+      box-shadow: 0 0 10px rgba(120, 229, 69, 0.55);
+    }
+
+    .menu-backdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(6px);
+      z-index: 40;
+      opacity: 0;
+      pointer-events: none;
+      transition: 180ms ease;
+    }
+    .menu-backdrop.is-open{
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-menu{ display:none; }
+
     /* Main */
-    .main{ padding: 26px 26px 34px; }
+    .main{
+      padding: 26px 26px 34px;
+    }
 
     .topbar{
       display:flex;
@@ -146,9 +235,52 @@
       gap: 18px;
       margin-bottom: 18px;
     }
+    .greeting h1{
+      margin:0;
+      font-size: 30px;
+      letter-spacing: 0.2px;
+    }
+    .greeting p{
+      margin:6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
 
-    .titles h1{ margin:0; font-size: 30px; letter-spacing: 0.2px; }
-    .titles p{ margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+    .layout{
+      display:flex;
+      gap: var(--gap);
+      align-items:start;
+      margin-top: 10px;
+    }
+    .layout > div:first-child{ flex: 1.55; }
+    .layout > div:last-child{ flex: 0.75; }
+
+    .panel{
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    /* shared pills/buttons */
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .pill .led{
+      width:7px;height:7px;border-radius:99px;
+      background: var(--lights);
+      box-shadow: 0 0 0 6px rgba(180,207,106,0.10);
+    }
 
     .btn{
       border: 1px solid rgba(255,255,255,0.12);
@@ -162,7 +294,7 @@
       align-items:center;
       gap:8px;
       user-select:none;
-      white-space:nowrap;
+      white-space: nowrap;
     }
     .btn:hover{
       border-color: rgba(255,255,255,0.18);
@@ -170,126 +302,82 @@
       transform: translateY(-1px);
     }
     .btn.primary{
-      border-color: rgba(180,207,106,0.40);
-      background: linear-gradient(180deg, rgba(180,207,106,0.22), rgba(180,207,106,0.10));
+      border-color: rgba(120,170,120,0.40);
+      background: linear-gradient(180deg, rgba(120,170,120,0.22), rgba(120,170,120,0.10));
       box-shadow: 0 14px 34px rgba(0,0,0,0.30);
     }
-    .btn:disabled{ opacity:.55; cursor:not-allowed; transform:none !important; }
 
-    .panel{
-      background: var(--panel);
-      border: 1px solid var(--stroke);
-      border-radius: var(--radiusLg);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-    }
-
-    /* Empty state */
-    .empty{
-      margin-top: 18px;
-      padding: 26px;
-      min-height: 420px;
-      display:grid;
-      place-items:center;
-      position:relative;
-      overflow:hidden;
-    }
-    .empty::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(680px 280px at 50% 60%, rgba(255,255,255,0.04), transparent 60%),
-        radial-gradient(720px 320px at 35% 20%, rgba(180,207,106,0.06), transparent 60%);
-      pointer-events:none;
-    }
-    .empty-inner{ position:relative; z-index:1; text-align:center; max-width: 560px; }
-
-    .empty-icon{
-      width: 68px; height: 68px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.04);
-      display:grid;
-      place-items:center;
-      margin: 0 auto 14px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
-    }
-    .empty-inner h3{ margin: 0; font-size: 18px; letter-spacing: 0.2px; }
-    .empty-inner p{
-      margin: 10px auto 18px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    /* Drops grid */
-    .grid{
-      margin-top: 18px;
-      display:none;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--gap);
-    }
-
-    .card{
-      padding: 16px;
-      border-radius: var(--radiusLg);
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
-      border: 1px solid rgba(255,255,255,0.10);
-      box-shadow: 0 18px 46px rgba(0,0,0,0.36);
-      backdrop-filter: blur(10px);
-      position:relative;
-      overflow:hidden;
-    }
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: radial-gradient(520px 220px at 25% 20%, rgba(180,207,106,0.10), transparent 55%);
-      opacity: .9;
-      pointer-events:none;
-    }
-    .card > *{ position:relative; z-index:1; }
-
-    .card-top{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 10px;
-    }
-    .badge{
-      width: 40px; height: 40px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(0,0,0,0.18);
-      display:grid;
-      place-items:center;
-    }
-    .card h4{ margin: 10px 0 6px; font-size: 16px; }
-    .card p{ margin:0; color: var(--muted); font-size: 12.5px; line-height: 1.45; }
-
-    .meta-row{
-      margin-top: 12px;
-      display:flex;
-      gap: 10px;
-      flex-wrap:wrap;
-    }
-    .chip{
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.28);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: rgba(255,255,255,0.72);
+    /* Right column */
+    .quick{ padding: 16px; }
+    .quick h3{
+      margin: 2px 0 12px;
       font-size: 12px;
-      backdrop-filter: blur(10px);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
-    .status-chip{
-      border-color: rgba(180,207,106,0.20);
-      background: rgba(180,207,106,0.08);
-      color: rgba(255,255,255,0.78);
+    .qbtn{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--text);
+      cursor:pointer;
+      transition: 160ms ease;
+      margin-bottom: 10px;
+    }
+    .qbtn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.14);
+    }
+    .qleft{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      text-align:left;
+    }
+    .qicon{
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      background: var(--brand-badge);
+      border: 1px solid rgba(179,136,255,0.22);
+      display:grid;
+      place-items:center;
+    }
+    .qtext .title{
+      font-weight: 650;
+      font-size: 14px;
+      margin:0;
+    }
+    .qtext .sub{
+      margin: 3px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .qbtn .go{ opacity:0.7; }
+
+    .status{
+      margin-top: 14px;
+      color: var(--muted2);
+      font-size: 12px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .status .led{
+      width:7px;height:7px;border-radius:99px;
+      background: var(--lights);
+      box-shadow: 0 0 0 6px rgba(180,207,106,0.10);
     }
 
-    /* Reveal (main only) */
+    /* ===== Reveal animation ===== */
     .reveal{
       opacity: 0;
       transform: translateY(14px);
@@ -300,241 +388,352 @@
       animation: riseIn 680ms cubic-bezier(.2,.9,.2,1) forwards;
     }
     @keyframes riseIn{
-      0%{ opacity:0; transform: translateY(14px); filter: blur(8px); }
+      0%{ opacity:0; transform:translateY(14px); filter: blur(8px); }
       55%{ opacity:1; filter: blur(1px); }
-      100%{ opacity:1; transform: translateY(0); filter: blur(0); }
+      100%{ opacity:1; transform:translateY(0); filter: blur(0); }
     }
     .d1{ animation-delay: 60ms; }
     .d2{ animation-delay: 140ms; }
     .d3{ animation-delay: 220ms; }
     .d4{ animation-delay: 300ms; }
+    .d5{ animation-delay: 380ms; }
+    .d6{ animation-delay: 460ms; }
+    .d7{ animation-delay: 540ms; }
 
-    /* Modal */
-    .modal{
-      position: fixed;
-      inset: 0;
-      display:none;
-      place-items:center;
-      z-index: 60;
+    /* =========================
+       DROPS-SPECIFIC UI
+       ========================= */
+    .drops-panel{
       padding: 18px;
+      background: rgba(255,255,255,0.042);
+      border: 1px solid rgba(255,255,255,0.10);
     }
-    .modal.is-open{ display:grid; }
-
-    .modal-backdrop{
-      position:absolute;
-      inset:0;
-      background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(8px);
-    }
-
-    .modal-card{
+    .drops-inner{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(17, 16, 16, 0.02);
+      padding: 18px;
       position:relative;
-      width: min(640px, 94vw);
-      border-radius: 22px;
-      background: rgba(20,20,22,0.74);
-      border: 1px solid rgba(255,255,255,0.14);
-      box-shadow: 0 30px 90px rgba(0,0,0,0.55);
       overflow:hidden;
     }
-    .modal-card::before{
+    .drops-inner::before{
       content:"";
       position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(520px 260px at 80% 10%, rgba(180,207,106,0.18), transparent 60%),
-        radial-gradient(560px 300px at 20% 70%, rgba(255,255,255,0.05), transparent 60%);
+      inset:0;
+      background:none;
       pointer-events:none;
     }
-    .modal-body{ position:relative; z-index:1; padding: 18px; }
 
-    .modal-head{
+    .drops-head{
+      position:relative;
+      z-index:1;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .drops-head h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: 0.2px;
+    }
+    .drops-head p{
+      margin:6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      max-width: 560px;
+    }
+
+    .toolbar{
+      position:relative;
+      z-index:1;
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      justify-content: space-between;
+      margin-top: 10px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .search{
+      flex: 1;
+      display:flex;
+      gap: 10px;
+      align-items:center;
+    }
+    .search input{
+      width:100%;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      padding: 11px 12px;
+      outline: none;
+      transition: 160ms ease;
+      font: inherit;
+    }
+    .search input:focus{
+      border-color: rgba(120,229,69,0.35);
+      box-shadow: 0 0 0 6px rgba(120,229,69,0.08);
+    }
+    .filters{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+    }
+    .filters select{
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      padding: 11px 12px;
+      outline:none;
+      transition:160ms ease;
+      font: inherit;
+      appearance:none;
+      min-width: 180px;
+    }
+    .filters select:focus{
+      border-color: rgba(120,229,69,0.35);
+      box-shadow: 0 0 0 6px rgba(120,229,69,0.08);
+    }
+
+    .drop-list{
+      position:relative;
+      z-index:1;
+      display:flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .drop{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.02);
+      padding: 14px;
+      transition: 160ms ease;
+      cursor: pointer;
+    }
+    .drop:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.035);
+      border-color: rgba(255,255,255,0.14);
+    }
+
+    .drop-top{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .modal-head h3{ margin:0; font-size: 18px; }
-    .modal-head p{ margin: 6px 0 0; color: var(--muted); font-size: 13px; }
-
-    .x{
-      width: 36px; height: 36px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.04);
-      color: var(--text);
-      cursor:pointer;
-      transition:160ms ease;
-      display:grid;
-      place-items:center;
-      flex: 0 0 auto;
-    }
-    .x:hover{ background: rgba(255,255,255,0.06); transform: translateY(-1px); }
-
-    .form{
-      display:grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 14px;
-      margin-top: 6px;
-    }
-
-    .field{ display:grid; gap: 8px; margin-top: 12px; }
-    .field-label{
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted2);
-    }
-    input[type="text"], textarea, input[type="datetime-local"], select{
-      width:100%;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(0,0,0,0.22);
-      color: var(--text);
-      padding: 12px 12px;
-      outline:none;
-      transition: 160ms ease;
-      font-family: inherit;
-      line-height: 1.45;
-      appearance:none;
-    }
-    textarea{ min-height: 92px; resize: vertical; }
-    input:focus, textarea:focus, select:focus{
-      border-color: rgba(180,207,106,0.40);
-      box-shadow: 0 0 0 6px rgba(180,207,106,0.10);
-      background: rgba(0,0,0,0.26);
-    }
-    .select-wrap{ position:relative; }
-    .select-wrap:after{
-      content:"▾";
-      position:absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: rgba(255,255,255,0.55);
-      pointer-events:none;
-      font-size: 14px;
-    }
-
-    .check-grid{
-      display:grid;
-      grid-template-columns: 1fr;
       gap: 10px;
-      margin-top: 10px;
-      padding: 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.18);
     }
-    .check{
+    .drop-title{
+      margin:0;
+      font-size: 16px;
+      font-weight: 680;
+      letter-spacing: 0.2px;
+    }
+    .drop-sub{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      max-width: 64ch;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.18);
+      color: rgba(255,255,255,0.78);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .tag .dot{
+      width:7px;height:7px;border-radius:999px;
+      background: var(--lights);
+      box-shadow: 0 0 0 6px rgba(180,207,106,0.10);
+    }
+    .tag.scheduled .dot{ background: rgba(120,229,69,0.85); }
+    .tag.draft .dot{ background: rgba(255,255,255,0.55); box-shadow:none; }
+    .tag.published .dot{ background: rgba(120,229,69,0.85); }
+    .tag.past .dot{ background: rgba(255,255,255,0.45); box-shadow:none; }
+
+    .drop-meta{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap: 10px;
-      color: rgba(255,255,255,0.78);
-      font-size: 13px;
-    }
-    .check input{ width: 18px; height: 18px; accent-color: var(--accent); }
-
-    .sidebox{
-      padding: 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.18);
       margin-top: 12px;
-    }
-    .sidebox h4{
-      margin: 0 0 8px;
-      font-size: 13px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.52);
-    }
-    .mini-chip{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.24);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: rgba(255,255,255,0.74);
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted2);
       font-size: 12px;
-      margin: 6px 6px 0 0;
+      flex-wrap: wrap;
     }
-    .dot{
-      width:8px; height:8px; border-radius:99px;
-      background: rgba(180,207,106,0.85);
-      box-shadow: 0 0 0 5px rgba(180,207,106,0.10);
-      display:inline-block;
-    }
-
-    .modal-actions{
+    .meta-left{
       display:flex;
       gap: 10px;
-      justify-content:flex-end;
+      align-items:center;
+      flex-wrap: wrap;
+    }
+    .chip{
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.72);
+      font-size: 12px;
+      max-width: 100%;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .actions-row{
+      position:relative;
+      z-index:1;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 12px;
       margin-top: 14px;
       padding-top: 14px;
       border-top: 1px solid rgba(255,255,255,0.08);
     }
 
-    /* Scheduling state */
-    .scheduling{
-      display:none;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      margin-top: 14px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(180,207,106,0.22);
-      background: rgba(180,207,106,0.08);
-      color: rgba(255,255,255,0.80);
-    }
-    .scheduling.is-on{ display:flex; }
-
-    .spinner{
-      width: 14px; height: 14px;
-      border-radius: 99px;
-      border: 2px solid rgba(255,255,255,0.22);
-      border-top-color: rgba(180,207,106,0.85);
-      animation: spin 0.9s linear infinite;
-      flex: 0 0 auto;
-    }
-    @keyframes spin{ to { transform: rotate(360deg); } }
-
-    .progress{
-      flex: 0 0 auto;
-      width: 46%;
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.22);
-      border: 1px solid rgba(255,255,255,0.12);
-      overflow:hidden;
-    }
-    .progress > div{
-      height:100%;
-      width: 18%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(180,207,106,0.08), rgba(180,207,106,0.38));
-      transition: width 220ms ease;
-      box-shadow: 0 0 0 6px rgba(180,207,106,0.10);
-    }
-
-    @media (max-width: 1100px){
-      .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .form{ grid-template-columns: 1fr; }
-      .empty{ min-height: 380px; }
-    }
-    @media (max-width: 760px){
-      .grid{ grid-template-columns: 1fr; }
-    }
+    /* Responsive */
     @media (max-width: 980px){
-      .app{ grid-template-columns: 88px 1fr; }
       .brand-title{ display:none; }
-      .nav a span, .settings-link span{ display:none; }
+      .sidebar > .nav a span,
+      .sidebar > .sidebar-footer .settings-link span{
+        display: none;
+      }
+
       .sidebar{ padding: 18px 10px; }
-      .sidebar-email{ display:none; }
+      .layout{ flex-direction: column; }
+
+      .app{ grid-template-columns: 1fr; }
+      body { background: var(--bg); }
+
+      .sidebar{
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        height: auto;
+        padding: 12px 12px;
+        border-right: none;
+        background: rgba(10,10,12,0.72);
+        backdrop-filter: blur(12px);
+      }
+
+      .brand{
+        padding: 8px 6px 10px;
+        margin-bottom: 6px;
+      }
+      .brand-title{
+        display: inline-block;
+        font-size: 14px;
+      }
+
+      .sidebar > .nav,
+      .sidebar > .sidebar-footer{
+        display:none;
+      }
+
+      .burger{
+        display:inline-flex;
+        flex-direction: column;
+      }
+
+      .mobile-menu{
+        display:block;
+        margin-top: 10px;
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.04);
+        overflow:hidden;
+        transform-origin: top;
+        transform: translateY(-6px) scaleY(0.98);
+        opacity: 0;
+        max-height: 0;
+        transition: 200ms ease;
+      }
+
+      .sidebar.is-open .mobile-menu{
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+        max-height: 70vh;
+      }
+
+      .mobile-menu .nav{
+        flex-direction: column;
+        gap: 6px;
+        overflow: visible;
+        padding: 10px;
+      }
+      .mobile-menu .nav a{
+        width: 100%;
+        white-space: normal;
+        justify-content: flex-start;
+      }
+      .mobile-menu .nav a span{
+        display: inline;
+        font-size: 14px;
+      }
+
+      .mobile-footer{
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        display:flex;
+        gap: 8px;
+      }
+      .mobile-footer .settings-link{
+        flex: 1;
+        justify-content:center;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.06);
+      }
+      .mobile-footer .logout{
+        border-color: rgba(120,170,120,0.40);
+        background: linear-gradient(180deg, rgba(120,170,120,0.22), rgba(120,170,120,0.10));
+      }
+
+      .main{ padding: 16px 12px 22px; }
+
+      .toolbar{
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .filters{
+        width: 100%;
+      }
+      .filters select{
+        width: 100%;
+        min-width: 0;
+      }
+
+      html, body{ overflow-x:hidden; }
+      .app > * { min-width: 0; }
+      .layout > * { min-width: 0; }
+      .panel{ 
+        overflow:hidden;
+        width: 100%; 
+      }
+
+      .drops-panel{ margin-top: 25px; }
+    }
+
+    @media (max-width: 420px){
+      .greeting h1{ font-size: 24px; }
+      .btn{ padding: 10px 10px; font-size: 12px; }
     }
   </style>
 </head>
@@ -543,19 +742,81 @@
   <div class="speckle"></div>
 
   <div class="app">
-    <!-- Sidebar (no reveal) -->
+    <!-- Sidebar -->
     <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-badge" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2l1.7 6.1L20 10l-6.3 1.9L12 18l-1.7-6.1L4 10l6.3-1.9L12 2z"
-              stroke="rgba(255,255,255,0.9)" stroke-width="1.6" stroke-linejoin="round"/>
-          </svg>
+      <div class="brand d1">
+        <div class="brand-left">
+          <div class="brand-badge" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2l1.7 6.1L20 10l-6.3 1.9L12 18l-1.7-6.1L4 10l6.3-1.9L12 2z"
+                stroke="rgba(255,255,255,0.9)" stroke-width="1.6" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="brand-title">Dream OS</div>
         </div>
-        <div class="brand-title">Dream OS</div>
+
+        <!-- Burger (mobile only) -->
+        <button class="burger" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
       </div>
 
-      <nav class="nav" aria-label="Primary">
+      <!-- Mobile menu wrapper -->
+      <div class="mobile-menu" id="mobileMenu" hidden>
+        <nav class="nav" aria-label="Primary">
+          <a href="dashboard.html">
+            <svg class="icon" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"
+                stroke="currentColor" stroke-width="1.6"/>
+            </svg>
+            <span>Command</span>
+          </a>
+
+          <a href="new-artwork.html">
+            <svg class="icon" viewBox="0 0 24 24" fill="none">
+              <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span>Create</span>
+          </a>
+
+          <a href="collections.html">
+            <svg class="icon" viewBox="0 0 24 24" fill="none">
+              <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span>Collections</span>
+          </a>
+
+          <a class="active" href="drops.html">
+            <svg class="icon" viewBox="0 0 24 24" fill="none">
+              <path d="M7 7h10v10H7V7zm-3 3h3m10 0h3m-13 7v3m6-3v3"
+                stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span>Drops</span>
+          </a>
+
+          <a href="social-media.html">
+            <svg class="icon" viewBox="0 0 24 24" fill="none">
+              <path d="M7 17l10-10M7 7h10v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Social</span>
+          </a>
+
+          <a href="distribute.html">
+            <svg class="icon" viewBox="0 0 24 24" fill="none">
+              <path d="M8 7h8M6 11h12M8 15h8M6 19h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span>Distribute</span>
+          </a>
+
+          <div class="mobile-footer">
+            <a class="settings-link" href="#"><span>Settings</span></a>
+            <a class="settings-link logout" href="login.html"><span>Logout</span></a>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Desktop nav -->
+      <nav class="nav d2" aria-label="Primary">
         <a href="dashboard.html">
           <svg class="icon" viewBox="0 0 24 24" fill="none">
             <path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"
@@ -563,416 +824,386 @@
           </svg>
           <span>Command</span>
         </a>
-        <a href="create.html">
+
+        <a href="new-artwork.html">
           <svg class="icon" viewBox="0 0 24 24" fill="none">
             <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
           </svg>
           <span>Create</span>
         </a>
+
         <a href="collections.html">
           <svg class="icon" viewBox="0 0 24 24" fill="none">
-            <path d="M4 7h7l2 2h7v10H4V7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
           </svg>
           <span>Collections</span>
         </a>
-        <a class="active" href="#">
+
+        <a class="active" href="drops.html">
           <svg class="icon" viewBox="0 0 24 24" fill="none">
-            <path d="M12 3l7 4v10l-7 4-7-4V7l7-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-            <path d="M12 7v14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M7 7h10v10H7V7zm-3 3h3m10 0h3m-13 7v3m6-3v3"
+              stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
           </svg>
           <span>Drops</span>
         </a>
-         <a class="active" href="social-media.html">
+
+        <a href="social-media.html">
           <svg class="icon" viewBox="0 0 24 24" fill="none">
             <path d="M7 17l10-10M7 7h10v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <span>Social</span>
         </a>
-        <a class="active" href="marketplace.html">
+
+        <a href="distribute.html">
           <svg class="icon" viewBox="0 0 24 24" fill="none">
             <path d="M8 7h8M6 11h12M8 15h8M6 19h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
           </svg>
-          <span>Marketplaces</span>
+          <span>Distribute</span>
         </a>
       </nav>
 
-      <div class="sidebar-footer">
+      <div class="sidebar-footer d3">
         <a class="settings-link" href="#">
-          <!-- <svg class="icon" viewBox="0 0 24 24" fill="none">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" stroke="currentColor" stroke-width="1.6"/>
             <path d="M19.4 15a8 8 0 0 0 .1-6l-2.1.4a6.2 6.2 0 0 0-1.4-1.4l.4-2.1a8 8 0 0 0-6-.1l.4 2.1c-.5.3-1 .8-1.4 1.4L7 9a8 8 0 0 0-.1 6l2.1-.4c.3.5.8 1 1.4 1.4l-.4 2.1a8 8 0 0 0 6 .1l-.4-2.1c.5-.3 1-.8 1.4-1.4l2.4.4z"
               stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-          </svg> -->
+          </svg>
           <span>Settings</span>
         </a>
-        <a class="settings-link" href="login.html">Logout</a>
+
+        <a class="settings-link logout" href="login.html">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M10 7V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2v-1"
+              stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M3 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M6 9l-3 3 3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Logout</span>
+        </a>
       </div>
     </aside>
 
     <!-- Main -->
     <main class="main">
       <div class="topbar">
-        <div class="titles reveal d1">
+        <div class="greeting reveal d1">
           <h1>Drops</h1>
-          <p>Schedule and publish your artwork releases</p>
+          <p>Schedule releases, track status, and keep your launch calendar clean.</p>
         </div>
 
-        <button class="btn primary reveal d2" id="newDropBtn" type="button">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-          New Drop
-        </button>
-      </div>
-
-      <!-- Empty state -->
-      <section class="panel empty reveal d3" id="emptyPanel">
-        <div class="empty-inner">
-          <div class="empty-icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <path d="M12 3l7 4v10l-7 4-7-4V7l7-4z" stroke="rgba(255,255,255,0.75)" stroke-width="1.6" stroke-linejoin="round"/>
-              <path d="M12 7v14" stroke="rgba(255,255,255,0.65)" stroke-width="1.6" stroke-linecap="round"/>
+        <div class="reveal d2" style="display:flex; gap:10px; align-items:center;">
+          <span class="pill"><span class="led" aria-hidden="true"></span> Calendar</span>
+          <button class="btn primary" type="button" id="newDropBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
             </svg>
-          </div>
-          <h3>No drops scheduled</h3>
-          <p>
-            Drops are coordinated releases of your work. Schedule your first drop to publish artworks to the world.
-          </p>
-          <button class="btn" id="scheduleDropBtn" type="button">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-            </svg>
-            Schedule Drop
+            New Drop
           </button>
         </div>
-      </section>
+      </div>
 
-      <!-- Grid after adding drops -->
-      <section class="grid" id="dropsGrid" aria-label="Drops list"></section>
+      <section class="layout">
+
+        <!-- Left column -->
+        <div>
+          <div class="panel drops-panel reveal d3">
+            <div class="drops-inner">
+              <div class="drops-head">
+                <div>
+                  <h2>Your Drops</h2>
+                  <p>Filter by status, search by title, and open a drop to edit platforms, copy, and timing.</p>
+                </div>
+                <span class="pill">Upcoming: <strong style="color:rgba(255,255,255,0.88)">2</strong></span>
+              </div>
+
+              <div class="toolbar">
+                <div class="search">
+                  <input id="searchDrops" type="text" placeholder="Search drops..." />
+                </div>
+
+                <div class="filters">
+                  <select id="filterDrops" aria-label="Filter drops">
+                    <option value="all" selected>Filter: All</option>
+                    <option value="scheduled">Filter: Scheduled</option>
+                    <option value="draft">Filter: Draft</option>
+                    <option value="published">Filter: Published</option>
+                    <option value="past">Filter: Past</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="drop-list" id="dropsList">
+                <div class="drop" data-title="Temple of Openings" data-status="scheduled">
+                  <div class="drop-top">
+                    <div>
+                      <h3 class="drop-title">Temple of Openings</h3>
+                      <p class="drop-sub">Primary: XRP Cafe • Secondary: Instagram, X • Includes transmission follow-up.</p>
+                    </div>
+                    <span class="tag scheduled"><span class="dot" aria-hidden="true"></span> Scheduled</span>
+                  </div>
+
+                  <div class="drop-meta">
+                    <div class="meta-left">
+                      <span class="chip">Date: Feb 02, 2026</span>
+                      <span class="chip">Time: 9:00 PM</span>
+                      <span class="chip">Platforms: 3</span>
+                    </div>
+                    <span style="opacity:.75;">Open ↗</span>
+                  </div>
+                </div>
+
+                <div class="drop" data-title="Mean and Clean" data-status="draft">
+                  <div class="drop-top">
+                    <div>
+                      <h3 class="drop-title">Mean and Clean</h3>
+                      <p class="drop-sub">Copy + pricing draft in progress. Waiting on final cover crop.</p>
+                    </div>
+                    <span class="tag draft"><span class="dot" aria-hidden="true"></span> Draft</span>
+                  </div>
+
+                  <div class="drop-meta">
+                    <div class="meta-left">
+                      <span class="chip">Date: —</span>
+                      <span class="chip">Time: —</span>
+                      <span class="chip">Platforms: 0</span>
+                    </div>
+                    <span style="opacity:.75;">Open ↗</span>
+                  </div>
+                </div>
+
+                <div class="drop" data-title="Dream Agent Distilleries" data-status="published">
+                  <div class="drop-top">
+                    <div>
+                      <h3 class="drop-title">Dream Agent Distilleries</h3>
+                      <p class="drop-sub">Published to XRP Cafe. Social posts complete. Transmission posted next day.</p>
+                    </div>
+                    <span class="tag published"><span class="dot" aria-hidden="true"></span> Published</span>
+                  </div>
+
+                  <div class="drop-meta">
+                    <div class="meta-left">
+                      <span class="chip">Date: Jan 04, 2026</span>
+                      <span class="chip">Time: 8:30 PM</span>
+                      <span class="chip">Platforms: 4</span>
+                    </div>
+                    <span style="opacity:.75;">Open ↗</span>
+                  </div>
+                </div>
+
+                <div class="drop" data-title="Coeur of the Grapes" data-status="past">
+                  <div class="drop-top">
+                    <div>
+                      <h3 class="drop-title">Coeur of the Grapes</h3>
+                      <p class="drop-sub">Legacy drop (archived). Repost cadence scheduled for later.</p>
+                    </div>
+                    <span class="tag past"><span class="dot" aria-hidden="true"></span> Past</span>
+                  </div>
+
+                  <div class="drop-meta">
+                    <div class="meta-left">
+                      <span class="chip">Date: Dec 20, 2025</span>
+                      <span class="chip">Time: 7:00 PM</span>
+                      <span class="chip">Platforms: 2</span>
+                    </div>
+                    <span style="opacity:.75;">Open ↗</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="actions-row">
+                <button class="btn" type="button" id="calendarBtn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 3v3M17 3v3M4 7h16M5 10h14v10H5V10z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                  </svg>
+                  View Calendar
+                </button>
+
+                <div style="display:flex; gap:10px; align-items:center;">
+                  <button class="btn" type="button" id="exportDropsBtn">
+                    Export
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M12 3v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                      <path d="M7 8l5-5 5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M5 21h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="status reveal d6">
+            <span class="led" aria-hidden="true"></span>
+            <span>Tip: click a drop to open the editor</span>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <aside class="panel quick reveal d4">
+          <h3>Quick actions</h3>
+
+          <button class="qbtn" type="button" onclick="location.href='new-artwork.html'">
+            <div class="qleft">
+              <div class="qicon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="qtext">
+                <p class="title">Create Artwork</p>
+                <p class="sub">Start from a prompt</p>
+              </div>
+            </div>
+            <span class="go">↗</span>
+          </button>
+
+          <button class="qbtn" type="button" onclick="location.href='collections.html'">
+            <div class="qleft">
+              <div class="qicon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="qtext">
+                <p class="title">Manage Collections</p>
+                <p class="sub">Organize the archive</p>
+              </div>
+            </div>
+            <span class="go">↗</span>
+          </button>
+
+          <button class="qbtn" type="button" onclick="location.href='social-media.html'">
+            <div class="qleft">
+              <div class="qicon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M7 17l10-10M7 7h10v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="qtext">
+                <p class="title">Social Toolkit</p>
+                <p class="sub">Captions + archive</p>
+              </div>
+            </div>
+            <span class="go">↗</span>
+          </button>
+
+          <div class="status" style="margin-top:8px;">
+            <span class="led" aria-hidden="true"></span>
+            <span>4 drops loaded</span>
+          </div>
+        </aside>
+
+      </section>
     </main>
   </div>
 
-  <!-- Modal -->
-  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="modal-backdrop" id="backdrop"></div>
-
-    <div class="modal-card">
-      <div class="modal-body">
-        <div class="modal-head">
-          <div>
-            <h3>New Drop</h3>
-            <p>Set the title, schedule, and intended marketplaces.</p>
-          </div>
-          <button class="x" id="closeModal" type="button" aria-label="Close">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-            </svg>
-          </button>
-        </div>
-
-        <div class="form">
-          <!-- Left: details -->
-          <div>
-            <div class="field">
-              <div class="field-label">Drop Title</div>
-              <input id="dropTitle" type="text" placeholder="e.g. The Dominion Archive: Issue 01" autocomplete="off"/>
-            </div>
-
-            <div class="field">
-              <div class="field-label">Notes (optional)</div>
-              <textarea id="dropNotes" placeholder="Internal notes, captions to draft, checklist…"></textarea>
-            </div>
-
-            <div class="field">
-              <div class="field-label">Schedule Date/Time</div>
-              <input id="dropTime" type="datetime-local"/>
-            </div>
-
-            <div class="field">
-              <div class="field-label">Timezone</div>
-              <div class="select-wrap">
-                <select id="dropTz">
-                  <option value="" selected disabled>Select timezone</option>
-                  <option>America/New_York</option>
-                  <option>America/Chicago</option>
-                  <option>America/Denver</option>
-                  <option>America/Los_Angeles</option>
-                  <option>UTC</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right: marketplaces + status -->
-          <div>
-            <div class="sidebox">
-              <h4>Marketplaces</h4>
-
-              <div class="check-grid" role="group" aria-label="Marketplaces">
-                <label class="check">
-                  <span>XRP Cafe</span>
-                  <input id="mkXrp" type="checkbox" checked />
-                </label>
-                <label class="check">
-                  <span>OpenSea</span>
-                  <input id="mkOs" type="checkbox" />
-                </label>
-                <label class="check">
-                  <span>SuperRare</span>
-                  <input id="mkSr" type="checkbox" />
-                </label>
-                <label class="check">
-                  <span>Manifold / Custom</span>
-                  <input id="mkMf" type="checkbox" />
-                </label>
-              </div>
-            </div>
-
-            <div class="sidebox">
-              <h4>Status</h4>
-              <div class="mini-chip"><span class="dot" aria-hidden="true"></span> Draft (not published)</div>
-              <div class="mini-chip">Scheduling creates a plan, not an on-chain mint.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="scheduling" id="schedulingBar">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <span class="spinner" aria-hidden="true"></span>
-            <span id="schedulingText">Scheduling…</span>
-          </div>
-          <div class="progress" aria-label="Progress">
-            <div id="progressFill" style="width:18%"></div>
-          </div>
-        </div>
-
-        <div class="modal-actions">
-          <button class="btn" id="cancelBtn" type="button">Cancel</button>
-          <button class="btn primary" id="saveBtn" type="button" disabled>Schedule</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <script>
-    // Reveal only main content
     window.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll(".main .reveal").forEach(el => el.classList.add("is-in"));
+      // reveal
+      const els = document.querySelectorAll(".main .reveal");
+      els.forEach(el => el.classList.add("is-in"));
 
-      // default datetime-local to "now + 1 hour"
-      const dt = new Date(Date.now() + 60 * 60 * 1000);
-      const pad = n => String(n).padStart(2, "0");
-      const local = `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}T${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
-      document.getElementById("dropTime").value = local;
-    });
+      // burger + dropdown (same behavior)
+      const sidebar = document.querySelector(".sidebar");
+      const burger = document.querySelector(".burger");
+      const mobileMenu = document.querySelector("#mobileMenu");
 
-    // Modal wiring
-    const modal = document.getElementById("modal");
-    const backdrop = document.getElementById("backdrop");
-    const openBtns = [document.getElementById("newDropBtn"), document.getElementById("scheduleDropBtn")];
-    const closeBtn = document.getElementById("closeModal");
-    const cancelBtn = document.getElementById("cancelBtn");
+      const backdrop = document.createElement("div");
+      backdrop.className = "menu-backdrop";
+      document.body.appendChild(backdrop);
 
-    const titleEl = document.getElementById("dropTitle");
-    const notesEl = document.getElementById("dropNotes");
-    const timeEl  = document.getElementById("dropTime");
-    const tzEl    = document.getElementById("dropTz");
-
-    const mkXrp = document.getElementById("mkXrp");
-    const mkOs  = document.getElementById("mkOs");
-    const mkSr  = document.getElementById("mkSr");
-    const mkMf  = document.getElementById("mkMf");
-
-    const saveBtn = document.getElementById("saveBtn");
-
-    const schedulingBar = document.getElementById("schedulingBar");
-    const progressFill = document.getElementById("progressFill");
-
-    const emptyPanel = document.getElementById("emptyPanel");
-    const grid = document.getElementById("dropsGrid");
-
-    let progressTimer = null;
-    let drops = [];
-
-    function openModal(){
-      modal.classList.add("is-open");
-      modal.setAttribute("aria-hidden", "false");
-      titleEl.value = "";
-      notesEl.value = "";
-      tzEl.value = "";
-      mkXrp.checked = true;
-      mkOs.checked = false;
-      mkSr.checked = false;
-      mkMf.checked = false;
-      saveBtn.disabled = true;
-      stopScheduling();
-      setTimeout(() => titleEl.focus(), 50);
-    }
-
-    function closeModal(){
-      modal.classList.remove("is-open");
-      modal.setAttribute("aria-hidden", "true");
-      stopScheduling();
-    }
-
-    function startScheduling(){
-      schedulingBar.classList.add("is-on");
-      progressFill.style.width = "18%";
-      let p = 18;
-      progressTimer = setInterval(() => {
-        p = Math.min(p + (Math.random() * 10 + 4), 92);
-        progressFill.style.width = `${p}%`;
-      }, 220);
-    }
-
-    function stopScheduling(){
-      if(progressTimer){ clearInterval(progressTimer); progressTimer = null; }
-      schedulingBar.classList.remove("is-on");
-      progressFill.style.width = "18%";
-    }
-
-    openBtns.forEach(b => b.addEventListener("click", openModal));
-    backdrop.addEventListener("click", closeModal);
-    closeBtn.addEventListener("click", closeModal);
-    cancelBtn.addEventListener("click", closeModal);
-
-    document.addEventListener("keydown", (e) => {
-      if(e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
-    });
-
-    // Enable schedule button
-    function validate(){
-      const hasTitle = titleEl.value.trim().length >= 2;
-      const hasTz = !!tzEl.value;
-      const hasTime = !!timeEl.value;
-      const hasMarket = mkXrp.checked || mkOs.checked || mkSr.checked || mkMf.checked;
-      saveBtn.disabled = !(hasTitle && hasTz && hasTime && hasMarket);
-    }
-    [titleEl, tzEl, timeEl, mkXrp, mkOs, mkSr, mkMf].forEach(el => el.addEventListener("input", validate));
-    [tzEl, mkXrp, mkOs, mkSr, mkMf].forEach(el => el.addEventListener("change", validate));
-
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
-    function formatWhen(dtLocal, tz){
-      // dtLocal comes as "YYYY-MM-DDTHH:MM"
-      try{
-        const [d, t] = dtLocal.split("T");
-        const [yy, mm, dd] = d.split("-").map(Number);
-        const [hh, mi] = t.split(":").map(Number);
-        // treat as local for display; show tz as label
-        const date = new Date(yy, mm-1, dd, hh, mi);
-        return `${date.toLocaleString(undefined, { year:"numeric", month:"short", day:"2-digit", hour:"numeric", minute:"2-digit" })} (${tz})`;
-      }catch{
-        return `${dtLocal} (${tz})`;
-      }
-    }
-
-    function marketList(){
-      const out = [];
-      if(mkXrp.checked) out.push("XRP Cafe");
-      if(mkOs.checked) out.push("OpenSea");
-      if(mkSr.checked) out.push("SuperRare");
-      if(mkMf.checked) out.push("Custom");
-      return out;
-    }
-
-    function render(){
-      if(drops.length === 0){
-        emptyPanel.style.display = "grid";
-        grid.style.display = "none";
-        grid.innerHTML = "";
-        return;
+      function openMenu(){
+        sidebar.classList.add("is-open");
+        backdrop.classList.add("is-open");
+        burger.setAttribute("aria-expanded", "true");
+        mobileMenu.hidden = false;
       }
 
-      emptyPanel.style.display = "none";
-      grid.style.display = "grid";
+      function closeMenu(){
+        sidebar.classList.remove("is-open");
+        backdrop.classList.remove("is-open");
+        burger.setAttribute("aria-expanded", "false");
+        mobileMenu.hidden = true;
+      }
 
-      grid.innerHTML = drops.map((d) => {
-        const title = escapeHtml(d.title);
-        const notes = escapeHtml(d.notes || "No notes");
-        const when = escapeHtml(d.when);
-        const mk = d.marketplaces.map(m => `<span class="chip">${escapeHtml(m)}</span>`).join("");
-        return `
-          <article class="card">
-            <div class="card-top">
-              <div class="badge" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 3l7 4v10l-7 4-7-4V7l7-4z" stroke="rgba(255,255,255,0.72)" stroke-width="1.6" stroke-linejoin="round"/>
-                  <path d="M12 7v14" stroke="rgba(255,255,255,0.62)" stroke-width="1.6" stroke-linecap="round"/>
-                </svg>
-              </div>
-              <button class="btn" type="button" style="padding:8px 10px; border-radius:12px; font-size:12px;">
-                Open
-              </button>
-            </div>
+      function toggleMenu(){
+        const isOpen = sidebar.classList.contains("is-open");
+        isOpen ? closeMenu() : openMenu();
+      }
 
-            <h4>${title}</h4>
-            <p>${notes}</p>
+      if (window.matchMedia("(max-width: 980px)").matches) {
+        mobileMenu.hidden = true;
+      }
 
-            <div class="meta-row">
-              <span class="chip status-chip">Scheduled</span>
-              <span class="chip">${when}</span>
-            </div>
+      burger?.addEventListener("click", toggleMenu);
+      backdrop.addEventListener("click", closeMenu);
 
-            <div class="meta-row">
-              ${mk}
-            </div>
-          </article>
-        `;
-      }).join("");
-    }
-
-    // Schedule drop (front-end demo)
-    saveBtn.addEventListener("click", async () => {
-      validate();
-      if(saveBtn.disabled) return;
-
-      saveBtn.disabled = true;
-      startScheduling();
-
-      // Simulate API delay
-      await new Promise(r => setTimeout(r, 1300));
-
-      progressFill.style.width = "100%";
-      await new Promise(r => setTimeout(r, 180));
-
-      drops.unshift({
-        id: crypto.randomUUID ? crypto.randomUUID() : String(Math.random()),
-        title: titleEl.value.trim(),
-        notes: notesEl.value.trim(),
-        when: formatWhen(timeEl.value, tzEl.value),
-        marketplaces: marketList()
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeMenu();
       });
 
-      stopScheduling();
-      closeModal();
-      render();
+      mobileMenu?.addEventListener("click", (e) => {
+        const a = e.target.closest("a");
+        if (a) closeMenu();
+      });
 
-      // Stagger-in for new grid cards
-      if(grid.style.display === "grid"){
-        grid.querySelectorAll(".card").forEach((card, i) => {
-          card.style.opacity = "0";
-          card.style.transform = "translateY(10px)";
-          card.style.filter = "blur(6px)";
-          card.style.transition = "opacity 520ms ease, transform 520ms ease, filter 520ms ease";
-          setTimeout(() => {
-            card.style.opacity = "1";
-            card.style.transform = "translateY(0)";
-            card.style.filter = "blur(0)";
-          }, 50 + i * 90);
+      window.addEventListener("resize", () => {
+        if (!window.matchMedia("(max-width: 980px)").matches){
+          backdrop.classList.remove("is-open");
+          sidebar.classList.remove("is-open");
+          mobileMenu.hidden = false;
+          burger.setAttribute("aria-expanded", "false");
+        } else {
+          closeMenu();
+        }
+      });
+
+      // Drops interactions (filter + search)
+      const list = document.getElementById("dropsList");
+      const search = document.getElementById("searchDrops");
+      const filter = document.getElementById("filterDrops");
+
+      function apply(){
+        const q = (search.value || "").toLowerCase().trim();
+        const f = filter.value;
+
+        [...list.querySelectorAll(".drop")].forEach(drop => {
+          const title = (drop.dataset.title || "").toLowerCase();
+          const status = (drop.dataset.status || "all");
+          const matchQ = title.includes(q);
+          const matchF = (f === "all") ? true : status === f;
+          drop.style.display = (matchQ && matchF) ? "" : "none";
         });
       }
-    });
 
-    // Initial render
-    render();
+      search?.addEventListener("input", apply);
+      filter?.addEventListener("change", apply);
+
+      // Open drop -> route placeholder
+      list?.addEventListener("click", (e) => {
+        const drop = e.target.closest(".drop");
+        if (!drop) return;
+        const title = encodeURIComponent(drop.dataset.title || "drop");
+        location.href = "drop-detail.html?title=" + title;
+      });
+
+      // Top buttons
+      document.getElementById("newDropBtn")?.addEventListener("click", () => {
+        alert("New Drop (hook this up to your drop creation flow).");
+      });
+
+      document.getElementById("calendarBtn")?.addEventListener("click", () => {
+        alert("View Calendar (hook this up later).");
+      });
+
+      document.getElementById("exportDropsBtn")?.addEventListener("click", () => {
+        alert("Export Drops (hook this up later).");
+      });
+
+      // initial apply
+      apply();
+    });
   </script>
 </body>
 </html>

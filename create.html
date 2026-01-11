@@ -683,6 +683,10 @@
       .mobile-menu .nav a{
         justify-content: flex-start;
       }
+
+      .mobile-menu .nav a span{
+        font-size: 14px;
+      }
       .form-panel{
         background: rgba(255,255,255,0.055); /* slightly stronger than --panel */
         border: 1px solid rgba(255,255,255,0.10);
@@ -691,6 +695,7 @@
       .form-panel{
         background: rgba(255,255,255,0.05);  /* flatter, less “wash” */
         border: 1px solid rgba(255,255,255,0.10);
+        margin-top: 25px;
       }
 
 
@@ -708,8 +713,15 @@
         display: block;     /* gives it a real box */
         width: 100%;        /* so text-align can center reliably */
         text-align: center;
+        font-size: 14px;
       }
 
+    }
+
+    @media (max-width: 980px){
+     .panel {
+      width: 100%;
+     }
     }
 
 
@@ -756,7 +768,7 @@
             <svg class="icon" viewBox="0 0 24 24" fill="none">
               <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
             </svg>
-            <span>New Artwork</span>
+            <span>Create</span>
           </a>
 
           <a href="collections.html">
@@ -809,7 +821,7 @@
           <svg class="icon" viewBox="0 0 24 24" fill="none">
             <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
           </svg>
-          <span>New Artwork</span>
+          <span>Create</span>
         </a>
 
         <a href="collections.html">
@@ -878,6 +890,7 @@
       </div>
 
       <section class="layout">
+
         <!-- Left column -->
         <div>
           <div class="panel form-panel reveal d3">
@@ -1033,6 +1046,7 @@
             <span>Draft autosave is off</span>
           </div>
         </aside>
+
       </section>
     </main>
   </div>
