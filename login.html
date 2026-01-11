@@ -7,170 +7,251 @@
 
   <style>
     :root{
-      --bg: #07080b;
-      --panel: rgba(255,255,255,0.06);
-      --panel-2: rgba(255,255,255,0.04);
-      --stroke: rgba(255,255,255,0.10);
-      --stroke-2: rgba(255,255,255,0.14);
-      --text: rgba(255,255,255,0.88);
-      --muted: rgba(255,255,255,0.58);
+      --bg: #040406;
+      --panel: rgba(255,255,255,0.035);
+      --stroke: rgba(255,255,255,0.07);
+
+      --text: rgba(255,255,255,0.90);
+      --muted: rgba(255,255,255,0.48);
       --muted2: rgba(255,255,255,0.40);
-      --accent: #b4cf6a;
-      --accent-2: rgba(180,207,106,0.20);
+
+      /* Accent system (green + grey) */
+      --accent: rgba(120, 170, 120, 0.90);
+      --accent-soft: rgba(120, 170, 120, 0.15);
+
       --shadow: 0 24px 70px rgba(0,0,0,0.45);
       --radius: 18px;
       --radius-lg: 22px;
+
+      --lights: rgba(120, 229, 69, 0.85);
+      --brand-badge: rgba(94, 176, 84, 0.423);
     }
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
     body{
       margin:0;
+      -webkit-text-size-adjust: 100%;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color: var(--text);
       background:
-        radial-gradient(900px 520px at 60% 18%, rgba(180,207,106,0.12), transparent 55%),
-        radial-gradient(820px 560px at 18% 30%, rgba(255,255,255,0.05), transparent 60%),
-        radial-gradient(1100px 720px at 55% 78%, rgba(255,255,255,0.03), transparent 60%),
+        radial-gradient(900px 520px at 62% 18%, rgba(255,255,255,0.04), transparent 55%),
+        radial-gradient(700px 520px at 15% 30%, rgba(255,255,255,0.05), transparent 60%),
+        radial-gradient(1000px 600px at 60% 70%, rgba(255,255,255,0.03), transparent 60%),
         var(--bg);
-      overflow:hidden;
+      overflow-x:hidden;
     }
 
-    /* subtle speckle/grain */
+    /* subtle star/speckle (matches dashboard) */
     .speckle{
       position: fixed;
       inset: 0;
       pointer-events:none;
       background-image:
-        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.08) 0 1px, transparent 2px),
-        radial-gradient(circle at 28% 82%, rgba(255,255,255,0.06) 0 1px, transparent 2px),
-        radial-gradient(circle at 58% 32%, rgba(255,255,255,0.07) 0 1px, transparent 2px),
-        radial-gradient(circle at 86% 56%, rgba(255,255,255,0.05) 0 1px, transparent 2px),
-        radial-gradient(circle at 52% 90%, rgba(255,255,255,0.06) 0 1px, transparent 2px);
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.09) 0 1px, transparent 2px),
+        radial-gradient(circle at 30% 80%, rgba(255,255,255,0.06) 0 1px, transparent 2px),
+        radial-gradient(circle at 60% 30%, rgba(255,255,255,0.07) 0 1px, transparent 2px),
+        radial-gradient(circle at 85% 55%, rgba(255,255,255,0.05) 0 1px, transparent 2px),
+        radial-gradient(circle at 50% 90%, rgba(255,255,255,0.06) 0 1px, transparent 2px);
       opacity: 0.35;
       filter: blur(0.2px);
     }
 
-    .wrap{
-      min-height: 100vh;
-      display:grid;
-      place-items:center;
-      padding: 26px;
-      position:relative;
-    }
-
-    /* top-left brand mark (subtle, like OS chrome) */
-    .brand{
-      position: absolute;
-      top: 18px;
-      left: 18px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      color: var(--muted);
-      user-select:none;
-    }
-    .brand-badge{
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      background: radial-gradient(circle at 30% 30%, rgba(180,207,106,0.35), rgba(255,255,255,0.06));
-      border: 1px solid rgba(180,207,106,0.35);
-      box-shadow: 0 10px 28px rgba(0,0,0,0.35);
-      display:grid;
-      place-items:center;
-    }
-    .brand-name{
-      font-weight: 650;
-      letter-spacing: 0.2px;
-      color: rgba(255,255,255,0.75);
-    }
-
-    .card{
-      width: min(460px, 100%);
+    .panel{
       background: var(--panel);
       border: 1px solid var(--stroke);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
-      overflow:hidden;
-      position:relative;
     }
-    .card::before{
+
+    /* Top brand bar */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      background-color: rgba(10,10,12,0.72);
+      backdrop-filter: blur(12px);
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-badge{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: var(--brand-badge);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .brand-title{
+      font-weight: 650;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+    }
+
+    .topbar-right{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .led{
+      width:7px;height:7px;border-radius:99px;
+      background: var(--lights);
+      box-shadow: 0 0 0 6px var(--accent-soft);
+    }
+
+    /* Layout */
+    .wrap{
+      min-height: calc(100vh - 64px);
+      display:grid;
+      place-items:center;
+      padding: 28px 16px 34px;
+    }
+
+    .card{
+      width: min(440px, 100%);
+      padding: 18px;
+    }
+
+    .card-inner{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-inner::before{
       content:"";
       position:absolute;
       inset:-2px;
       background:
-        radial-gradient(560px 260px at 30% 18%, rgba(180,207,106,0.10), transparent 60%),
-        radial-gradient(620px 320px at 60% 80%, rgba(255,255,255,0.05), transparent 60%);
+        radial-gradient(520px 220px at 50% 0%, rgba(255,255,255,0.04), transparent 60%),
+        radial-gradient(500px 240px at 20% 80%, rgba(120,170,120,0.06), transparent 60%);
       pointer-events:none;
     }
 
-    .card-inner{
-      position:relative;
-      z-index:1;
-      padding: 22px;
+    .header{
+      position: relative;
+      z-index: 1;
+      display:flex;
+      align-items:flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 12px;
     }
 
-    .header{
-      padding: 22px 22px 0;
-      position:relative;
-      z-index:1;
+    .header h1{
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: 0.2px;
     }
-    .kicker{
+    .header p{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .badge-mini{
+      position: relative;
+      z-index: 1;
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    /* Form */
+    form{
+      position: relative;
+      z-index: 1;
+      margin-top: 14px;
+      display:flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    label{
+      display:block;
       font-size: 12px;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.10em;
       text-transform: uppercase;
       color: var(--muted2);
       margin: 0 0 8px;
     }
-    .title{
-      margin:0;
-      font-size: 24px;
-      letter-spacing: 0.2px;
-    }
-    .subtitle{
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.45;
-    }
 
-    .form{
-      margin-top: 16px;
-      display:grid;
-      gap: 12px;
-    }
     .field{
-      display:grid;
-      gap: 8px;
-    }
-    label{
-      font-size: 12px;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-    }
-    .input{
-      width:100%;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.04);
-      color: var(--text);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
       padding: 12px 12px;
-      outline:none;
+      display:flex;
+      align-items:center;
+      gap: 10px;
       transition: 160ms ease;
     }
-    .input:focus{
-      border-color: rgba(180,207,106,0.40);
-      box-shadow: 0 0 0 6px rgba(180,207,106,0.10);
-      background: rgba(255,255,255,0.05);
+
+    .field:focus-within{
+      border-color: rgba(120,170,120,0.35);
+      box-shadow: 0 0 0 6px rgba(120,170,120,0.08);
+      background: rgba(255,255,255,0.04);
     }
+
+    .field .icon{
+      width: 18px;
+      height: 18px;
+      opacity: 0.85;
+      flex: 0 0 auto;
+    }
+
+    input{
+      width: 100%;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    input::placeholder{
+      color: rgba(255,255,255,0.32);
+    }
+
     .row{
       display:flex;
       align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      margin-top: 6px;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 2px;
     }
 
     .check{
@@ -178,88 +259,92 @@
       align-items:center;
       gap: 10px;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 13px;
       user-select:none;
     }
+
     .check input{
       width: 16px;
       height: 16px;
-      accent-color: var(--accent);
+      accent-color: rgba(120,170,120,0.85);
     }
 
     .link{
-      color: rgba(180,207,106,0.95);
-      text-decoration:none;
-      font-size: 12px;
+      color: rgba(255,255,255,0.70);
+      text-decoration: none;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,0.16);
+      padding-bottom: 1px;
+      transition: 160ms ease;
     }
-    .link:hover{ text-decoration: underline; }
+    .link:hover{
+      color: var(--text);
+      border-bottom-color: rgba(120,170,120,0.35);
+    }
 
     .actions{
-      display:grid;
+      display:flex;
       gap: 10px;
-      margin-top: 14px;
+      margin-top: 8px;
     }
+
     .btn{
-      width: 100%;
-      border-radius: 14px;
-      padding: 12px 14px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
       color: var(--text);
+      padding: 11px 12px;
+      border-radius: 14px;
       cursor:pointer;
       transition: 160ms ease;
-      display:flex;
+      display:inline-flex;
       align-items:center;
       justify-content:center;
-      gap: 10px;
-      font-weight: 650;
-      letter-spacing: 0.2px;
+      gap:8px;
       user-select:none;
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(255,255,255,0.18);
-      background: rgba(255,255,255,0.07);
-    }
-    .btn.primary{
-      border-color: rgba(180,207,106,0.40);
-      background: linear-gradient(180deg, rgba(180,207,106,0.22), rgba(180,207,106,0.10));
+      flex: 1;
+      font-size: 14px;
     }
 
-    .divider{
+    .btn:hover{
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+      transform: translateY(-1px);
+    }
+
+    .btn.primary{
+      border-color: rgba(120,170,120,0.40);
+      /* border: none; */
+      background: linear-gradient(180deg, rgba(120,170,120,0.22), rgba(120,170,120,0.10));
+      /* background-color: var(--brand-badge); */
+      box-shadow: 0 14px 34px rgba(0,0,0,0.30);
+    }
+
+    .btn.primary:active{
+      transform: translateY(0);
+    }
+
+    .helper{
+      margin-top: 12px;
+      position: relative;
+      z-index: 1;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
       display:flex;
       align-items:center;
       gap: 10px;
-      margin: 8px 0 0;
-      color: var(--muted2);
-      font-size: 12px;
-    }
-    .divider::before, .divider::after{
-      content:"";
-      height:1px;
-      flex:1;
-      background: rgba(255,255,255,0.10);
     }
 
-    .btn.ghost{
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.10);
-      font-weight: 600;
-      color: rgba(255,255,255,0.82);
-    }
-    .btn.ghost:hover{
-      background: rgba(255,255,255,0.05);
-      border-color: rgba(255,255,255,0.14);
+    .helper .tiny-dot{
+      width: 6px;
+      height: 6px;
+      border-radius: 99px;
+      background: rgba(255,255,255,0.22);
+      box-shadow: 0 0 0 6px rgba(255,255,255,0.05);
+      flex: 0 0 auto;
     }
 
-    .footer{
-      margin-top: 14px;
-      color: var(--muted2);
-      font-size: 12px;
-      text-align:center;
-    }
-
-    /* Thin-air reveal */
+    /* ====== "thin air" entrance animation ====== */
     .reveal{
       opacity: 0;
       transform: translateY(14px);
@@ -270,19 +355,18 @@
       animation: riseIn 680ms cubic-bezier(.2,.9,.2,1) forwards;
     }
     @keyframes riseIn{
-      0%{ opacity:0; transform: translateY(14px); filter: blur(8px); }
-      55%{ opacity:1; filter: blur(1px); }
-      100%{ opacity:1; transform: translateY(0); filter: blur(0); }
+      0%{ opacity: 0; transform: translateY(14px); filter: blur(8px); }
+      55%{ opacity: 1; filter: blur(1px); }
+      100%{ opacity: 1; transform: translateY(0); filter: blur(0); }
     }
     .d1{ animation-delay: 80ms; }
     .d2{ animation-delay: 160ms; }
     .d3{ animation-delay: 240ms; }
-    .d4{ animation-delay: 320ms; }
 
-    @media (max-width: 520px){
-      .header{ padding: 18px 18px 0; }
+    /* Mobile polish */
+    @media (max-width: 420px){
+      .topbar-right{ display:none; }
       .card-inner{ padding: 18px; }
-      .brand-name{ display:none; }
     }
   </style>
 </head>
@@ -290,7 +374,7 @@
 <body>
   <div class="speckle"></div>
 
-  <div class="wrap">
+  <header class="topbar">
     <div class="brand">
       <div class="brand-badge" aria-hidden="true">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -298,61 +382,94 @@
             stroke="rgba(255,255,255,0.9)" stroke-width="1.6" stroke-linejoin="round"/>
         </svg>
       </div>
-      <div class="brand-name">Dream OS</div>
+      <div class="brand-title">Dream OS</div>
     </div>
 
-    <section class="card reveal d2" aria-label="Login">
-      <div class="header reveal d1">
-        <p class="kicker">Access</p>
-        <h1 class="title">Sign in to Dream OS</h1>
-        <p class="subtitle">Enter your credentials to return to your command center.</p>
-      </div>
+    <div class="topbar-right">
+      <span class="led" aria-hidden="true"></span>
+      <span>System ready</span>
+    </div>
+  </header>
 
-      <div class="card-inner reveal d3">
-        <form class="form" onsubmit="return false;">
-          <div class="field">
-            <label for="email">Email</label>
-            <input class="input" id="email" type="email" placeholder="you@domain.com" autocomplete="email" required>
+  <main class="wrap">
+    <section class="panel card reveal d1" aria-label="Login">
+      <div class="card-inner">
+        <div class="header">
+          <div>
+            <h1>Sign in</h1>
+            <p>Access your creative command center.</p>
+          </div>
+          <div class="badge-mini" aria-hidden="true" title="Secure session">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M7 11V8a5 5 0 0 1 10 0v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M7 11h10v9H7v-9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <form id="loginForm" autocomplete="on">
+          <div>
+            <label for="username">Username</label>
+            <div class="field">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M4 20a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <input id="username" name="username" type="text" placeholder="Enter username" required />
+            </div>
           </div>
 
-          <div class="field">
-            <label for="password">Password</label>
-            <input class="input" id="password" type="password" placeholder="••••••••••" autocomplete="current-password" required>
+          <div>
+            <label for="pin">PIN</label>
+            <div class="field">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 17v-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M7 11h10v9H7v-9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                <path d="M8 11V9a4 4 0 0 1 8 0v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <input id="password" name="password" type="password" inputmode="numeric" placeholder="Enter Password" required />
+            </div>
           </div>
 
           <div class="row">
-            <label class="check">
-              <input type="checkbox" checked>
+            <label class="check" for="remember">
+              <input id="remember" type="checkbox" />
               Remember me
             </label>
-            <a class="link" href="#">Forgot password</a>
+            <a class="link" href="#" onclick="alert('Hook this up to your reset flow.'); return false;">Forgot Password?</a>
           </div>
 
           <div class="actions">
-            <button class="btn primary" type="submit">
-                <a href="dashboard.html">Sign In</a>
+            <button class="btn" type="button" onclick="window.location.href='create.html'">
+              Create account
               <span aria-hidden="true">↗</span>
             </button>
-
-            <div class="divider">or</div>
-
-            <button class="btn ghost" type="button">
-              Continue with passkey
-              <span aria-hidden="true">⌁</span>
+            <button class="btn primary" type="submit">
+              Sign in
+              <span aria-hidden="true">↗</span>
             </button>
           </div>
 
-          <div class="footer reveal d4">
-            New here? <a class="link" href="#">Create an account</a>
+          <div class="helper">
+            <span class="tiny-dot" aria-hidden="true"></span>
+            <span>Tip: Keep credentials minimal. Let the work do the talking.</span>
           </div>
         </form>
       </div>
     </section>
-  </div>
+  </main>
 
   <script>
     window.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll(".reveal").forEach(el => el.classList.add("is-in"));
+
+      // Demo-only handler: replace with your real auth logic / API call
+      const form = document.getElementById("loginForm");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        // TODO: Replace with fetch('/api/login', { ... })
+        window.location.href = "dashboard.html"; // change to your actual dashboard file
+      });
     });
   </script>
 </body>

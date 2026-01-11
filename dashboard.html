@@ -651,6 +651,7 @@
       .quick{
         padding: 14px;
       }
+
     }
 
     /* Extra-tight phones (like iPhone SE) */
@@ -868,6 +869,10 @@
         background: rgba(255,255,255,0.02);
         border: 1px solid rgba(255,255,255,0.06);
       }
+      .logout{
+        border-color: rgba(120,170,120,0.40);
+        background: linear-gradient(180deg, rgba(120,170,120,0.22), rgba(120,170,120,0.10));
+      }
     }
   </style>
 </head>
@@ -947,7 +952,7 @@
 
           <div class="mobile-footer">
             <a class="settings-link" href="#"><span>Settings</span></a>
-            <a class="settings-link" href="login.html"><span>Logout</span></a>
+            <a class="settings-link logout" href="login.html"><span>Logout</span></a>
           </div>
         </nav>
       </div>
@@ -1003,7 +1008,7 @@
           </svg> -->
           <span>Settings</span>
         </a>
-        <a class="settings-link" href="login.html">Logout</a>
+        <a class="settings-link logout" href="login.html">Logout</a>
       </div>
     </aside>
 
