@@ -457,8 +457,11 @@
     }
     .tab{
       border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid var(--platform-add);
       background: rgba(255,255,255,0.03);
+      background: var(--accent-soft);
       color: rgba(255,255,255,0.78);
+      color: var(--accent);
       padding: 9px 10px;
       border-radius: 999px;
       cursor:pointer;
@@ -472,7 +475,9 @@
     .tab.active{
       background: rgba(255,255,255,0.06);
       border-color: rgba(255,255,255,0.18);
+      border-color: var(--lights);
       color: var(--text);
+      color: var(--lights);
     }
 
     .section{
@@ -594,7 +599,6 @@
 
     .pname-add {
       /* margin:0; */
-
       font-weight: 680;
       font-size: 14px;
       /* letter-spacing: 0.2px; */
@@ -945,7 +949,14 @@
       html, body{ overflow-x:hidden; }
       .app > * { min-width: 0; }
       .layout > * { min-width: 0; }
-      .panel{ overflow:hidden; }
+      .panel{ 
+        overflow:hidden; 
+        width: 100%;
+      }
+
+      .tabs {
+        font-size: 14px;
+      }
 
       .social-panel{ margin-top: 25px; }
     }
@@ -1012,7 +1023,7 @@
             <span>Drops</span>
           </a>
 
-          <a class="active" href="social-media.html">
+          <a class="active" href="social.html">
             <svg class="icon" viewBox="0 0 24 24" fill="none">
               <path d="M7 17l10-10M7 7h10v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -1065,7 +1076,7 @@
           <span>Drops</span>
         </a>
 
-        <a class="active" href="social-media.html">
+        <a class="active" href="social.html">
           <svg class="icon" viewBox="0 0 24 24" fill="none">
             <path d="M7 17l10-10M7 7h10v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -1151,27 +1162,6 @@
 
                     <div class="platforms">
 
-                      <!-- ADD PLATFORM -->
-                      <button class="platform add-platform" type="button" id="addPlatformBtn">
-                        <div class="p-left">
-                          <div class="picon add" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                              <path d="M12 5v14M5 12h14"
-                                stroke="currentColor"
-                                stroke-width="1.8"
-                                stroke-linecap="round"/>
-                            </svg>
-                          </div>
-                          <div class="pmeta">
-                            <p class="pname-add">Add a Platform</p>
-                            
-                            <!-- <p class="pstatus">Connect a new social account</p> -->
-                          </div>
-                        </div>
-
-                        <span class="go">↗</span>
-                      </button>
-
                       <!-- The Social Platforms -->
                       <div class="platform">
                         <div class="p-left">
@@ -1253,6 +1243,26 @@
                         </div>
                       </div>
 
+                      <!-- ADD PLATFORM -->
+                      <button class="platform add-platform" type="button" id="addPlatformBtn">
+                        <div class="p-left">
+                          <div class="picon add" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                              <path d="M12 5v14M5 12h14"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                                stroke-linecap="round"/>
+                            </svg>
+                          </div>
+                          <div class="pmeta">
+                            <p class="pname-add">Add a Platform</p>
+                            
+                            <!-- <p class="pstatus">Connect a new social account</p> -->
+                          </div>
+                        </div>
+
+                        <span class="go">↗</span>
+                      </button>
              
 
                     </div>

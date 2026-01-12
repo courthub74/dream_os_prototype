@@ -11,8 +11,12 @@
       --panel: rgba(255,255,255,0.035);
       --stroke: rgba(255,255,255,0.07);
 
-      --text: rgba(255,255,255,0.88);
+      --text: rgba(255,255,255,0.9);
       --muted: rgba(255,255,255,0.48);
+
+      --panel-2: rgba(255,255,255,0.04);
+      --stroke: rgba(255,255,255,0.10);
+      --stroke-2: rgba(255,255,255,0.14);
       --muted2: rgba(255,255,255,0.40);
 
       --shadow: 0 24px 70px rgba(0,0,0,0.45);
@@ -21,29 +25,28 @@
       --sidebar-w: 268px;
       --gap: 18px;
 
-      /* Accent system (green + grey) */
-      --accent: rgba(120, 170, 120, 0.90);
-      --accent-soft: rgba(120, 170, 120, 0.15);
-
       --lights: rgba(120, 229, 69, 0.85);
       --brand-badge: rgba(94, 176, 84, 0.423);
+      --brand-badge-light: rgba(95, 176, 84, 0.243);
+      --accent: rgba(120, 170, 120, 0.9);
+      --accent-soft: rgba(120, 170, 120, 0.15);
     }
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
+
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color: var(--text);
       background:
-        radial-gradient(700px 520px at 15% 30%, rgba(255,255,255,0.05), transparent 60%),
-        radial-gradient(1000px 600px at 60% 70%, rgba(255,255,255,0.03), transparent 60%),
+        radial-gradient(900px 520px at 62% 18%, rgba(120,170,120,0.035), transparent 60%),
+        radial-gradient(700px 520px at 15% 30%, rgba(255,255,255,0.02), transparent 65%),
         var(--bg);
       overflow-x:hidden;
       -webkit-text-size-adjust: 100%;
     }
 
-    /* subtle speckle */
     .speckle{
       position: fixed;
       inset: 0;
@@ -84,13 +87,17 @@
       margin-bottom: 8px;
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
-    .brand-left{ display:flex; align-items:center; gap:10px; }
+    .brand-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
     .brand-badge{
       width: 34px;
       height: 34px;
       border-radius: 12px;
       background: var(--brand-badge);
-      border: 1px solid rgba(255,255,255,0.10);
+      border: 1px solid rgba(179,136,255,0.30);
       box-shadow: 0 10px 28px rgba(0,0,0,0.35);
       display:grid;
       place-items:center;
@@ -140,7 +147,7 @@
       border-top: 1px solid rgba(255,255,255,0.08);
       display:flex;
       flex-direction:column;
-      gap:6px;
+      gap: 6px;
     }
     .settings-link{
       width:100%;
@@ -159,12 +166,64 @@
       background: rgba(255,255,255,0.04);
       border-color: rgba(255,255,255,0.06);
     }
-    .settings-link .icon{ width:18px;height:18px; opacity:0.85; }
+    .sidebar-footer .icon{
+      width:18px;
+      height:18px;
+      opacity:0.85;
+    }
+
+    /* Burger Menu (Mobile) */
+    .burger{
+      display:none;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+      cursor:pointer;
+      transition: 160ms ease;
+      align-items:center;
+      justify-content:center;
+      gap: 5px;
+    }
+    .burger:hover{
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.14);
+      transform: translateY(-1px);
+    }
+    .burger span{
+      display:block;
+      display:flex;
+      flex-direction: column;
+      width: 18px;
+      height: 2px;
+      background: var(--brand-badge);
+      border-radius: 999px;
+    }
+    .sidebar.is-open .burger span{
+      background: var(--lights);
+      box-shadow: 0 0 10px rgba(120, 229, 69, 0.55);
+    }
+
+    .menu-backdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(6px);
+      z-index: 40;
+      opacity: 0;
+      pointer-events: none;
+      transition: 180ms ease;
+    }
+    .menu-backdrop.is-open{
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-menu{ display:none; }
 
     /* Main */
-    .main{
-      padding: 26px 26px 34px;
-    }
+    .main{ padding: 26px 26px 34px; }
 
     .topbar{
       display:flex;
@@ -184,11 +243,41 @@
       font-size: 14px;
     }
 
-    .top-actions{
+    .layout{
       display:flex;
-      align-items:center;
-      gap: 10px;
+      gap: var(--gap);
+      align-items:start;
+      margin-top: 10px;
     }
+    .layout > div:first-child{ flex: 1.55; }
+    .layout > div:last-child{ flex: 0.75; }
+
+    .panel{
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .pill .led{
+      width:7px;height:7px;border-radius:99px;
+      background: var(--lights);
+      box-shadow: 0 0 0 6px rgba(180,207,106,0.10);
+    }
+
     .btn{
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.04);
@@ -201,6 +290,7 @@
       align-items:center;
       gap:8px;
       user-select:none;
+      white-space: nowrap;
     }
     .btn:hover{
       border-color: rgba(255,255,255,0.18);
@@ -212,41 +302,23 @@
       background: linear-gradient(180deg, rgba(120,170,120,0.22), rgba(120,170,120,0.10));
       box-shadow: 0 14px 34px rgba(0,0,0,0.30);
     }
-
-    .panel{
-      background: var(--panel);
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
+    .btn.danger{
+      border-color: rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.03);
+      opacity: 0.9;
     }
 
-    /* Content grid for this page */
-    .grid{
-      display:grid;
-      grid-template-columns: 1.35fr 0.65fr;
-      gap: var(--gap);
-      align-items:start;
-      margin-top: 10px;
-    }
-
-    .section-title{
+    /* Right column */
+    .quick{ padding: 16px; }
+    .quick h3{
+      margin: 2px 0 12px;
       font-size: 12px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--muted);
-      margin: 0 0 12px;
     }
-
-    /* Connections */
-    .connections{ padding: 16px; }
-    .conn-list{
-      display:flex;
-      flex-direction:column;
-      gap: 10px;
-    }
-
-    .conn{
+    .qbtn{
+      width:100%;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -255,158 +327,45 @@
       border-radius: 16px;
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.10);
+      color: var(--text);
+      cursor:pointer;
       transition: 160ms ease;
+      margin-bottom: 10px;
     }
-    .conn:hover{
+    .qbtn:hover{
       transform: translateY(-1px);
       background: rgba(255,255,255,0.05);
       border-color: rgba(255,255,255,0.14);
-    }
-    .conn-left{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-      min-width: 0;
-    }
-    .pill{
-      width: 38px;
-      height: 38px;
-      border-radius: 14px;
-      background: rgba(120,170,120,0.10);
-      background: var(--brand-badge);
-      border: 1px solid rgba(120,170,120,0.22);
-      display:grid;
-      place-items:center;
-      flex: 0 0 auto;
-    }
-    .conn-meta{ min-width:0; }
-    .conn-name{
-      margin:0;
-      font-weight: 650;
-      font-size: 14px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .conn-sub{
-      margin:3px 0 0;
-      font-size: 12px;
-      color: var(--muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .state{
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 12px;
-      white-space: nowrap;
-    }
-    .dot{
-      width:8px;height:8px;border-radius:999px;
-      background: rgba(255,255,255,0.18);
-      box-shadow: 0 0 0 6px rgba(255,255,255,0.05);
-    }
-    .dot.live{
-      background: var(--lights);
-      box-shadow: 0 0 0 6px var(--accent-soft);
-    }
-
-    .mini-actions{
-      display:flex;
-      gap: 10px;
-      margin-top: 12px;
-    }
-    .mini-actions .btn{ flex: 1; justify-content:center; }
-
-    /* Release Queue */
-    .queue{ padding: 16px; }
-    .queue-card{
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      padding: 14px;
-    }
-
-    .queue-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      padding: 12px 12px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.10);
-      margin-top: 10px;
     }
     .qleft{
       display:flex;
       align-items:center;
       gap: 10px;
-      min-width:0;
+      text-align:left;
     }
-    .tag{
-      font-size: 11px;
-      letter-spacing: 0.10em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.70);
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.04);
-      padding: 6px 9px;
-      border-radius: 999px;
-      white-space: nowrap;
+    .qicon{
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      background: var(--brand-badge);
+      border: 1px solid rgba(179,136,255,0.22);
+      display:grid;
+      place-items:center;
     }
-    .tag.scheduled{
-      border-color: rgba(120,170,120,0.22);
-      background: rgba(120,170,120,0.10);
-      color: rgba(255,255,255,0.82);
-    }
-    .qtitle{
-      margin:0;
+    .qtext .title{
       font-weight: 650;
-      font-size: 13px;
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
-      max-width: 320px;
+      font-size: 14px;
+      margin:0;
     }
-    .qsub{
-      margin:3px 0 0;
+    .qtext .sub{
+      margin: 3px 0 0;
       font-size: 12px;
       color: var(--muted);
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
-      max-width: 320px;
     }
-    .go{ opacity:0.7; }
-
-    /* Right column panels */
-    .rightcol{
-      display:flex;
-      flex-direction:column;
-      gap: var(--gap);
-    }
-
-    .summary{ padding: 16px; }
-    .stat{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding: 12px 12px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.10);
-      margin-top: 10px;
-    }
-    .stat span{ color: var(--muted); font-size: 12px; letter-spacing: 0.10em; text-transform: uppercase; }
-    .stat strong{ font-size: 16px; }
+    .qbtn .go{ opacity:0.7; }
 
     .status{
-      margin-top: 18px;
+      margin-top: 14px;
       color: var(--muted2);
       font-size: 12px;
       display:flex;
@@ -416,10 +375,10 @@
     .status .led{
       width:7px;height:7px;border-radius:99px;
       background: var(--lights);
-      box-shadow: 0 0 0 6px var(--accent-soft);
+      box-shadow: 0 0 0 6px rgba(180,207,106,0.10);
     }
 
-    /* reveal animation */
+    /* ===== Reveal animation ===== */
     .reveal{
       opacity: 0;
       transform: translateY(14px);
@@ -430,35 +389,511 @@
       animation: riseIn 680ms cubic-bezier(.2,.9,.2,1) forwards;
     }
     @keyframes riseIn{
-      0%{ opacity: 0; transform: translateY(14px); filter: blur(8px); }
-      55%{ opacity: 1; filter: blur(1px); }
-      100%{ opacity: 1; transform: translateY(0); filter: blur(0); }
+      0%{ opacity:0; transform:translateY(14px); filter: blur(8px); }
+      55%{ opacity:1; filter: blur(1px); }
+      100%{ opacity:1; transform:translateY(0); filter: blur(0); }
     }
     .d1{ animation-delay: 60ms; }
     .d2{ animation-delay: 140ms; }
     .d3{ animation-delay: 220ms; }
     .d4{ animation-delay: 300ms; }
     .d5{ animation-delay: 380ms; }
+    .d6{ animation-delay: 460ms; }
+    .d7{ animation-delay: 540ms; }
+
+    /* =========================
+       DISTRIBUTE-SPECIFIC UI
+       ========================= */
+    .dist-panel{
+      padding: 18px;
+      background: rgba(255,255,255,0.042);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+    .dist-inner{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(17, 16, 16, 0.02);
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .dist-inner::before{ content:""; position:absolute; inset:0; background:none; pointer-events:none; }
+
+    .dist-head{
+      position:relative;
+      z-index:1;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .dist-head h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: 0.2px;
+    }
+    .dist-head p{
+      margin:6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      max-width: 64ch;
+    }
+
+    .tabs{
+      position:relative;
+      z-index:1;
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .tab{
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.78);
+      padding: 9px 10px;
+      border-radius: 999px;
+      cursor:pointer;
+      transition: 160ms ease;
+      font: inherit;
+    }
+    .tab:hover{
+      background: rgba(255,255,255,0.05);
+      transform: translateY(-1px);
+    }
+    .tab.active{
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.18);
+      color: var(--text);
+    }
+
+    .section{
+      position:relative;
+      z-index:1;
+      margin-top: 14px;
+      display:none;
+    }
+    .section.active{ display:block; }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 12px;
+    }
+
+    .card{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.02);
+      padding: 14px;
+    }
+    .card h3{
+      margin:0;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .card p{
+      margin: 10px 0 0;
+      color: rgba(255,255,255,0.78);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .markets{
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .market{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+    .market.add-market{
+      background: rgba(255,255,255,0.025);
+      border: 1px dashed rgba(255,255,255,0.18);
+      cursor: pointer;
+    }
+    .market.add-market:hover{
+      background: rgba(255,255,255,0.04);
+      background: var(--brand-badge-light);
+      border-color: rgba(120,170,120,0.45);
+    }
+    .market-platform {
+      /* display: flex;
+      align-items: center; */
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .m-left{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      min-width: 0;
+    }
+    .micon{
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.10);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+    .micon.add{
+      background: var(--brand-badge);
+      border-color: rgba(120,170,120,0.35);
+    }
+    .micon svg{ display:block; }
+
+    .mmeta{ min-width: 0; }
+    .mmeta-add{ min-width: 0;
+      margin-top: -12px;
+    }
+    .mname{
+      margin:0;
+      font-weight: 680;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mname-add{
+      margin:0;
+      font-weight: 680;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      line-height: 1.2;
+      margin-top: -45px;
+    }
+
+    .mstatus{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .toggle{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+    .switch{
+      width: 44px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      position: relative;
+      cursor: pointer;
+      transition: 160ms ease;
+      flex: 0 0 auto;
+    }
+    .switch::after{
+      content:"";
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.78);
+      position:absolute;
+      top: 50%;
+      left: 3px;
+      transform: translateY(-50%);
+      transition: 160ms ease;
+    }
+    .switch.on{
+      background: rgba(120,170,120,0.22);
+      border-color: rgba(120,170,120,0.40);
+    }
+    .switch.on::after{
+      left: 21px;
+      background: rgba(120,229,69,0.90);
+      box-shadow: 0 0 10px rgba(120,229,69,0.25);
+    }
+
+    .form{
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .col{ flex: 1 1 220px; }
+
+    input, select, textarea{
+      width:100%;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      padding: 11px 12px;
+      outline: none;
+      transition: 160ms ease;
+      font: inherit;
+    }
+    textarea{
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(120,229,69,0.35);
+      box-shadow: 0 0 0 6px rgba(120,229,69,0.08);
+    }
+
+    .help{
+      color: var(--muted2);
+      font-size: 12px;
+      margin-top: -2px;
+    }
+
+    .divider{
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .chips{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items:center;
+      margin-top: 10px;
+    }
+    .chip{
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.72);
+      font-size: 12px;
+      max-width: 100%;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .actions-row{
+      position:relative;
+      z-index:1;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 12px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      flex-wrap: wrap;
+    }
+
+    .mint-list{
+      display:flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .mint{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.02);
+      padding: 14px;
+    }
+    .mint-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap: 10px;
+    }
+    .mint-title{
+      margin:0;
+      font-size: 16px;
+      font-weight: 680;
+      letter-spacing: 0.2px;
+    }
+    .mint-sub{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      max-width: 64ch;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.18);
+      color: rgba(255,255,255,0.78);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .badge .dot{
+      width:7px;height:7px;border-radius:999px;
+      background: rgba(255,255,255,0.55);
+    }
+    .badge.ready .dot{
+      background: rgba(120,229,69,0.85);
+      box-shadow: 0 0 0 6px rgba(180,207,106,0.10);
+    }
+    .badge.minted .dot{
+      background: rgba(120,170,120,0.85);
+      box-shadow: 0 0 0 6px rgba(120,170,120,0.10);
+    }
+
+    .mint-meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 10px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted2);
+      font-size: 12px;
+      flex-wrap: wrap;
+    }
 
     /* Responsive */
     @media (max-width: 980px){
+      .brand-title{ display:none; }
+      .sidebar > .nav a span,
+      .sidebar > .sidebar-footer .settings-link span{
+        display: none;
+      }
+
+      .sidebar{ padding: 18px 10px; }
+      .layout{ flex-direction: column; }
+
       .app{ grid-template-columns: 1fr; }
+      body { background: var(--bg); }
+
       .sidebar{
         position: sticky;
         top: 0;
-        height: auto;
         z-index: 50;
+        height: auto;
+        padding: 12px 12px;
         border-right: none;
-        border-bottom: 1px solid var(--stroke);
         background: rgba(10,10,12,0.72);
         backdrop-filter: blur(12px);
       }
-      .sidebar-footer{ position: static; margin-top: 10px; }
-      .nav{ flex-direction: row; overflow-x:auto; -webkit-overflow-scrolling: touch; scrollbar-width:none; }
-      .nav::-webkit-scrollbar{ display:none; }
-      .nav a{ flex:0 0 auto; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); }
+
+      .brand{
+        padding: 8px 6px 10px;
+        margin-bottom: 6px;
+      }
+      .brand-title{
+        display: inline-block;
+        font-size: 14px;
+      }
+
+      .sidebar > .nav,
+      .sidebar > .sidebar-footer{
+        display:none;
+      }
+
+      .burger{
+        display:inline-flex;
+        flex-direction: column;
+      }
+
+      .mobile-menu{
+        display:block;
+        margin-top: 10px;
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.04);
+        overflow:hidden;
+        transform-origin: top;
+        transform: translateY(-6px) scaleY(0.98);
+        opacity: 0;
+        max-height: 0;
+        transition: 200ms ease;
+      }
+
+      .sidebar.is-open .mobile-menu{
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+        max-height: 70vh;
+      }
+
+      .mobile-menu .nav{
+        flex-direction: column;
+        gap: 6px;
+        overflow: visible;
+        padding: 10px;
+      }
+      .mobile-menu .nav a{
+        width: 100%;
+        white-space: normal;
+        justify-content: flex-start;
+      }
+      .mobile-menu .nav a span{
+        display: inline;
+        font-size: 14px;
+      }
+
+      .mobile-footer{
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        display:flex;
+        gap: 8px;
+      }
+      .mobile-footer .settings-link{
+        flex: 1;
+        justify-content:center;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.06);
+      }
+      .mobile-footer .logout{
+        border-color: rgba(120,170,120,0.40);
+        background: linear-gradient(180deg, rgba(120,170,120,0.22), rgba(120,170,120,0.10));
+      }
+
       .main{ padding: 16px 12px 22px; }
-      .grid{ grid-template-columns: 1fr; }
+
+      .grid2{ grid-template-columns: 1fr; }
+
+      html, body{ overflow-x:hidden; }
+      .app > * { min-width: 0; }
+      .layout > * { min-width: 0; }
+      .panel{ 
+        overflow:hidden;
+        width: 100%; 
+      }
+
+      .dist-panel{ margin-top: 25px; }
+    }
+
+    @media (max-width: 420px){
+      .greeting h1{ font-size: 24px; }
+      .btn{ padding: 10px 10px; font-size: 12px; }
     }
   </style>
 </head>
@@ -479,8 +914,70 @@
           </div>
           <div class="brand-title">Dream OS</div>
         </div>
+
+        <!-- Burger (mobile only) -->
+        <button class="burger" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
 
+      <!-- Mobile menu wrapper -->
+      <div class="mobile-menu" id="mobileMenu" hidden>
+        <nav class="nav" aria-label="Primary">
+          <a href="dashboard.html">
+            <svg class="icon" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"
+                stroke="currentColor" stroke-width="1.6"/>
+            </svg>
+            <span>Command</span>
+          </a>
+
+          <a href="create.html">
+            <svg class="icon" viewBox="0 0 24 24" fill="none">
+              <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span>Create</span>
+          </a>
+
+          <a href="collections.html">
+            <svg class="icon" viewBox="0 0 24 24" fill="none">
+              <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span>Collections</span>
+          </a>
+
+          <a href="drops.html">
+            <svg class="icon" viewBox="0 0 24 24" fill="none">
+              <path d="M7 7h10v10H7V7zm-3 3h3m10 0h3m-13 7v3m6-3v3"
+                stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span>Drops</span>
+          </a>
+
+          <a href="social.html">
+            <svg class="icon" viewBox="0 0 24 24" fill="none">
+              <path d="M7 17l10-10M7 7h10v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Social</span>
+          </a>
+
+          <a class="active" href="distribute.html">
+            <svg class="icon" viewBox="0 0 24 24" fill="none">
+              <path d="M8 7h8M6 11h12M8 15h8M6 19h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span>Distribute</span>
+          </a>
+
+          <div class="mobile-footer">
+            <a class="settings-link" href="#"><span>Settings</span></a>
+            <a class="settings-link logout" href="login.html"><span>Logout</span></a>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Desktop nav -->
       <nav class="nav d2" aria-label="Primary">
         <a href="dashboard.html">
           <svg class="icon" viewBox="0 0 24 24" fill="none">
@@ -512,18 +1009,16 @@
           <span>Drops</span>
         </a>
 
-        <a href="social-media.html">
+        <a href="social.html">
           <svg class="icon" viewBox="0 0 24 24" fill="none">
             <path d="M7 17l10-10M7 7h10v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <span>Social</span>
         </a>
 
-        <!-- Distribute replaces Marketplaces -->
         <a class="active" href="distribute.html">
           <svg class="icon" viewBox="0 0 24 24" fill="none">
-            <path d="M12 3l7 4v10l-7 4-7-4V7l7-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-            <path d="M12 7v14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M8 7h8M6 11h12M8 15h8M6 19h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
           </svg>
           <span>Distribute</span>
         </a>
@@ -539,7 +1034,7 @@
           <span>Settings</span>
         </a>
 
-        <a class="settings-link" href="login.html">
+        <a class="settings-link logout" href="login.html">
           <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M10 7V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2v-1"
               stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
@@ -556,210 +1051,358 @@
       <div class="topbar">
         <div class="greeting reveal d1">
           <h1>Distribute</h1>
-          <p>Connect channels, schedule releases, and control visibility.</p>
+          <p>Connect marketplaces, prepare mint-ready metadata, and push works into the world when you’re ready.</p>
         </div>
 
-        <div class="top-actions reveal d2">
-          <button class="btn" type="button">
-            Connect channel
-            <span aria-hidden="true">↗</span>
-          </button>
-          <button class="btn primary" type="button">
-            Publish now
-            <span aria-hidden="true">↗</span>
-          </button>
+        <div class="reveal d2">
+          <span class="pill"><span class="led" aria-hidden="true"></span> Mint queue ready</span>
         </div>
       </div>
 
-      <section class="grid">
+      <section class="layout">
         <!-- Left column -->
-        <div class="leftcol">
-          <div class="panel connections reveal d2">
-            <p class="section-title">Connected channels</p>
-
-            <div class="conn-list">
-              <div class="conn">
-                <div class="conn-left">
-                  <div class="pill" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                      <path d="M7 17l10-10M7 7h10v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </div>
-                  <div class="conn-meta">
-                    <p class="conn-name">XRP Café</p>
-                    <p class="conn-sub">Ready to publish drops</p>
-                  </div>
+        <div>
+          <div class="panel dist-panel reveal d3">
+            <div class="dist-inner">
+              <div class="dist-head">
+                <div>
+                  <h2>Marketplace Distribution</h2>
+                  <p>
+                    Toggle connected destinations, then mint or list with your preferred workflow.
+                    This UI is “frontend-only” for now — you’ll wire it to your backend + wallet flows later.
+                  </p>
                 </div>
-                <div class="state">
-                  <span class="dot live" aria-hidden="true"></span>
-                  <span>Connected</span>
+
+                <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
+                  <button class="btn" type="button" id="testConnBtn">Test connections</button>
+                  <button class="btn primary" type="button" id="mintNowBtn">Mint selected</button>
                 </div>
               </div>
 
-              <div class="conn">
-                <div class="conn-left">
-                  <div class="pill" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                      <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                    </svg>
+              <div class="tabs" role="tablist" aria-label="Distribute sections">
+                <button class="tab active" type="button" data-tab="connections">Connections</button>
+                <button class="tab" type="button" data-tab="mint">Mint</button>
+                <button class="tab" type="button" data-tab="queue">Queue</button>
+              </div>
+
+              <!-- CONNECTIONS -->
+              <div class="section active" id="connections">
+                <div class="grid2">
+                  <div class="card">
+                    <h3>Destinations</h3>
+                    <p>Enable/disable destinations. Add new marketplaces when you’re ready.</p>
+
+                    <div class="markets">
+                      <div class="market">
+                        <div class="m-left">
+                          <div class="micon" aria-hidden="true">
+                            <!-- simple cube icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                              <path d="M12 3l7 4v10l-7 4-7-4V7l7-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                              <path d="M12 7v14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                            </svg>
+                          </div>
+                          <div class="mmeta">
+                            <p class="mname">XRP Café</p>
+                            <p class="mstatus">Connected • XRPL</p>
+                          </div>
+                        </div>
+                        <div class="toggle">
+                          <span class="pill" style="padding:6px 9px;">Live</span>
+                          <div class="switch on" role="switch" aria-checked="true" tabindex="0"></div>
+                        </div>
+                      </div>
+
+                      <div class="market">
+                        <div class="m-left">
+                          <div class="micon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                              <path d="M7 17l10-10M7 7h10v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          </div>
+                          <div class="mmeta">
+                            <p class="mname">OpenSea</p>
+                            <p class="mstatus">Not connected</p>
+                          </div>
+                        </div>
+                        <div class="toggle">
+                          <span class="pill" style="padding:6px 9px;">Off</span>
+                          <div class="switch" role="switch" aria-checked="false" tabindex="0"></div>
+                        </div>
+                      </div>
+
+                      <div class="market">
+                        <div class="m-left">
+                          <div class="micon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                              <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                            </svg>
+                          </div>
+                          <div class="mmeta">
+                            <p class="mname">SuperRare</p>
+                            <p class="mstatus">Not connected</p>
+                          </div>
+                        </div>
+                        <div class="toggle">
+                          <span class="pill" style="padding:6px 9px;">Off</span>
+                          <div class="switch" role="switch" aria-checked="false" tabindex="0"></div>
+                        </div>
+                      </div>
+
+                      <!-- ADD MARKETPLACE -->
+                      <button class="market add-market" type="button" id="addMarketBtn" aria-label="Add a marketplace">
+                        <div class="m-left">
+                          <div class="micon add" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                              <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                            </svg>
+                          </div>
+                          <div class="mmeta-add">
+                            <p class="mname">Add a Marketplace</p>
+                            <!-- <p class="mstatus">Connect a new destination</p> -->
+                          </div>
+                        </div>
+                        <span class="pill" style="padding:6px 9px;">New</span>
+                      </button>
+                    </div>
+
+                    <div class="divider">
+                      <div class="chips">
+                        <span class="chip">Wallet: not configured</span>
+                        <span class="chip">Network: XRPL / EVM</span>
+                        <span class="chip">Mode: draft</span>
+                      </div>
+                    </div>
                   </div>
-                  <div class="conn-meta">
-                    <p class="conn-name">OpenSea</p>
-                    <p class="conn-sub">Connection pending</p>
+
+                  <div class="card">
+                    <h3>Notes</h3>
+                    <p>
+                      Typically you’ll need:
+                      title, description, media, attributes, royalties, supply/edition,
+                      and a destination-specific listing price or reserve.
+                    </p>
+                    <div class="divider">
+                      <p style="margin:0; color:var(--muted); font-size:13px; line-height:1.45;">
+                        When you wire this up later, each marketplace toggle can map to an OAuth flow (or API key),
+                        plus wallet signing for mint transactions where required.
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div class="state">
-                  <span class="dot" aria-hidden="true"></span>
-                  <span>Not connected</span>
                 </div>
               </div>
 
-              <div class="conn">
-                <div class="conn-left">
-                  <div class="pill" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                      <path d="M8 7h8M6 11h12M8 15h8M6 19h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                    </svg>
+              <!-- MINT -->
+              <div class="section" id="mint">
+                <div class="grid2">
+                  <div class="card">
+                    <h3>Mint details</h3>
+                    <p>Fill only what you need now. You can keep it light and refine later.</p>
+
+                    <div class="form">
+                      <div class="row">
+                        <div class="col">
+                          <label for="mintTitle" style="font-size:12px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase;">Title</label>
+                          <input id="mintTitle" type="text" placeholder='e.g., "Dream Agent Distilleries"'/>
+                        </div>
+                        <div class="col">
+                          <label for="mintEdition" style="font-size:12px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase;">Edition / Supply</label>
+                          <input id="mintEdition" type="text" placeholder="1/1, 10, open, etc."/>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col">
+                          <label for="mintChain" style="font-size:12px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase;">Chain</label>
+                          <select id="mintChain">
+                            <option>XRPL</option>
+                            <option>Ethereum</option>
+                            <option>Polygon</option>
+                            <option>Base</option>
+                          </select>
+                        </div>
+                        <div class="col">
+                          <label for="mintRoyalty" style="font-size:12px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase;">Royalties</label>
+                          <input id="mintRoyalty" type="text" placeholder="e.g., 10%"/>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label for="mintDesc" style="font-size:12px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase;">Description</label>
+                        <textarea id="mintDesc" placeholder="Collector-facing description, drop write-up, or listing copy…"></textarea>
+                        <div class="help">Tip: keep this consistent with your archive captions + XRP Café drop text.</div>
+                      </div>
+
+                      <div class="divider">
+                        <div class="row">
+                          <div class="col">
+                            <label for="mintPrice" style="font-size:12px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase;">Listing price</label>
+                            <input id="mintPrice" type="text" placeholder="e.g., 250 XRP / 0.12 ETH"/>
+                          </div>
+                          <div class="col">
+                            <label for="mintUnlock" style="font-size:12px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase;">Unlockable</label>
+                            <input id="mintUnlock" type="text" placeholder="Audio commentary link, secret note, etc."/>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="actions-row">
+                        <button class="btn" type="button" id="saveMintDraftBtn">Save draft</button>
+                        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                          <button class="btn" type="button" id="previewMetaBtn">Preview metadata</button>
+                          <button class="btn primary" type="button" id="mintSelectedBtn">Mint selected</button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="conn-meta">
-                    <p class="conn-name">SuperRare</p>
-                    <p class="conn-sub">Connection pending</p>
+
+                  <div class="card">
+                    <h3>Attributes</h3>
+                    <p>Add a few traits for indexing/search (optional).</p>
+                    <div class="divider">
+                      <div class="chips" id="traits">
+                        <span class="chip">Collection: Industrial Myths</span>
+                        <span class="chip">Style: oil / cinematic</span>
+                        <span class="chip">Theme: economics</span>
+                        <span class="chip">Mask: faceless</span>
+                      </div>
+                      <div class="divider">
+                        <div class="row">
+                          <div class="col"><input id="traitKey" placeholder="Trait name (e.g., Era)"/></div>
+                          <div class="col"><input id="traitVal" placeholder="Trait value (e.g., 18th century)"/></div>
+                        </div>
+                        <button class="btn" type="button" id="addTraitBtn" style="margin-top:10px;">Add trait</button>
+                        <div class="help">This is a simple front-end trait list for now.</div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="state">
-                  <span class="dot" aria-hidden="true"></span>
-                  <span>Not connected</span>
                 </div>
               </div>
-            </div>
 
-            <div class="mini-actions">
-              <button class="btn" type="button">Manage connections</button>
-              <button class="btn" type="button">API keys</button>
+              <!-- QUEUE -->
+              <div class="section" id="queue">
+                <div class="card">
+                  <h3>Mint queue</h3>
+                  <p>Works staged for minting/listing. Use this like “Drops,” but for marketplaces.</p>
+
+                  <div class="mint-list" id="mintList">
+                    <div class="mint">
+                      <div class="mint-top">
+                        <div>
+                          <h4 class="mint-title">Temple of Openings</h4>
+                          <p class="mint-sub">Prepared for XRPL • 1/1 • Metadata draft complete.</p>
+                        </div>
+                        <span class="badge ready"><span class="dot"></span> Ready</span>
+                      </div>
+
+                      <div class="mint-meta">
+                        <div class="chips">
+                          <span class="chip">XRP Café</span>
+                          <span class="chip">Royalties: 10%</span>
+                          <span class="chip">Price: 300 XRP</span>
+                        </div>
+                        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                          <button class="btn" type="button">Edit</button>
+                          <button class="btn primary" type="button">Mint</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mint">
+                      <div class="mint-top">
+                        <div>
+                          <h4 class="mint-title">Mean and Clean</h4>
+                          <p class="mint-sub">Already minted on XRPL • Listing live.</p>
+                        </div>
+                        <span class="badge minted"><span class="dot"></span> Minted</span>
+                      </div>
+
+                      <div class="mint-meta">
+                        <div class="chips">
+                          <span class="chip">XRP Café</span>
+                          <span class="chip">Token: #A13F…</span>
+                          <span class="chip">Price: 420 XRP</span>
+                        </div>
+                        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                          <button class="btn" type="button">View</button>
+                          <button class="btn danger" type="button">Unlist</button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="actions-row">
+                    <button class="btn" type="button" id="clearQueueBtn">Clear completed</button>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                      <button class="btn" type="button" id="exportMetaBtn">Export metadata</button>
+                      <button class="btn primary" type="button" id="mintAllBtn">Mint all ready</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
 
-          <div class="panel queue reveal d3" style="margin-top: var(--gap);">
-            <p class="section-title">Release queue</p>
-
-            <div class="queue-card">
-              <div class="queue-row">
-                <div class="qleft">
-                  <span class="tag scheduled">Scheduled</span>
-                  <div style="min-width:0;">
-                    <p class="qtitle">Untitled Work #001</p>
-                    <p class="qsub">XRP Café • Jan 18, 2026 • 7:00 PM</p>
-                  </div>
-                </div>
-                <span class="go">↗</span>
-              </div>
-
-              <div class="queue-row">
-                <div class="qleft">
-                  <span class="tag">Draft</span>
-                  <div style="min-width:0;">
-                    <p class="qtitle">Collection Drop: Signals & Ascensions</p>
-                    <p class="qsub">Not assigned • Add platform + time</p>
-                  </div>
-                </div>
-                <span class="go">↗</span>
-              </div>
-
-              <div class="queue-row">
-                <div class="qleft">
-                  <span class="tag">Private</span>
-                  <div style="min-width:0;">
-                    <p class="qtitle">Work: “Mean and Clean”</p>
-                    <p class="qsub">Visibility locked • Awaiting approval</p>
-                  </div>
-                </div>
-                <span class="go">↗</span>
-              </div>
-            </div>
-
-            <div class="status reveal d5">
-              <span class="led" aria-hidden="true"></span>
-              <span>System operational</span>
-            </div>
+          <div class="status reveal d6">
+            <span class="led" aria-hidden="true"></span>
+            <span>Distribute UI ready (connect backend + wallet later)</span>
           </div>
         </div>
 
         <!-- Right column -->
-        <aside class="rightcol">
-          <div class="panel summary reveal d3">
-            <p class="section-title">Distribution summary</p>
+        <aside class="panel quick reveal d4">
+          <h3>Quick actions</h3>
 
-            <div class="stat">
-              <span>Connected</span>
-              <strong>1</strong>
-            </div>
-            <div class="stat">
-              <span>Scheduled</span>
-              <strong>1</strong>
-            </div>
-            <div class="stat">
-              <span>Drafts</span>
-              <strong>1</strong>
-            </div>
-            <div class="stat">
-              <span>Private</span>
-              <strong>1</strong>
-            </div>
-
-            <div class="mini-actions" style="margin-top:12px;">
-              <button class="btn" type="button">Visibility rules</button>
-              <button class="btn" type="button">Pricing presets</button>
-            </div>
-          </div>
-
-          <div class="panel summary reveal d4">
-            <p class="section-title">Quick actions</p>
-
-            <div class="conn" style="margin-top:0;">
-              <div class="conn-left">
-                <div class="pill" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                  </svg>
-                </div>
-                <div class="conn-meta">
-                  <p class="conn-name">Schedule drop</p>
-                  <p class="conn-sub">Choose platform + time</p>
-                </div>
+          <button class="qbtn" type="button" onclick="location.href='create.html'">
+            <div class="qleft">
+              <div class="qicon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
               </div>
-              <span class="go">↗</span>
-            </div>
-
-            <div class="conn">
-              <div class="conn-left">
-                <div class="pill" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                    <path d="M4 7h7l2 2h7v10H4V7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-                <div class="conn-meta">
-                  <p class="conn-name">Assign marketplace</p>
-                  <p class="conn-sub">Attach a channel to a work</p>
-                </div>
+              <div class="qtext">
+                <p class="title">Create</p>
+                <p class="sub">Start a new work</p>
               </div>
-              <span class="go">↗</span>
             </div>
+            <span class="go">↗</span>
+          </button>
 
-            <div class="conn">
-              <div class="conn-left">
-                <div class="pill" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                    <path d="M7 7h10v10H7V7z" stroke="currentColor" stroke-width="1.6"/>
-                    <path d="M9 9h6v6H9V9z" stroke="currentColor" stroke-width="1.6"/>
-                  </svg>
-                </div>
-                <div class="conn-meta">
-                  <p class="conn-name">Export metadata</p>
-                  <p class="conn-sub">JSON, attributes, editions</p>
-                </div>
+          <button class="qbtn" type="button" onclick="document.getElementById('mintNowBtn')?.click()">
+            <div class="qleft">
+              <div class="qicon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 7h8M6 11h12M8 15h8M6 19h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
               </div>
-              <span class="go">↗</span>
+              <div class="qtext">
+                <p class="title">Mint selected</p>
+                <p class="sub">Push to enabled markets</p>
+              </div>
             </div>
+            <span class="go">↗</span>
+          </button>
+
+          <button class="qbtn" type="button" onclick="document.getElementById('addMarketBtn')?.click()">
+            <div class="qleft">
+              <div class="qicon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="qtext">
+                <p class="title">Add marketplace</p>
+                <p class="sub">Connect a new destination</p>
+              </div>
+            </div>
+            <span class="go">↗</span>
+          </button>
+
+          <div class="status" style="margin-top:8px;">
+            <span class="led" aria-hidden="true"></span>
+            <span>Tip: start XRPL-first, expand later</span>
           </div>
         </aside>
       </section>
@@ -768,7 +1411,125 @@
 
   <script>
     window.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll(".reveal").forEach(el => el.classList.add("is-in"));
+      // reveal
+      const els = document.querySelectorAll(".main .reveal");
+      els.forEach(el => el.classList.add("is-in"));
+
+      // mobile menu
+      const sidebar = document.querySelector(".sidebar");
+      const burger = document.querySelector(".burger");
+      const mobileMenu = document.querySelector("#mobileMenu");
+
+      const backdrop = document.createElement("div");
+      backdrop.className = "menu-backdrop";
+      document.body.appendChild(backdrop);
+
+      function openMenu(){
+        sidebar.classList.add("is-open");
+        backdrop.classList.add("is-open");
+        burger.setAttribute("aria-expanded", "true");
+        mobileMenu.hidden = false;
+      }
+      function closeMenu(){
+        sidebar.classList.remove("is-open");
+        backdrop.classList.remove("is-open");
+        burger.setAttribute("aria-expanded", "false");
+        mobileMenu.hidden = true;
+      }
+      function toggleMenu(){
+        const isOpen = sidebar.classList.contains("is-open");
+        isOpen ? closeMenu() : openMenu();
+      }
+
+      if (window.matchMedia("(max-width: 980px)").matches) {
+        mobileMenu.hidden = true;
+      }
+
+      burger?.addEventListener("click", toggleMenu);
+      backdrop.addEventListener("click", closeMenu);
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(); });
+      mobileMenu?.addEventListener("click", (e) => { if (e.target.closest("a")) closeMenu(); });
+
+      window.addEventListener("resize", () => {
+        if (!window.matchMedia("(max-width: 980px)").matches){
+          backdrop.classList.remove("is-open");
+          sidebar.classList.remove("is-open");
+          mobileMenu.hidden = false;
+          burger.setAttribute("aria-expanded", "false");
+        } else {
+          closeMenu();
+        }
+      });
+
+      // tabs
+      const tabs = document.querySelectorAll(".tab");
+      const sections = document.querySelectorAll(".section");
+      tabs.forEach(t => t.addEventListener("click", () => {
+        tabs.forEach(x => x.classList.remove("active"));
+        sections.forEach(s => s.classList.remove("active"));
+        t.classList.add("active");
+        const id = t.dataset.tab;
+        document.getElementById(id)?.classList.add("active");
+      }));
+
+      // switches
+      document.querySelectorAll(".switch").forEach(sw => {
+        function setState(on){
+          sw.classList.toggle("on", on);
+          sw.setAttribute("aria-checked", on ? "true" : "false");
+          const pill = sw.closest(".toggle")?.querySelector(".pill");
+          if (pill) pill.textContent = on ? "Live" : "Off";
+        }
+        sw.addEventListener("click", () => setState(!sw.classList.contains("on")));
+        sw.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setState(!sw.classList.contains("on"));
+          }
+        });
+      });
+
+      // Add marketplace
+      document.getElementById("addMarketBtn")?.addEventListener("click", () => {
+        alert("Add Marketplace: wire this to your OAuth/API key flow (XRP Café, OpenSea, SuperRare, etc.).");
+      });
+
+      // Mint actions (stub)
+      document.getElementById("mintNowBtn")?.addEventListener("click", () => {
+        alert("Mint Selected: wire this to your wallet signing + marketplace mint endpoints.");
+      });
+      document.getElementById("mintSelectedBtn")?.addEventListener("click", () => {
+        alert("Mint Selected: wire this to your wallet signing + marketplace mint endpoints.");
+      });
+      document.getElementById("testConnBtn")?.addEventListener("click", () => {
+        alert("Test Connections: ping your backend connection status for each destination.");
+      });
+
+      // traits demo
+      document.getElementById("addTraitBtn")?.addEventListener("click", () => {
+        const k = document.getElementById("traitKey");
+        const v = document.getElementById("traitVal");
+        const key = (k?.value || "").trim();
+        const val = (v?.value || "").trim();
+        if (!key || !val) return alert("Add trait name + value.");
+        const chip = document.createElement("span");
+        chip.className = "chip";
+        chip.textContent = `${key}: ${val}`;
+        document.getElementById("traits")?.appendChild(chip);
+        k.value = "";
+        v.value = "";
+      });
+
+      // queue buttons (stubs)
+      document.getElementById("mintAllBtn")?.addEventListener("click", () => {
+        alert("Mint All Ready: wire to batch mint flow.");
+      });
+      document.getElementById("exportMetaBtn")?.addEventListener("click", () => {
+        alert("Export Metadata: wire to JSON export / IPFS upload later.");
+      });
+      document.getElementById("clearQueueBtn")?.addEventListener("click", () => {
+        alert("Clear Completed: remove minted items from the list in your app state.");
+      });
     });
   </script>
 </body>
