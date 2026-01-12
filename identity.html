@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dream OS — Settings · Identity Assets</title>
+
+  <style>
+    :root{
+      --bg: #040406;
+      --panel: rgba(255,255,255,0.035);
+      --panel-2: rgba(255,255,255,0.04);
+      --stroke: rgba(255,255,255,0.10);
+      --stroke-2: rgba(255,255,255,0.14);
+
+      --text: rgba(255,255,255,0.90);
+      --text-2: rgba(255,255,255,0.86);
+      --muted: rgba(255,255,255,0.52);
+      --muted2: rgba(255,255,255,0.40);
+
+      --accent: #b4cf6a;
+      --accent-2: rgba(180,207,106,0.20);
+
+      --shadow: 0 24px 70px rgba(0,0,0,0.45);
+      --radius: 18px;
+      --radius-lg: 22px;
+
+      --sidebar-w: 268px;
+      --gap: 18px;
+
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: var(--sans);
+      background:
+        radial-gradient(1200px 600px at 20% 0%, rgba(180,207,106,0.10), transparent 55%),
+        radial-gradient(900px 520px at 85% 10%, rgba(120,90,255,0.12), transparent 60%),
+        var(--bg);
+      color: var(--text);
+      overflow-x:hidden;
+    }
+    a{ color:inherit; text-decoration:none; }
+    button{ font-family: inherit; }
+
+    /* ===== Dream OS Shell ===== */
+    .app{
+      display:grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      min-height: 100vh;
+    }
+    .sidebar{
+      position: sticky;
+      top:0;
+      height: 100vh;
+      padding: 16px;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      background: rgba(0,0,0,0.18);
+      backdrop-filter: blur(14px);
+    }
+    .brand{
+      display:flex;
+      gap: 12px;
+      align-items:center;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.02);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+    }
+    .orb{
+      width: 34px; height: 34px; border-radius: 99px;
+      background: radial-gradient(circle at 30% 25%, rgba(180,207,106,0.95), rgba(110,160,255,0.35) 45%, rgba(0,0,0,0) 72%);
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 0 0 6px rgba(180,207,106,0.08);
+    }
+    .brandText{
+      display:flex; flex-direction:column; gap: 2px;
+      line-height:1.1;
+    }
+    .brandText strong{ color: var(--text-2); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+    .brandText span{ color: var(--muted); font-size: 12px; }
+
+    .nav{
+      margin-top: 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+    }
+    .nav a{
+      padding: 11px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      color: var(--muted);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease, color .12s ease;
+    }
+    .nav a:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+    }
+    .nav a.active{
+      border-color: rgba(180,207,106,0.35);
+      background: rgba(180,207,106,0.10);
+      color: rgba(255,255,255,0.92);
+    }
+    .nav small{
+      font-family: var(--mono);
+      color: rgba(255,255,255,0.35);
+      font-size: 11px;
+    }
+
+    .main{
+      padding: 18px;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.02);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.35);
+      position: sticky;
+      top: 14px;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+    }
+    .topLeft{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .crumbs{
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap: 3px;
+    }
+    .crumbs .kicker{
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .crumbs .title{
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-2);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .topRight{
+      display:flex; gap: 10px; align-items:center; flex-wrap:wrap;
+    }
+    .btn{
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease, color .12s ease;
+      user-select:none;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+      font-size: 13px;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color: var(--stroke-2); background: rgba(255,255,255,0.05); }
+    .btn.primary{ border-color: rgba(180,207,106,0.40); background: rgba(180,207,106,0.10); }
+    .dot{
+      width:9px; height:9px; border-radius:99px;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(180,207,106,0.12);
+    }
+
+    /* Mobile sidebar + burger */
+    .burger{
+      display:none;
+      width: 40px; height: 40px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      cursor:pointer;
+      align-items:center;
+      justify-content:center;
+      position: relative;
+      transition: border-color .12s ease, background .12s ease;
+      flex: 0 0 auto;
+    }
+    .burger svg{
+      width: 20px; height: 20px;
+      stroke: rgba(255,255,255,0.72);
+      transition: stroke .12s ease, filter .12s ease;
+    }
+    .burger.active{
+      border-color: rgba(180,207,106,0.55);
+      background: rgba(180,207,106,0.10);
+    }
+    .burger.active svg{
+      stroke: rgba(180,207,106,0.98);
+      filter: drop-shadow(0 0 10px rgba(180,207,106,0.22));
+    }
+
+    .scrim{
+      display:none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 90;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+      .sidebar{
+        position: fixed;
+        left: -320px;
+        top: 0;
+        width: min(320px, 88vw);
+        height: 100vh;
+        z-index: 100;
+        transition: left .18s ease;
+      }
+      .sidebar.open{ left: 0; }
+      .main{ padding: 14px; }
+      .burger{ display:inline-flex; }
+      .scrim.show{ display:block; }
+    }
+
+    /* ===== Page content ===== */
+    .content{
+      margin-top: 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+    }
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelHead{
+      padding: 16px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      gap: 14px;
+    }
+    .panelHead h2{
+      margin:0;
+      font-size: 14px;
+      letter-spacing: .02em;
+      font-weight: 800;
+      color: var(--text-2);
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+    .pill{
+      font-size: 12px;
+      color: var(--muted);
+      border:1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-family: var(--mono);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 14px;
+      padding: 16px;
+    }
+    @media (max-width: 980px){ .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 640px){ .grid{ grid-template-columns: 1fr; } }
+
+    .card{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      position:relative;
+      overflow:hidden;
+    }
+    .primaryBadge{
+      position:absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: rgba(180,207,106,0.95);
+      background: rgba(180,207,106,0.10);
+      border: 1px solid rgba(180,207,106,0.28);
+      backdrop-filter: blur(10px);
+    }
+    .preview{
+      height: 130px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.07);
+      background:
+        radial-gradient(600px 260px at 30% 20%, rgba(180,207,106,0.08), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .preview .logo{ width: 62%; max-width: 220px; opacity: .9; filter: drop-shadow(0 12px 30px rgba(0,0,0,0.35)); }
+
+    .meta{ display:flex; flex-direction:column; gap: 6px; }
+    .nameRow{ display:flex; align-items:center; justify-content:space-between; gap: 12px; }
+    .name{ font-weight: 800; color: var(--text-2); }
+    .small{ color: var(--muted); font-size: 12px; line-height: 1.35; }
+    .kv{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field{
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      border-radius: 14px;
+      padding: 10px 10px;
+    }
+    .label{
+      font-size: 11px;
+      color: var(--muted2);
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .value{
+      font-size: 13px;
+      color: var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      font-family: var(--sans);
+    }
+    .menuBtn{ padding: 10px 12px; }
+
+    /* Modal */
+    .backdrop{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,0.58);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 1000;
+    }
+    .backdrop.show{ display:flex; }
+    .modal{
+      width: min(920px, 100%);
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(8,8,10,0.92);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 30px 90px rgba(0,0,0,0.60);
+      overflow:hidden;
+    }
+    .modalHead{
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .modalHead .left{ display:flex; flex-direction:column; gap: 6px; }
+    .modalHead .t{ font-weight: 900; color: var(--text-2); }
+    .modalBody{
+      padding: 16px;
+      display:grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 860px){ .modalBody{ grid-template-columns: 1fr; } }
+
+    .drop{
+      border: 1px dashed rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.02);
+      border-radius: 18px;
+      padding: 16px;
+      min-height: 220px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+    }
+    .drop strong{ color: var(--text-2); }
+    .drop span{ color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+    .twoPreview{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+    }
+    .canvas{
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      height: 120px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      position:relative;
+    }
+    .canvas.dark{ background: #0a0a0d; }
+    .canvas.light{ background: #f1f1f5; }
+    .canvas .wm{
+      width: 70%;
+      max-width: 220px;
+      opacity: 0.06;
+      filter: drop-shadow(0 10px 24px rgba(0,0,0,0.35));
+    }
+
+    .form{ display:flex; flex-direction:column; gap: 12px; }
+    .row{ display:flex; gap: 12px; }
+    @media (max-width: 520px){ .row{ flex-direction:column; } }
+    .input, .select{
+      flex: 1;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      border-radius: 14px;
+      padding: 10px 12px;
+      color: var(--text);
+      outline:none;
+    }
+    .sliderRow{
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      border-radius: 16px;
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+    }
+    .sliderMeta{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .sliderMeta .hint{ color: var(--muted); font-size: 12px; }
+
+    .modalFoot{
+      padding: 16px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      display:flex;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .note{
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      font-family: var(--mono);
+      opacity: .9;
+      padding: 0 4px;
+    }
+    .warn{ color: rgba(255,220,120,0.92); }
+  </style>
+</head>
+
+<body>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#">
+        <div class="orb"></div>
+        <div class="brandText">
+          <strong>Dream OS</strong>
+          <span>Internal studio console</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#" title="Dashboard">Dashboard <small>⌘1</small></a>
+        <a href="#" title="New Artwork">Artwork <small>⌘2</small></a>
+        <a href="#" title="Distribute">Distribute <small>⌘3</small></a>
+        <a class="active" href="#" title="Settings">Settings <small>⌘4</small></a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <header class="topbar">
+        <div class="topLeft">
+          <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <div class="crumbs">
+            <div class="kicker">Settings</div>
+            <div class="title">Identity Assets</div>
+          </div>
+        </div>
+
+        <div class="topRight">
+          <button class="btn primary" id="openUpload"><span class="dot"></span>Upload Logo</button>
+        </div>
+      </header>
+
+      <section class="content">
+        <section class="panel">
+          <div class="panelHead">
+            <h2>Logos <span class="pill" id="countPill">0</span></h2>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn" id="refreshBtn">Refresh</button>
+              <button class="btn" id="seedBtn">Seed Demo</button>
+            </div>
+          </div>
+          <div class="grid" id="logoGrid"></div>
+        </section>
+
+        <div class="note">
+          <span class="warn">Soft constraints:</span> SVG preferred. PNG should be transparent. Dense micro-detail may blur at low opacity.
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Upload Modal -->
+  <div class="backdrop" id="backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Upload logo">
+      <div class="modalHead">
+        <div class="left">
+          <div class="t">Upload Logo</div>
+          <div class="small">Adds to Identity Assets. Nothing changes on artwork until you apply it.</div>
+        </div>
+        <button class="btn" id="closeUpload">Close</button>
+      </div>
+
+      <div class="modalBody">
+        <div class="drop" id="dropZone">
+          <strong>Drag & drop</strong>
+          <span>SVG recommended. Transparent PNG allowed.<br/>Or choose a file below.</span>
+          <input type="file" id="fileInput" accept=".svg,.png" />
+          <div class="twoPreview">
+            <div class="canvas dark"><img class="wm" id="prevDark" alt="Preview on dark"/></div>
+            <div class="canvas light"><img class="wm" id="prevLight" alt="Preview on light"/></div>
+          </div>
+        </div>
+
+        <div class="form">
+          <input class="input" id="logoName" placeholder="Logo name (e.g., Dream Agent Primary)" />
+          <div class="row">
+            <select class="select" id="suitableBg">
+              <option value="both">Suitable: Both</option>
+              <option value="dark">Suitable: Dark</option>
+              <option value="light">Suitable: Light</option>
+            </select>
+            <select class="select" id="defaultPos">
+              <option value="auto">Placement: Auto</option>
+              <option value="br">Bottom-right</option>
+              <option value="bl">Bottom-left</option>
+              <option value="tr">Top-right</option>
+              <option value="tl">Top-left</option>
+              <option value="center">Center</option>
+            </select>
+          </div>
+
+          <div class="sliderRow">
+            <div class="sliderMeta">
+              <div class="label" style="margin:0;">Default opacity</div>
+              <div class="hint"><span id="opVal">6</span>%</div>
+            </div>
+            <input type="range" id="opacityRange" min="2" max="12" value="6" />
+          </div>
+
+          <div class="small">Defaults should be subtle. You can override per artwork.</div>
+        </div>
+      </div>
+
+      <div class="modalFoot">
+        <button class="btn" id="cancelUpload">Cancel</button>
+        <button class="btn primary" id="saveLogo"><span class="dot"></span>Save Logo</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  /* ===== Mobile sidebar + burger behavior ===== */
+  const sidebar = document.getElementById("sidebar");
+  const burger = document.getElementById("burger");
+  const scrim = document.getElementById("scrim");
+
+  function openSidebar(){
+    sidebar.classList.add("open");
+    scrim.classList.add("show");
+    burger.classList.add("active");
+    burger.setAttribute("aria-expanded","true");
+  }
+  function closeSidebar(){
+    sidebar.classList.remove("open");
+    scrim.classList.remove("show");
+    burger.classList.remove("active");
+    burger.setAttribute("aria-expanded","false");
+  }
+  burger.addEventListener("click", ()=>{
+    const isOpen = sidebar.classList.contains("open");
+    isOpen ? closeSidebar() : openSidebar();
+  });
+  scrim.addEventListener("click", closeSidebar);
+  window.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeSidebar(); });
+
+  /* ===== Identity Assets (Mock DB) ===== */
+  let logos = [];
+  const $ = (id) => document.getElementById(id);
+  const logoGrid = $("logoGrid");
+  const countPill = $("countPill");
+
+  function uid(){ return Math.random().toString(16).slice(2) + Date.now().toString(16); }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, (m)=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));
+  }
+  function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
+  function labelPos(p){ return ({auto:"Auto", br:"Bottom-right", bl:"Bottom-left", tr:"Top-right", tl:"Top-left", center:"Center"})[p] || "Auto"; }
+  function labelBg(s){ return ({both:"Both", dark:"Dark", light:"Light"})[s] || "Both"; }
+  function sanitizePos(p){ return ["auto","br","bl","tr","tl","center"].includes(p) ? p : "auto"; }
+  function sanitizeSuit(s){ return ["both","dark","light"].includes(s) ? s : "both"; }
+
+  function render(){
+    countPill.textContent = `${logos.length} total`;
+    logoGrid.innerHTML = "";
+    logos.forEach(l=>{
+      const card = document.createElement("div");
+      card.className = "card";
+      if(l.is_primary){
+        const badge = document.createElement("div");
+        badge.className = "primaryBadge";
+        badge.textContent = "Primary";
+        card.appendChild(badge);
+      }
+      card.innerHTML += `
+        <div class="preview">
+          <img class="logo" src="${l.file_url}" alt="${escapeHtml(l.name)} logo preview"/>
+        </div>
+        <div class="meta">
+          <div class="nameRow">
+            <div class="name">${escapeHtml(l.name)}</div>
+            <button class="btn menuBtn" data-id="${l.id}" title="Actions">⋮</button>
+          </div>
+          <div class="small">${l.file_type.toUpperCase()} · Suitable: ${labelBg(l.suitable)} · Default: ${labelPos(l.default_position)}</div>
+          <div class="kv">
+            <div class="field">
+              <div class="label">Opacity</div>
+              <div class="value">${l.default_opacity}% <span style="color:var(--muted); font-family:var(--mono);">${l.id.slice(0,6)}</span></div>
+            </div>
+            <div class="field">
+              <div class="label">Status</div>
+              <div class="value">${l.is_primary ? "Primary" : "Available"}</div>
+            </div>
+          </div>
+        </div>
+      `;
+      logoGrid.appendChild(card);
+    });
+
+    document.querySelectorAll("[data-id]").forEach(btn=>{
+      btn.addEventListener("click", ()=> openActions(btn.getAttribute("data-id")));
+    });
+  }
+
+  function openActions(id){
+    const l = logos.find(x=>x.id===id);
+    if(!l) return;
+
+    const choice = prompt(
+      `Actions for: ${l.name}\n\n` +
+      `1) Set Primary\n` +
+      `2) Edit Defaults\n` +
+      `3) Remove\n\n` +
+      `Enter 1, 2, or 3:`
+    );
+
+    if(choice === "1"){
+      logos = logos.map(x=> ({...x, is_primary: x.id===id}));
+      render(); return;
+    }
+    if(choice === "2"){
+      const newName = prompt("Name:", l.name) ?? l.name;
+      const newOp = parseInt(prompt("Default opacity (2-12):", l.default_opacity),10);
+      const newPos = prompt("Default position (auto, br, bl, tr, tl, center):", l.default_position) ?? l.default_position;
+      const newSuit = prompt("Suitable (both, dark, light):", l.suitable) ?? l.suitable;
+
+      l.name = newName.trim() || l.name;
+      l.default_opacity = clamp(isNaN(newOp) ? l.default_opacity : newOp, 2, 12);
+      l.default_position = sanitizePos(newPos);
+      l.suitable = sanitizeSuit(newSuit);
+      render(); return;
+    }
+    if(choice === "3"){
+      const ok = confirm("Remove this logo from Identity Assets?");
+      if(ok){
+        const wasPrimary = l.is_primary;
+        logos = logos.filter(x=>x.id!==id);
+        if(wasPrimary && logos.length) logos[0].is_primary = true;
+        render();
+      }
+    }
+  }
+
+  /* ===== Upload Modal ===== */
+  const backdrop = $("backdrop");
+  const openUploadBtn = $("openUpload");
+  const closeUploadBtn = $("closeUpload");
+  const cancelUploadBtn = $("cancelUpload");
+  const saveLogoBtn = $("saveLogo");
+  const fileInput = $("fileInput");
+  const dropZone = $("dropZone");
+  const prevDark = $("prevDark");
+  const prevLight = $("prevLight");
+  const logoName = $("logoName");
+  const opacityRange = $("opacityRange");
+  const opVal = $("opVal");
+  const suitableBg = $("suitableBg");
+  const defaultPos = $("defaultPos");
+
+  let pendingFileURL = "";
+  let pendingType = "";
+
+  function openModal(){
+    backdrop.classList.add("show");
+    backdrop.setAttribute("aria-hidden","false");
+  }
+  function closeModal(){
+    backdrop.classList.remove("show");
+    backdrop.setAttribute("aria-hidden","true");
+    pendingFileURL = "";
+    pendingType = "";
+    prevDark.removeAttribute("src");
+    prevLight.removeAttribute("src");
+    logoName.value = "";
+    opacityRange.value = 6;
+    opVal.textContent = "6";
+    suitableBg.value = "both";
+    defaultPos.value = "auto";
+    fileInput.value = "";
+  }
+
+  openUploadBtn.addEventListener("click", openModal);
+  closeUploadBtn.addEventListener("click", closeModal);
+  cancelUploadBtn.addEventListener("click", closeModal);
+  backdrop.addEventListener("click", (e)=>{ if(e.target === backdrop) closeModal(); });
+
+  opacityRange.addEventListener("input", ()=>{
+    opVal.textContent = opacityRange.value;
+    const o = parseInt(opacityRange.value,10)/100;
+    prevDark.style.opacity = o;
+    prevLight.style.opacity = o;
+  });
+
+  fileInput.addEventListener("change", (e)=> handleFiles(e.target.files));
+  dropZone.addEventListener("dragover", (e)=>{ e.preventDefault(); dropZone.style.borderColor = "rgba(180,207,106,0.35)"; });
+  dropZone.addEventListener("dragleave", ()=>{ dropZone.style.borderColor = "rgba(255,255,255,0.18)"; });
+  dropZone.addEventListener("drop", (e)=>{
+    e.preventDefault();
+    dropZone.style.borderColor = "rgba(255,255,255,0.18)";
+    handleFiles(e.dataTransfer.files);
+  });
+
+  function handleFiles(files){
+    const f = files && files[0];
+    if(!f) return;
+
+    const ext = (f.name.split(".").pop() || "").toLowerCase();
+    if(ext !== "svg" && ext !== "png"){
+      alert("Please upload an SVG or transparent PNG.");
+      return;
+    }
+    pendingType = ext;
+    const url = URL.createObjectURL(f);
+    pendingFileURL = url;
+
+    prevDark.src = url;
+    prevLight.src = url;
+
+    const o = parseInt(opacityRange.value,10)/100;
+    prevDark.style.opacity = o;
+    prevLight.style.opacity = o;
+
+    if(!logoName.value.trim()){
+      logoName.value = ext === "svg" ? "New SVG Logo" : "New PNG Logo";
+    }
+  }
+
+  saveLogoBtn.addEventListener("click", ()=>{
+    if(!pendingFileURL){ alert("Add a logo file first."); return; }
+    const name = logoName.value.trim() || "Untitled Logo";
+    const isFirst = logos.length === 0;
+
+    const newLogo = {
+      id: uid(),
+      name,
+      file_url: pendingFileURL,
+      file_type: pendingType,
+      suitable: suitableBg.value,
+      default_position: defaultPos.value,
+      default_opacity: clamp(parseInt(opacityRange.value,10), 2, 12),
+      is_primary: isFirst
+    };
+
+    logos.push(newLogo);
+    if(isFirst) logos = logos.map(x=> ({...x, is_primary: x.id===newLogo.id}));
+
+    render();
+    closeModal();
+  });
+
+  /* Demo seed */
+  $("seedBtn").addEventListener("click", ()=>{
+    if(logos.length) return;
+    logos = [
+      {
+        id: uid(),
+        name: "Dream Agent Orb",
+        file_url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+          <svg xmlns="http://www.w3.org/2000/svg" width="280" height="120" viewBox="0 0 280 120">
+            <defs>
+              <radialGradient id="g" cx="35%" cy="30%" r="70%">
+                <stop offset="0" stop-color="#b4cf6a" stop-opacity="0.92"/>
+                <stop offset="0.55" stop-color="#6aa6ff" stop-opacity="0.62"/>
+                <stop offset="1" stop-color="#000000" stop-opacity="0.0"/>
+              </radialGradient>
+            </defs>
+            <rect width="280" height="120" fill="transparent"/>
+            <circle cx="70" cy="60" r="38" fill="url(#g)"/>
+            <circle cx="70" cy="60" r="38" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="2"/>
+            <text x="125" y="68" fill="rgba(255,255,255,0.86)" font-family="Arial" font-size="20" letter-spacing="2">DREAM AGENT</text>
+          </svg>
+        `),
+        file_type: "svg",
+        suitable: "both",
+        default_position: "br",
+        default_opacity: 6,
+        is_primary: true
+      }
+    ];
+    render();
+  });
+
+  $("refreshBtn").addEventListener("click", render);
+  render();
+</script>
+</body>
+</html>
