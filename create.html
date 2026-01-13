@@ -70,7 +70,7 @@
 
       <nav class="nav">
         <a href="dashboard.html">Dashboard <small>⌘1</small></a>
-        <a class="active" href="new_artwork.html">Artwork <small>⌘2</small></a>
+        <a class="active" href="create.html">Create<small>⌘2</small></a>
         <a href="collections.html">Collections <small>⌘3</small></a>
         <a href="#">Settings <small>⌘4</small></a>
       </nav>
@@ -109,9 +109,10 @@
         </div>
 
         <div class="topRight">
-          <button class="btn" onclick="alert('Hook to save draft.');">Save Draft</button>
-          <button class="btn primary" onclick="alert('Hook to publish flow.');"><span class="dot"></span>Publish</button>
+          <span class="pill">Draft · Unsaved</span>
+          <button class="btn" onclick="alert('Open help / shortcuts');">Help</button>
         </div>
+
       </header>
 
       <section class="content">
@@ -119,7 +120,68 @@
         
         <div class="layout">
           <!-- Metadata -->
-          <section class="panel">
+           <section class="panel">
+              <div class="head"><h2>Metadata</h2><span class="pill">Draft</span></div>
+              <div class="body">
+                 <div class="field">
+                <div class="label">Output</div>
+                <select>
+                  <option value="square">Square · 1024 × 1024</option>
+                  <option value="portrait">Portrait · 1024 × 1536</option>
+                  <option value="landscape">Landscape · 1536 × 1024</option>
+                </select>
+              </div>
+
+               <div class="field">
+                <div class="label">Description</div>
+                <textarea placeholder="Describe the scene, the structure, the symbols, the rules...."></textarea>
+              </div>
+
+              <div class="field">
+                <div class="label">Title</div>
+                <input placeholder='Optional, can be created later' />
+              </div>
+
+              <div class="field">
+                <div class="label">Year</div>
+                <input placeholder="2026" />
+              </div>
+
+              <div class="field">
+                <div class="label">Collection</div>
+                <select>
+                  <option>The Dominion Archive</option>
+                  <option>War and Feast</option>
+                  <option>The Digital Unconscious</option>
+                  <option>Signals and Ascensions</option>
+                  <option>Industrial Myths</option>
+                  <option>Symbols in Motion</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <div class="label">Internal Notes</div>
+                <textarea class="notes" placeholder="Private notes: intent, variations, prompt fragments, pricing logic…"></textarea>
+              </div>
+
+              <div class="field">
+                <div class="label">Tags</div>
+                <input placeholder="e.g., crowned, archive, signal, ritual" />
+              </div>
+
+              <!-- Action bar -->
+              <div class="meta-actions">
+                <button class="btn" type="button" onclick="alert('Hook: save draft');">Save Draft</button>
+                <button class="btn" type="button" onclick="alert('Hook: preview');">Preview</button>
+                <button class="btn primary" type="button" onclick="alert('Hook: generate');">
+                  <span class="dot"></span>Generate
+                </button>
+              </div>
+
+              </div>
+          </section>
+
+          <!-- <section class="panel">
             <div class="head"><h2>Metadata</h2><span class="pill">Draft</span></div>
             <div class="body">
               <div class="row">
@@ -141,10 +203,7 @@
                   </div>
                 </div>
 
-                <!-- <div style="width: 180px;"> -->
-
-                  
-                <!-- </div> -->
+      
               </div>
 
               <div class="field">
@@ -164,7 +223,7 @@
                 <input placeholder="e.g., crowned, archive, signal, ritual" />
               </div>
             </div>
-          </section>
+          </section> -->
 
           <!-- Artwork Preview -->
           <section class="panel">

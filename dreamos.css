@@ -628,3 +628,30 @@ button{ font-family: inherit; }
   height: 30px;
   border-radius: 50%;
 }
+
+/* Make Internal Notes feel “secondary” but still premium */
+textarea.notes{
+  min-height: 110px;
+}
+
+/* Bottom action row */
+.meta-actions{
+  display:flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.meta-actions .btn{
+  flex: 1;
+  justify-content:center;
+}
+
+/* Mobile: stack buttons */
+@media (max-width: 520px){
+  .meta-actions{
+    flex-direction:column;
+  }
+  .meta-actions .btn{
+    width:100%;
+  }
+}
