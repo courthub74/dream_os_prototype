@@ -276,7 +276,13 @@ button{ font-family: inherit; }
   align-items:center;
   justify-content:center;
   text-align:left;
+  text-align: center;
   padding: 22px;
+}
+.work-inner > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .empty-icon{
   width: 42px; height: 42px;
@@ -653,5 +659,7 @@ textarea.notes{
   }
   .meta-actions .btn{
     width:100%;
+    padding: 10px 0;
+    font-size: 12px;
   }
 }
