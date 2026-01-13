@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dream OS — New Artwork</title>
+  <link rel="stylesheet" href="dreamos.css">
+  <style>
+    .layout{ display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 14px; align-items:start; }
+    @media (max-width: 980px){ .layout{ grid-template-columns: 1fr; } }
+
+    .stage{
+      border: 1px solid rgba(255,255,255,0.07);
+      background:
+        radial-gradient(850px 380px at 30% 20%, rgba(180,207,106,0.06), transparent 58%),
+        linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+      border-radius: 18px;
+      overflow:hidden;
+      height: 420px;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color: rgba(255,255,255,0.55);
+      font-family: var(--mono);
+      letter-spacing:.08em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .field{
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      border-radius: 16px;
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .label{ font-size: 11px; letter-spacing:.10em; text-transform: uppercase; color: var(--muted2); }
+
+    input, textarea, select{
+      width:100%;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.02);
+      border-radius: 14px;
+      padding: 10px 12px;
+      color: var(--text);
+      outline:none;
+      font-size: 14px;
+      font-family: var(--sans);
+    }
+    textarea{ min-height: 130px; resize: vertical; }
+
+    .row{ display:flex; gap: 12px; }
+    @media (max-width: 520px){ .row{ flex-direction:column; } }
+  </style>
+</head>
+
+<body>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#">
+        <div class="orb"></div>
+        <div class="brandText"><strong>Dream OS</strong><span>Internal studio console</span></div>
+      </a>
+
+      <nav class="nav">
+        <a href="dashboard.html">Dashboard <small>⌘1</small></a>
+        <a class="active" href="new_artwork.html">Artwork <small>⌘2</small></a>
+        <a href="collections.html">Collections <small>⌘3</small></a>
+        <a href="#">Settings <small>⌘4</small></a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topLeft">
+          <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <div class="crumbs">
+            <div class="kicker">Artwork</div>
+            <div class="title">New Artwork</div>
+          </div>
+        </div>
+
+        <div class="topRight">
+          <button class="btn" onclick="alert('Hook to save draft.');">Save Draft</button>
+          <button class="btn primary" onclick="alert('Hook to publish flow.');"><span class="dot"></span>Publish</button>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="layout">
+          <section class="panel">
+            <div class="head"><h2>Artwork Preview</h2><span class="pill">PNG / JPG / MP4</span></div>
+            <div class="body">
+              <div class="stage">Drop artwork here</div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="head"><h2>Metadata</h2><span class="pill">Draft</span></div>
+            <div class="body">
+              <div class="row">
+                <div style="flex:1;">
+                  <div class="field">
+                    <div class="label">Title</div>
+                    <input placeholder='e.g., "Temple of Openings"' />
+                  </div>
+                </div>
+                <div style="width: 180px;">
+                  <div class="field">
+                    <div class="label">Year</div>
+                    <input placeholder="2026" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="label">Collection</div>
+                <select>
+                  <option>The Dominion Archive</option>
+                  <option>War and Feast</option>
+                  <option>The Digital Unconscious</option>
+                  <option>Signals and Ascensions</option>
+                  <option>Industrial Myths</option>
+                  <option>Symbols in Motion</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <div class="label">Description</div>
+                <textarea placeholder="Collector prose, archive caption, and internal notes…"></textarea>
+              </div>
+
+              <div class="field">
+                <div class="label">Tags</div>
+                <input placeholder="e.g., crowned, archive, signal, ritual" />
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="dreamos-shell.js"></script>
+</body>
+</html>

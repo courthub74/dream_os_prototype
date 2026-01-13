@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dream OS — Dashboard</title>
+  <link rel="stylesheet" href="dreamos.css">
+  <style>
+    .grid{ display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 14px; }
+    @media (max-width: 980px){ .grid{ grid-template-columns: 1fr; } }
+
+    .tiles{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+    @media (max-width: 520px){ .tiles{ grid-template-columns: 1fr; } }
+
+    .kpis{ display: flex; flex-direction: column; gap: 12px; }
+    @media (max-width: 520px){ .kpis{ flex-direction: row; } }
+    @media (max-width: 520px){ .kpis .panel.kpi { flex: 1; } }
+
+    .tile{
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      border-radius: 18px;
+      padding: 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .tile .t{ font-weight: 900; color: var(--text-2); }
+    .tile .d{ color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .tile .go{
+      margin-top:auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      color: rgba(255,255,255,0.72);
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
+    .list{ display:flex; flex-direction:column; gap: 10px; }
+    .item{
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      border-radius: 18px;
+      padding: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .item .meta{ display:flex; flex-direction:column; gap: 4px; min-width:0; }
+    .item .name{ font-weight: 900; color: var(--text-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .item .sub{ color: var(--muted); font-size: 12px; }
+    .tag{
+      font-family: var(--mono);
+      font-size: 11px;
+      color: rgba(255,255,255,0.60);
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.02);
+      padding: 7px 10px;
+      border-radius: 999px;
+      white-space:nowrap;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#">
+        <div class="orb"></div>
+        <div class="brandText"><strong>Dream OS</strong><span>Internal studio console</span></div>
+      </a>
+
+      <nav class="nav">
+        <a class="active" href="dashboard.html">Dashboard <small>⌘1</small></a>
+        <a href="create.html">Create<small>⌘2</small></a>
+        <a href="collections.html">Collections <small>⌘3</small></a>
+        <a href="#">Settings <small>⌘4</small></a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topLeft">
+          <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <div class="crumbs">
+            <div class="kicker">Home</div>
+            <div class="title">Dashboard</div>
+          </div>
+        </div>
+
+        <div class="topRight">
+          <button class="btn" onclick="alert('Hook to search modal.');">Search</button>
+          <a class="btn primary" href="new_artwork.html"><span class="dot"></span>New Artwork</a>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="grid">
+
+         <!-- EMPTY STATE (when no works exist) -->
+<div class="empty-state">
+  <div class="empty-grid">
+    <!-- LEFT: KPIs + No works panel -->
+    <div>
+      <div class="kpis">
+        <div class="panel kpi reveal d2">
+          <div class="kpi-top">
+            <div class="kpi-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M4 5h16v14H4V5z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M8 9h8M8 13h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="dot" aria-hidden="true"></div>
+          </div>
+          <div class="kpi-value">0</div>
+          <div class="kpi-label">Works</div>
+        </div>
+
+        <div class="panel kpi reveal d3">
+          <div class="kpi-top">
+            <div class="kpi-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M4 7h7l2 2h7v10H4V7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="dot" aria-hidden="true"></div>
+          </div>
+          <div class="kpi-value">0</div>
+          <div class="kpi-label">Collections</div>
+        </div>
+
+        <div class="panel kpi reveal d4">
+          <div class="kpi-top">
+            <div class="kpi-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M12 3l7 4v10l-7 4-7-4V7l7-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                <path d="M12 7v14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="dot" aria-hidden="true"></div>
+          </div>
+          <div class="kpi-value">0</div>
+          <div class="kpi-label">Drops</div>
+        </div>
+      </div>
+
+      <div class="panel work-panel reveal d5">
+        <div class="work-inner">
+          <div>
+            <div class="empty-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M4 5h16v14H4V5z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M7 15l3-3 3 3 4-5 3 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h2>No works yet</h2>
+            <p>Begin your first creation. Every masterpiece starts with a single prompt.</p>
+            <button class="cta" type="button" onclick="window.location.href='new_artwork.html'">
+              Create First Work <span class="arrow">↗</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="status reveal d6">
+        <span class="led" aria-hidden="true"></span>
+        <span>System operational</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: Quick Actions -->
+    <div id="emptyQuickActionsSlot"></div>
+  </div>
+</div>
+<!-- END EMPTY STATE -->
+
+          <section class="panel" id="quickActionsPanel">
+            <div class="head"><h2>Quick Actions</h2><span class="pill">Today</span></div>
+            <div class="body">
+              <!-- Replace this -->
+               <div class="quick-actions-column">
+
+          <button class="qbtn" type="button" onclick="window.location.href='new_artwork.html'">
+            <div class="qleft">
+              <div class="qicon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="qtext">
+                <p class="qtitle">Create Artwork</p>
+                <p class="qsub">Generate from prompt</p>
+              </div>
+            </div>
+            <span class="go">↗</span>
+          </button>
+
+          <button class="qbtn" type="button">
+            <div class="qleft">
+              <div class="qicon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 7h7l2 2h7v10H4V7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="qtext">
+                <p class="qtitle">Add to Collection</p>
+                <p class="qsub">Organize your works</p>
+              </div>
+            </div>
+            <span class="go">↗</span>
+          </button>
+
+          <button class="qbtn" type="button">
+            <div class="qleft">
+              <div class="qicon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3l7 4v10l-7 4-7-4V7l7-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                  <path d="M12 7v14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="qtext">
+                <p class="qtitle">Publish Artwork</p>
+                <p class="qsub">Make this artwork live and viewable</p>
+              </div>
+            </div>
+            <span class="go">↗</span>
+          </button>
+
+          <button class="qbtn" type="button">
+            <div class="qleft">
+              <div class="qicon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3l7 4v10l-7 4-7-4V7l7-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                  <path d="M12 7v14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="qtext">
+                <p class="qtitle">Schedule Drop</p>
+                <p class="qsub">Set the public release moment</p>
+              </div>
+            </div>
+            <span class="go">↗</span>
+          </button>
+
+
+        </div>
+
+            </div>
+          </section>
+
+          <section class="panel" id="recentActivityPanel">
+            <div class="head"><h2>Recent Activity</h2><span class="pill">Last 7</span></div>
+            <div class="body">
+              <div class="list">
+                <div class="item">
+                  <div class="meta">
+                    <div class="name">“Mean and Clean”</div>
+                    <div class="sub">Draft updated · 12m ago</div>
+                  </div>
+                  <div class="tag">Draft</div>
+                </div>
+                <div class="item">
+                  <div class="meta">
+                    <div class="name">“Temple of Openings”</div>
+                    <div class="sub">Scheduled · Jan 18</div>
+                  </div>
+                  <div class="tag">Scheduled</div>
+                </div>
+                <div class="item">
+                  <div class="meta">
+                    <div class="name">War and Feast</div>
+                    <div class="sub">Collection cover updated</div>
+                  </div>
+                  <div class="tag">Collection</div>
+                </div>
+                <div class="item">
+                  <div class="meta">
+                    <div class="name">Identity Assets</div>
+                    <div class="sub">Primary logo changed</div>
+                  </div>
+                  <div class="tag">Settings</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="dreamos-shell.js"></script>
+</body>
+</html>
