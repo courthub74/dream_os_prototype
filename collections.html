@@ -69,25 +69,28 @@
         <a href="#">Settings <small>⌘7</small></a>
       </nav>
 
-      <!-- ACCOUNT ICON -->
-       <!-- This hover color adjusts to you avatar color -->
-       <div class="sidebar-footer">
-            <div class="account-btn">
-                <div class="account-avatar">
-                    <img src="./img/blue_user.png" class="user_avatar" alt="User Avatar" />
-                    <p>Account Info</p>
-                </div>
-                <small>+</small>
+      <!-- ACCOUNT / PROFILE (sidebar footer) -->
+      <div class="sidebar-footer account-footer">
+        <button class="account-btn" id="accountBtn" type="button" aria-haspopup="menu" aria-expanded="false">
+          <div class="account-avatar">
+            <img src="./img/blue_user.png" class="user_avatar" alt="User Avatar" />
+            <div class="account-meta">
+              <p class="account-name">The Usersname</p>
+              <p class="account-role">Artist</p>
             </div>
-       </div>
-
-      <!-- SIDEBAR -->
-      <!-- <div class="sidebar-footer">
-        <button class="logout-btn" onclick="window.location.href='index.html'">
-        <span>Logout</span>
-        <small>⇥</small>
+          </div>
+          <small class="account-chev" aria-hidden="true">⌄</small>
         </button>
-      </div> -->
+
+        <!-- Account menu -->
+        <div class="account-menu" id="accountMenu" role="menu" aria-label="Account menu">
+          <button class="menu-item" role="menuitem" type="button" data-go="profile.html">Profile Details</button>
+          <button class="menu-item" role="menuitem" type="button" data-go="profile_settings.html">Profile Settings</button>
+          <button class="menu-item" role="menuitem" type="button" data-go="display_settings.html">Display Settings</button>
+          <div class="menu-sep" aria-hidden="true"></div>
+          <button class="menu-item danger" role="menuitem" type="button" data-go="index.html">Logout</button>
+        </div>
+      </div>
     </aside>
 
     <main class="main">
@@ -162,5 +165,6 @@
   </div>
 
   <script src="dreamos-shell.js"></script>
+  <script src="profile-menu.js"></script>
 </body>
 </html>
