@@ -379,26 +379,40 @@ body{
     <aside class="sidebar" id="sidebar">
       <div class="brand">
         <div class="orb"></div>
-        <div class="brandText">
-          <strong>Dream OS</strong>
-          <span>Internal studio console</span>
-        </div>
+        <div class="brandText"><strong>Dream Agent Studio</strong><span>Create. Shape. Release.</span></div>
       </div>
 
       <nav class="nav" aria-label="Primary">
-        <a href="dashboard.html"><span>Dashboard</span><small>01</small></a>
-        <a href="create.html"><span>Create</span><small>02</small></a>
-        <a href="collections.html"><span>Collections</span><small>03</small></a>
-        <a href="distribute.html"><span>Distribute</span><small>04</small></a>
-        <a class="active" href="socials.html"><span>Socials</span><small>05</small></a>
-        <a href="website.html"><span>Website</span><small>06</small></a>
-        <a href="#">Settings <small>07</small></a>
+        <a href="dashboard.html"><span>Dashboard</span><small>⌘1</small></a>
+        <a href="create.html"><span>Create</span><small>⌘2</small></a>
+        <a href="collections.html"><span>Collections</span><small>⌘3</small></a>
+        <a href="distribute.html"><span>Distribute</span><small>⌘4</small></a>
+        <a href="#" class="active"><span>Socials</span><small>⌘5</small></a>
+        <a href="website.html"><span>Website</span><small>⌘6</small></a>
+        <!-- <a href="#">Settings <small>07</small></a> -->
       </nav>
 
-      <div class="sidebar-footer">
-        <button class="logout-btn" type="button" onclick="alert('Hook logout');">
-          <span>Logout</span><small>Esc</small>
+      <!-- ACCOUNT / PROFILE (sidebar footer) -->
+      <div class="sidebar-footer account-footer">
+        <button class="account-btn" id="accountBtn" type="button" aria-haspopup="menu" aria-expanded="false">
+          <div class="account-avatar">
+            <img src="./img/blue_user.png" class="user_avatar" alt="User Avatar" />
+            <div class="account-meta">
+              <p class="account-name">The Usersname</p>
+              <p class="account-role">Artist</p>
+            </div>
+          </div>
+          <small class="account-chev" aria-hidden="true">⌄</small>
         </button>
+
+        <!-- Account menu -->
+        <div class="account-menu" id="accountMenu" role="menu" aria-label="Account menu">
+          <button class="menu-item" role="menuitem" type="button" data-go="profile.html">Profile Details</button>
+          <button class="menu-item" role="menuitem" type="button" data-go="profile_settings.html">Profile Settings</button>
+          <button class="menu-item" role="menuitem" type="button" data-go="display_settings.html">Display Settings</button>
+          <div class="menu-sep" aria-hidden="true"></div>
+          <button class="menu-item danger" role="menuitem" type="button" data-go="index.html">Logout</button>
+        </div>
       </div>
     </aside>
 
@@ -839,5 +853,7 @@ body{
         .replaceAll("'","&#039;");
     }
   </script>
+
+  <script src="profile-menu.js"></script>
 </body>
 </html>
