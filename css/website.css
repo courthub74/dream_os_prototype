@@ -184,26 +184,6 @@
     .iconBtn svg{ width: 18px; height: 18px; stroke: rgba(255,255,255,0.80); }
 
     /* ===== Modal ===== */
-    .modal{ position: fixed; inset: 0; z-index: 50; display:none; }
-    .modal.show{ display:block; }
-    .modalScrim{
-      position:absolute; inset:0;
-      background: rgba(0,0,0,0.60);
-      backdrop-filter: blur(6px);
-    }
-    .modalCard{
-      position:relative;
-      width:min(720px, calc(100% - 24px));
-      margin: 60px auto;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(4,4,6,0.96);
-      box-shadow: 0 24px 80px rgba(0,0,0,0.55);
-      overflow:hidden;
-    }
-    @media (max-width: 520px){
-      .modalCard{ margin: 18px auto; }
-    }
     .modalHead{
       padding: 12px;
       display:flex; align-items:flex-start; justify-content:space-between; gap: 12px;

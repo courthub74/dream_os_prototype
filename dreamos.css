@@ -23,7 +23,7 @@
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   /* Modal surfaces */
-  --modal-surface: rgba(4,4,6,0.96);   /* matches --bg (#040406) */
+  --modal-surface: rgba(4,4,6,0.96);
   --modal-surface-2: rgba(12,12,16,0.94);
 }
 
@@ -47,28 +47,59 @@ body{
 
 html, body{
   width: 100%;
-  /* overflow-x: clip; */
-  overscroll-behavior-x: none;
   overflow-x: hidden;
+  overscroll-behavior-x: none;
 }
-
 
 a{ color:inherit; text-decoration:none; }
 button{ font-family: inherit; }
 
-/* App shell */
+/* ===== App shell (A: fixed desktop sidebar + slide-in mobile) ===== */
 .app{
-  display:grid;
-  grid-template-columns: var(--sidebar-w) 1fr;
-  min-height:100vh;
+  min-height: 100dvh;
 }
+
+/* Sidebar: fixed by default (desktop truth) */
 .sidebar{
-  position: sticky; top:0; height:100vh; padding:16px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-w);
+  height: 100dvh;
+  padding:16px;
+
   border-right: 1px solid rgba(255,255,255,0.06);
   background: rgba(0,0,0,0.18);
   backdrop-filter: blur(14px);
   z-index: 120;
+
+  display:flex;
+  flex-direction:column;
 }
+
+/* Main: offset by sidebar width on desktop */
+.main{
+  padding: 18px;
+  margin-left: var(--sidebar-w);
+  width: calc(100% - var(--sidebar-w));
+
+  /* entrance animation */
+  opacity: 0;
+  transform: translateY(10px) scale(0.985);
+  animation: mainPop .22s cubic-bezier(.2,.9,.2,1) forwards;
+  animation-delay: .05s;
+  will-change: transform, opacity;
+}
+
+@keyframes mainPop{
+  to{ opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .main{ opacity: 1; transform: none; animation: none; }
+}
+
+/* Brand */
 .brand{
   display:flex; align-items:center; gap:12px;
   padding:12px 12px;
@@ -87,7 +118,14 @@ button{ font-family: inherit; }
 .brandText strong{ color: var(--text-2); font-size: 13px; letter-spacing:.06em; text-transform:uppercase; }
 .brandText span{ color: var(--muted); font-size:12px; }
 
-.nav{ margin-top: 14px; display:flex; flex-direction:column; gap: 8px; }
+/* Nav */
+.nav{
+  margin-top: 14px;
+  display:flex;
+  flex-direction:column;
+  gap: 8px;
+  flex: 1; /* pushes footer down */
+}
 .nav a{
   padding:11px 12px;
   border-radius:14px;
@@ -110,36 +148,6 @@ button{ font-family: inherit; }
 }
 .nav small{ font-family: var(--mono); color: rgba(255,255,255,0.35); font-size: 11px; }
 
-/* === Page-load "pop" (main content) === */
-.main{
-  /* keep your existing padding */
-  padding: 18px;
-
-  /* entrance animation */
-  opacity: 0;
-  transform: translateY(10px) scale(0.985);
-  animation: mainPop .22s cubic-bezier(.2,.9,.2,1) forwards;
-  animation-delay: .05s; /* tiny delay feels premium */
-  will-change: transform, opacity;
-}
-
-@keyframes mainPop{
-  to{
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .main{
-    opacity: 1;
-    transform: none;
-    animation: none;
-  }
-}
-
-
 /* Topbar */
 .topbar{
   display:flex; align-items:center; justify-content:space-between; gap:12px;
@@ -148,7 +156,9 @@ button{ font-family: inherit; }
   border: 1px solid rgba(255,255,255,0.07);
   background: rgba(255,255,255,0.02);
   box-shadow: 0 18px 60px rgba(0,0,0,0.35);
-  position: sticky; top: 14px; z-index: 50;
+  position: sticky;
+  top: 14px;
+  z-index: 50;
   backdrop-filter: blur(14px);
 }
 .topLeft{ display:flex; align-items:center; gap:12px; min-width:0; }
@@ -157,29 +167,22 @@ button{ font-family: inherit; }
 .crumbs .title{ font-size:15px; font-weight:900; color: var(--text-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .topRight{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
 
-/* Already have flex-wrap:wrap; on .topRight 👍
-   Add a mobile compaction pass: */
+/* Mobile compaction */
 @media (max-width: 520px){
   .topRight{
     gap: 8px;
     justify-content: flex-end;
-    max-width: 52vw;          /* keeps it from bullying the title */
+    max-width: 52vw;
   }
-
   .topRight .btn{
     padding: 8px 10px;
     font-size: 12px;
     border-radius: 12px;
-    box-shadow: none;         /* optional: reduces visual noise */
+    box-shadow: none;
+    gap: 8px;
   }
-
-  /* If your buttons have icons + text, tighten the icon spacing */
-  .topRight .btn{ gap: 8px; }
-
-  /* Optional: hide any non-essential labels if you have spans */
-  .topRight .btn .label{ display:none; } /* only if your HTML supports it */
+  .topRight .btn .label{ display:none; } /* only if HTML supports it */
 }
-
 
 /* Buttons */
 .btn{
@@ -212,7 +215,7 @@ button{ font-family: inherit; }
   box-shadow: 0 0 0 5px rgba(180,207,106,0.12);
 }
 
-/* Burger + mobile sidebar */
+/* Burger + scrim */
 .burger{
   display:none;
   width: 40px; height: 40px;
@@ -239,21 +242,34 @@ button{ font-family: inherit; }
   filter: drop-shadow(0 0 10px rgba(180,207,106,0.22));
 }
 
-.scrim{ display:none; position:fixed; inset:0; background: rgba(0,0,0,0.55); z-index: 90; }
+.scrim{
+  display:none;
+  position:fixed;
+  inset:0;
+  background: rgba(0,0,0,0.55);
+  z-index: 90;
+}
+.scrim.show{ display:block; }
 
+/* Mobile: slide-in sidebar + reset main offset */
 @media (max-width: 980px){
-  .app{ grid-template-columns: 1fr; }
+  .main{
+    margin-left: 0;
+    width: 100%;
+    padding: 14px;
+  }
+
   .sidebar{
-    position: fixed;
-    left: -320px; top: 0;
+    left: -320px;
     width: min(320px, 88vw);
-    height: 100vh;
+    height: 100dvh;
+    background: var(--bg);
     transition: left .18s ease;
+    z-index: 120;
   }
   .sidebar.open{ left: 0; }
+
   .burger{ display:inline-flex; }
-  .scrim.show{ display:block; }
-  .main{ padding: 14px; }
 }
 
 /* Common panels */
@@ -285,22 +301,16 @@ button{ font-family: inherit; }
 }
 .body{ padding: 16px; }
 
-
-/* ===== Empty-state dashboard (KPIs + No works) ===== */
+/* ===== Empty-state dashboard ===== */
 .kpis{
   display:grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 14px;
 }
-@media (max-width: 980px){
-  .kpis{ grid-template-columns: 1fr; }
-}
+@media (max-width: 980px){ .kpis{ grid-template-columns: 1fr; } }
 
-.kpi{
-  border-radius: 18px;
-  padding: 14px;
-}
+.kpi{ border-radius: 18px; padding: 14px; }
 .kpi-top{
   display:flex;
   align-items:center;
@@ -331,11 +341,7 @@ button{ font-family: inherit; }
   letter-spacing: .10em;
   text-transform: uppercase;
 }
-@media (max-width: 520px){
-  .kpi-label{
-    font-size: 10px;
-  }
-}
+@media (max-width: 520px){ .kpi-label{ font-size: 10px; } }
 
 /* Work empty panel */
 .work-panel{ border-radius: var(--radius-lg); }
@@ -344,14 +350,13 @@ button{ font-family: inherit; }
   display:flex;
   align-items:center;
   justify-content:center;
-  text-align:left;
   text-align: center;
   padding: 22px;
 }
-.work-inner > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.work-inner > div{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 .empty-icon{
   width: 42px; height: 42px;
@@ -365,7 +370,7 @@ button{ font-family: inherit; }
   margin-bottom: 10px;
 }
 .work-inner h2{
-  margin: 8px 0 8px 0;
+  margin: 8px 0;
   font-size: 18px;
   color: var(--text-2);
 }
@@ -376,7 +381,7 @@ button{ font-family: inherit; }
   max-width: 520px;
 }
 
-/* CTA button */
+/* CTA */
 .cta{
   border: 1px solid rgba(180,207,106,0.40);
   background: rgba(180,207,106,0.10);
@@ -396,10 +401,7 @@ button{ font-family: inherit; }
   border-color: rgba(180,207,106,0.55);
   background: rgba(180,207,106,0.14);
 }
-.arrow{
-  font-family: var(--mono);
-  opacity: .9;
-}
+.arrow{ font-family: var(--mono); opacity: .9; }
 
 /* Status line */
 .status{
@@ -417,56 +419,34 @@ button{ font-family: inherit; }
   box-shadow: 0 0 0 5px rgba(180,207,106,0.12);
 }
 
-/* Reveal helpers (safe no-op if you’re not animating yet) */
-.reveal{ opacity: 1; transform: none; }
-.d2,.d3,.d4,.d5,.d6{}
-
 /* Wrapper toggles */
 #emptyState{ display:none; }
 #emptyState.show{ display:block; }
 #hasData{ display:block; }
 #hasData.hide{ display:none; }
 
-/* Empty state spans the main grid */
+/* Empty state layout */
 .empty-state{ grid-column: 1 / -1; }
 
-/* Two-column empty-state layout */
 .empty-grid{
   display:grid;
-  grid-template-columns: 1.1fr 0.9fr; /* mirrors your dashboard proportions */
+  grid-template-columns: 1.1fr 0.9fr;
   gap: 14px;
   align-items:start;
 }
-@media (max-width: 980px){
-  .empty-grid{ grid-template-columns: 1fr; }
-}
+@media (max-width: 980px){ .empty-grid{ grid-template-columns: 1fr; } }
 
-/* Empty-state: force Quick Actions tiles into a vertical column */
 #emptyQuickActionsSlot .tiles{
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* Optional: make each tile feel more “console-like” */
-#emptyQuickActionsSlot .tile{
-  padding: 16px;
-}
-
-/* Optional: align the arrow/route line a bit tighter */
-#emptyQuickActionsSlot .tile .go{
-  opacity: 0.85;
-}
-
-
-/* Quick Actions – command column */
-.quick-actions-column{
   display:flex;
   flex-direction:column;
-  gap: 10px;
+  gap: 12px;
 }
+#emptyQuickActionsSlot .tile{ padding: 16px; }
+#emptyQuickActionsSlot .tile .go{ opacity: 0.85; }
 
-/* Command button */
+/* Quick Actions */
+.quick-actions-column{ display:flex; flex-direction:column; gap: 10px; }
+
 .qbtn{
   width:100%;
   border: 1px solid rgba(255,255,255,0.10);
@@ -480,20 +460,21 @@ button{ font-family: inherit; }
   color: var(--text);
   transition: transform .12s ease, border-color .12s ease, background .12s ease;
 }
-
 .qbtn:hover{
   transform: translateY(-1px);
   border-color: rgba(180,207,106,0.45);
   background: rgba(180,207,106,0.08);
 }
 
-/* Left content */
 .qleft{
   display:flex;
   align-items:center;
   gap: 12px;
+  min-width: 0;
+  flex: 1;
 }
 
+/* Icon = accent language */
 .qicon{
   width: 36px;
   height: 36px;
@@ -501,25 +482,41 @@ button{ font-family: inherit; }
   display:flex;
   align-items:center;
   justify-content:center;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.04);
-  color: rgba(255,255,255,0.85);
+  border: 1px solid rgba(180,207,106,0.28);
+  background: rgba(180,207,106,0.06);
+  color: rgba(255,255,255,0.95);
 }
 
-/* Text */
-.qtext .title{
+/* Text: keep both naming systems supported */
+.qtext{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  text-align:left;
+  min-width: 0;
+  gap: 2px;
+  line-height: 1.15;
+}
+
+.qtext .title,
+.qtext .qtitle{
   margin:0;
   font-size: 14px;
   font-weight: 900;
   color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.qtext .sub{
-  margin:2px 0 0 0;
+.qtext .sub,
+.qtext .qsub{
+  margin:0;
   font-size: 12px;
   color: var(--muted);
+  line-height: 1.25;
 }
 
-/* Arrow */
 .qbtn .go{
   font-family: var(--mono);
   font-size: 13px;
@@ -530,137 +527,14 @@ button{ font-family: inherit; }
   opacity: 1;
   transform: translateX(2px);
 }
-
-
-/* ===== Quick Actions text alignment fix (scoped + bulletproof) ===== */
-.qbtn{ align-items: center; }
-.qbtn .qleft{ align-items: center; }
-
-.qbtn .qtext{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items: center;
-  gap: 2px;
-  line-height: 1.15;
-}
-
-.qtext .qtitle{
-  margin:0;
-  font-size: 14px;
-  font-weight: 900;
-  color: var(--text-2);
-  line-height: 1.15;
-}
-.qtext .qsub{
-  margin:0;
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.25;
-}
-
-
-.qbtn svg{ display:block; }
-
-/* ===== Quick Actions: left-align text (override) ===== */
-.qbtn{ align-items: center; }
-
-.qbtn .qleft{
-  display:flex;
-  align-items:center;
-  gap: 12px;
-  min-width: 0;            /* iOS safety: prevents weird overflow/push */
-  flex: 1;                 /* lets text take space */
-}
-
-.qbtn .qtext{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:flex-start;  /* ✅ left */
-  text-align:left;         /* ✅ left */
-  min-width: 0;            /* ✅ ellipsis works */
-}
-
-.qbtn .qtitle,
-.qbtn .qsub{
-  width: 100%;
-  text-align:left;         /* ✅ bulletproof */
-}
-
-.qbtn .qtitle{
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Icon color = accent */
-.qicon{
-  color: var(--accent);
-  color: white;
-  border-color: rgba(180,207,106,0.28);
-  background: rgba(180,207,106,0.06);
-}
-
-/* Optional: brighten on hover */
 .qbtn:hover .qicon{
-  color: rgba(180,207,106,0.98);
   background: rgba(180,207,106,0.10);
   border-color: rgba(180,207,106,0.40);
+  color: rgba(180,207,106,0.98);
 }
 
-
-
-/* Mobile Nav Smaller text */
-@media (max-width: 768px) {
-   /* Set Body height here */
- html, body {
-    height: auto;
-    min-height: 100dvh;
-  }
-  
-  .app {
-    min-height: 100vh;
-    min-height: 100dvh;
-  }
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: -100%;
-    width: 240px;
-    height: 100vh;
-    height: 100dvh;
-    background: var(--bg);
-    z-index: 100;
-    transition: left 0.3s ease;
-  }
-
-  .sidebar.active {
-    left: 0;
-  }
-
-  .burger {
-    display: block;
-  }
-
-  .btn {
-    font-size: 14px;
-    padding: 8px 10px;
-  }
-}
-
-.sidebar{
-  display:flex;
-  flex-direction:column;
-}
-
-.nav{
-  flex:1; /* pushes footer down */
-}
-
-.sidebar-footer{
-  padding-top: 12px;
-}
+/* Sidebar footer */
+.sidebar-footer{ padding-top: 12px; }
 
 .logout-btn{
   width:100%;
@@ -676,27 +550,20 @@ button{ font-family: inherit; }
   font-family: var(--sans);
   font-size: 13px;
   cursor:pointer;
-  transition: 
-    transform .12s ease,
-    border-color .12s ease,
-    background .12s ease,
-    color .12s ease;
+  transition: transform .12s ease, border-color .12s ease, background .12s ease, color .12s ease;
 }
-
 .logout-btn:hover{
   transform: translateY(-1px);
   border-color: rgba(255,120,120,0.45);
   background: rgba(255,120,120,0.08);
   color: rgba(255,255,255,0.9);
 }
+.logout-btn small{ font-family: var(--mono); opacity: .6; }
 
-.logout-btn small{
-  font-family: var(--mono);
-  opacity: .6;
-}
+/* Account / profile button + menu */
+.account-footer{ position: relative; }
 
-/* DROPDOWN BUTTON */
-/* .account-btn{
+.account-btn{
   width:100%;
   padding: 11px 12px;
   border-radius:14px;
@@ -707,93 +574,115 @@ button{ font-family: inherit; }
   align-items:center;
   justify-content:space-between;
   gap: 12px;
-  font-family: var(--sans);
-  font-size: 13px;
   cursor:pointer;
-  transition: 
-    transform .12s ease,
-    border-color .12s ease,
-    background .12s ease,
-    color .12s ease;
-} */
-
-.account-avatar {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  transition: transform .12s ease, border-color .12s ease, background .12s ease, color .12s ease;
 }
-
-/* Account button hover effect */
-/* It will adjust to your avatar color */
 .account-btn:hover{
   transform: translateY(-1px);
-  border-color: rgba(93, 100, 236, 0.45);
-  border-color: white;
- 
+  border-color: rgba(180,207,106,0.40);
+  background: rgba(180,207,106,0.08);
   color: rgba(255,255,255,0.9);
 }
 
-.account-btn small{
+.account-avatar{ display:flex; align-items:center; gap: 10px; min-width:0; }
+.user_avatar{ width: 30px; height: 30px; border-radius: 50%; }
+
+.account-meta{ display:flex; flex-direction:column; line-height:1.1; min-width:0; }
+.account-name{
+  margin:0;
+  font-weight:900;
+  font-size:13px;
+  color: var(--text-2);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.account-role{
+  margin:3px 0 0 0;
+  font-size:11px;
+  color: var(--muted);
   font-family: var(--mono);
-  opacity: .6;
+}
+.account-chev{ font-family: var(--mono); opacity:.7; }
+
+.account-menu{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom: calc(100% + 10px);
+  display:block;
+
+  padding: 10px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  box-shadow: 0 24px 70px rgba(0,0,0,0.55);
+  backdrop-filter: blur(14px);
+  z-index: 200;
+
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  pointer-events: none;
+
+  transition: opacity .18s ease, transform .18s cubic-bezier(.2,.9,.2,1);
+}
+.account-menu.show{
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
 }
 
-/* Account Icon */
-.account-icon{
- display: flex;
- /* justify-content: space-between; */
-  /* padding: 2px 4px; */
-  width: 100%;
+.menu-item{
+  width:100%;
+  text-align:left;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  color: rgba(255,255,255,0.82);
+  padding: 10px 12px;
+  border-radius: 14px;
+  cursor:pointer;
+  font-size: 13px;
+  transition: transform .12s ease, background .12s ease, border-color .12s ease;
 }
-.user_avatar{
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+.menu-item + .menu-item{ margin-top: 8px; }
+.menu-item:hover{
+  transform: translateY(-1px);
+  border-color: rgba(180,207,106,0.35);
+  background: rgba(180,207,106,0.08);
+}
+.menu-item.danger:hover{
+  border-color: rgba(255,120,120,0.45);
+  background: rgba(255,120,120,0.10);
+}
+.menu-sep{
+  height:1px;
+  background: rgba(255,255,255,0.08);
+  margin: 10px 4px;
 }
 
-/* Make Internal Notes feel “secondary” but still premium */
-textarea.notes{
-  min-height: 110px;
-}
+/* Misc */
+textarea.notes{ min-height: 110px; }
 
-/* Bottom action row */
 .meta-actions{
   display:flex;
   gap: 10px;
   margin-top: 6px;
 }
-
-.meta-actions .btn{
-  flex: 1;
-  justify-content:center;
-}
-
-/* Mobile: stack buttons */
+.meta-actions .btn{ flex: 1; justify-content:center; }
 @media (max-width: 520px){
-  .meta-actions{
-    flex-direction:column;
-  }
-  .meta-actions .btn{
-    width:100%;
-    padding: 10px 0;
-    font-size: 12px;
-  }
+  .meta-actions{ flex-direction:column; }
+  .meta-actions .btn{ width:100%; padding: 10px 0; font-size: 12px; }
 }
-
 
 /* Single-panel layout */
-.wrap.single {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.wrap.single{
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
-
 .onePanel{
   display:flex;
   flex-direction:column;
   padding: 0;
 }
-
 .topBrand{
   padding: 20px 22px 14px 22px;
   border-bottom: 1px solid rgba(255,255,255,0.07);
@@ -809,10 +698,7 @@ textarea.notes{
   gap: 6px;
   max-width: 620px;
 }
-.heroMini h1{
-  font-size: 22px; /* smaller than 28 */
-  margin: 0;
-}
+.heroMini h1{ font-size: 22px; margin: 0; }
 .heroMini .sub{
   margin: 0;
   font-size: 13px;
@@ -825,17 +711,15 @@ textarea.notes{
   color: rgba(255,255,255,0.38);
 }
 
-/* Form spacing stays premium but tighter */
+/* Form block */
 .formBlock{
-  /* padding: 16px 18px 18px 18px; */
   display:flex;
   flex-direction:column;
-  /* gap: 12px; */
-   padding: 24px 24px 26px 24px;  /* more premium spacing */
-  gap: 14px;  
+  padding: 24px 24px 26px 24px;
+  gap: 14px;
 }
 
-/* Remember me: checkbox that matches Dream OS vibe */
+/* Remember me checkbox */
 .remember{
   display:inline-flex;
   align-items:center;
@@ -843,8 +727,6 @@ textarea.notes{
   cursor:pointer;
   user-select:none;
 }
-
-/* hide the native checkbox but keep it accessible */
 .remember input{
   position:absolute;
   opacity:0;
@@ -852,7 +734,6 @@ textarea.notes{
   height:1px;
   pointer-events:none;
 }
-
 .remember .box{
   width: 18px;
   height: 18px;
@@ -864,8 +745,6 @@ textarea.notes{
   place-items:center;
   transition: transform .12s ease, border-color .12s ease, background .12s ease;
 }
-
-/* checkmark */
 .remember .box::after{
   content:"";
   width: 9px;
@@ -876,8 +755,6 @@ textarea.notes{
   opacity: 0;
   transition: opacity .12s ease;
 }
-
-/* checked state */
 .remember input:checked + .box{
   border-color: rgba(180,207,106,0.55);
   background: rgba(180,207,106,0.16);
@@ -888,19 +765,13 @@ textarea.notes{
   border-bottom-color: rgba(255,255,255,0.95);
   opacity: 1;
 }
-
-.rememberText{
-  color: var(--muted);
-  font-size: 12px;
-}
-
-/* keyboard focus */
+.rememberText{ color: var(--muted); font-size: 12px; }
 .remember input:focus-visible + .box{
   outline: 2px solid rgba(180,207,106,0.40);
   outline-offset: 2px;
 }
 
-/* ===== Modal / Drawer (Mint Details) ===== */
+/* ===== Modal / Drawer ===== */
 .modal{
   position: fixed;
   inset: 0;
@@ -924,8 +795,6 @@ textarea.notes{
   width: min(720px, calc(100% - 24px));
   border-radius: 22px;
   border: 1px solid rgba(255,255,255,0.10);
-  /* background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); */
-  /* background: linear-gradient(180deg, rgba(6,7,10,0.98), rgba(6,7,10,0.94)); */
   background:
     radial-gradient(900px 380px at 18% 0%, rgba(180,207,106,0.10), transparent 55%),
     radial-gradient(700px 380px at 85% 10%, rgba(120,90,255,0.10), transparent 60%),
@@ -974,7 +843,6 @@ textarea.notes{
   border-radius: 16px;
   padding: 10px;
 }
-
 .mK{
   font-size: 11px;
   letter-spacing:.10em;
@@ -999,8 +867,8 @@ textarea.notes{
   .modalActions .btn{ width:100%; }
 }
 
-/* Mobile: bottom drawer behavior */
-@media (max-width: 640px){
+/* Mobile: bottom drawer */
+/* @media (max-width: 640px){
   .modalCard{
     top: auto;
     bottom: 10px;
@@ -1011,24 +879,17 @@ textarea.notes{
   .modal.show .modalCard{
     transform: translateX(-50%) translateY(0);
   }
-}
+} */
 
-/* Is Ready */
-/* ===== Ready surface (used by qItem + modal boxes) ===== */
+/* Ready state */
 .is-ready{
   border-color: rgba(180,207,106,0.45) !important;
   background:
     radial-gradient(600px 220px at 20% 0%, rgba(180,207,106,0.12), transparent 55%),
     rgba(180,207,106,0.06) !important;
 }
+.is-ready .mV{ color: rgba(255,255,255,0.95); }
 
-.is-ready .qTitle,
-.is-ready .mV{
-  color: rgba(255,255,255,0.95);
-}
-
-
-/* Status text states */
 .statusText{
   font-family: var(--mono);
   font-size: 12px;
@@ -1038,17 +899,11 @@ textarea.notes{
 .statusText.pending{ color: rgba(255,255,255,0.55); }
 .statusText.draft{ color: rgba(255,255,255,0.40); }
 
-
-/* Status box can “arm” itself without tinting the whole modal */
 .mBox.is-ready{
   border-color: rgba(180,207,106,0.45);
   background: rgba(180,207,106,0.08);
 }
-
-/* Optional: make it feel a touch more “active” */
-.mBox.is-ready .mK{
-  color: rgba(180,207,106,0.75);
-}
+.mBox.is-ready .mK{ color: rgba(180,207,106,0.75); }
 
 .linkLike{
   border:0;
@@ -1063,7 +918,6 @@ textarea.notes{
 }
 .linkLike:hover{ color: rgba(180,207,106,1); }
 
-
 #imageState{
   display:flex;
   align-items:center;
@@ -1071,10 +925,9 @@ textarea.notes{
   text-align:center;
 }
 
-
 .hidden{ display:none !important; }
 
-/* Generating block styling (matches your panel language) */
+/* Generating block */
 .gen{
   border: 1px solid rgba(255,255,255,0.10);
   background: rgba(255,255,255,0.03);
@@ -1084,7 +937,6 @@ textarea.notes{
   flex-direction:column;
   gap: 12px;
 }
-
 .genTop{
   display:flex;
   align-items:flex-start;
@@ -1102,7 +954,6 @@ textarea.notes{
   font-size: 12px;
   line-height: 1.45;
 }
-
 .genBar{
   height: 10px;
   border-radius: 999px;
@@ -1119,7 +970,6 @@ textarea.notes{
   box-shadow: 0 0 18px rgba(180,207,106,0.16);
   transition: width .25s ease;
 }
-
 .genMeta{
   display:flex;
   align-items:center;
@@ -1134,9 +984,7 @@ textarea.notes{
 }
 
 /* Preview stage generating mode */
-.stage.is-generating{
-  color: rgba(255,255,255,0.70);
-}
+.stage.is-generating{ color: rgba(255,255,255,0.70); }
 .stage.is-generating::before{
   content:"";
   position:absolute;
@@ -1164,44 +1012,31 @@ textarea.notes{
   flex-direction:column;
   gap: 12px;
 }
-
 .reviewTop{
   display:flex;
   align-items:flex-start;
   justify-content:space-between;
   gap: 12px;
 }
-
 .reviewTitle{
   font-weight: 950;
   color: var(--text-2);
   font-size: 14px;
 }
-
 .reviewSub{
   margin-top: 4px;
   color: var(--muted);
   font-size: 12px;
   line-height: 1.45;
 }
-
-.reviewActions{
-  display:flex;
-  gap: 10px;
-}
-
-.reviewActions .btn{
-  flex: 1;
-  justify-content:center;
-}
-
+.reviewActions{ display:flex; gap: 10px; }
+.reviewActions .btn{ flex: 1; justify-content:center; }
 @media (max-width: 520px){
   .reviewActions{ flex-direction:column; }
   .reviewActions .btn{ width:100%; }
 }
 
-
-/* Critical for iOS: grid items can overflow unless you force min-width:0 */
+/* iOS grid overflow safety */
 .socialGrid > *{ min-width: 0; }
 .cards > *{ min-width: 0; }
 .queue, .qItem, .card{ min-width: 0; }
@@ -1212,142 +1047,7 @@ textarea.notes{
   word-break: break-word;
 }
 
+/* iOS sticky compositor stability */
 @supports (-webkit-touch-callout: none){
-  .topbar{
-    transform: translateZ(0); /* forces a more stable compositing layer on iOS */
-  }
+  .topbar{ transform: translateZ(0); }
 }
-
- /* Account footer wrapper */
-    .account-footer{ position: relative; }
-
-    /* Turn your account row into a proper button */
-    .account-btn{
-      width:100%;
-      padding: 11px 12px;
-      border-radius:14px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.02);
-      color: rgba(255,255,255,0.65);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      cursor:pointer;
-      transition: transform .12s ease, border-color .12s ease, background .12s ease, color .12s ease;
-    }
-
-    .account-btn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(180,207,106,0.40);
-      background: rgba(180,207,106,0.08);
-      color: rgba(255,255,255,0.9);
-    }
-
-    .account-avatar{ display:flex; align-items:center; gap: 10px; min-width:0; }
-    .account-meta{ display:flex; flex-direction:column; line-height:1.1; min-width:0; }
-    .account-name{
-      margin:0;
-      font-weight:900;
-      font-size:13px;
-      color: var(--text-2);
-      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    }
-    .account-role{
-      margin:3px 0 0 0;
-      font-size:11px;
-      color: var(--muted);
-      font-family: var(--mono);
-    }
-
-    .account-chev{ font-family: var(--mono); opacity:.7; }
-
-    /* Popover menu */
-    .account-menu{
-      position:absolute;
-      left:0;
-      right:0;
-      bottom: calc(100% + 10px);
-
-      /* keep it in the layout so we can animate */
-      display:block;
-
-      padding: 10px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-      box-shadow: 0 24px 70px rgba(0,0,0,0.55);
-      backdrop-filter: blur(14px);
-      z-index: 200;
-
-      /* animation states (closed) */
-      opacity: 0;
-      transform: translateY(10px) scale(0.98);
-      pointer-events: none;
-
-      transition:
-        opacity .18s ease,
-        transform .18s cubic-bezier(.2,.9,.2,1);
-    }
-
-    .account-menu.show{
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-    }
-
-
-    .menu-item{
-      width:100%;
-      text-align:left;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.02);
-      color: rgba(255,255,255,0.82);
-      padding: 10px 12px;
-      border-radius: 14px;
-      cursor:pointer;
-      font-size: 13px;
-      transition: transform .12s ease, background .12s ease, border-color .12s ease;
-    }
-    .menu-item + .menu-item{ margin-top: 8px; }
-
-    .menu-item:hover{
-      transform: translateY(-1px);
-      border-color: rgba(180,207,106,0.35);
-      background: rgba(180,207,106,0.08);
-    }
-
-    .menu-sep{
-      height:1px;
-      background: rgba(255,255,255,0.08);
-      margin: 10px 4px;
-    }
-
-    .menu-item.danger:hover{
-      border-color: rgba(255,120,120,0.45);
-      background: rgba(255,120,120,0.10);
-    }
-
-/* === Desktop: make sidebar behave like mobile (pinned/fixed) === */
-@media (min-width: 981px){
-  .sidebar{
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100dvh;          /* better on modern mobile/desktop */
-    width: var(--sidebar-w);
-    z-index: 120;
-  }
-
-  /* Let main content live to the right of the fixed sidebar */
-  .main{
-    margin-left: var(--sidebar-w);
-    width: calc(100% - var(--sidebar-w));
-  }
-
-  /* Since sidebar is fixed, the app grid no longer needs 2 columns */
-  .app{
-    grid-template-columns: 1fr;
-  }
-}
-
