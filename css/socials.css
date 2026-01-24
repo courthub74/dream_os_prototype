@@ -52,11 +52,11 @@
     }
     textarea{ min-height: 110px; resize: vertical; }
 
-    .two{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+    .two .btn{
+  justify-content: center;
+  text-align: center;
+}
+
     @media (max-width: 520px){
       .two{ grid-template-columns: 1fr; }
     }
@@ -82,11 +82,11 @@
       gap: 10px;
       transition: transform .12s ease, border-color .12s ease, background .12s ease;
     }
-    .card:hover{
-      transform: translateY(-1px);
-      border-color: rgba(180,207,106,0.28);
-      background: rgba(180,207,106,0.05);
-    }
+    /* .card:hover{
+      border-color: rgba(180,207,106,0.65); 
+      background: rgba(180,207,106,0.14);  
+      box-shadow: 0 0 0 1px rgba(180,207,106,0.25);
+    } */
 
     .cardTop{ display:flex; align-items:center; justify-content:space-between; gap: 12px; }
     .cardBrand{ display:flex; align-items:center; gap: 10px; min-width:0; }

@@ -81,11 +81,11 @@
       gap: 10px;
       transition: transform .12s ease, border-color .12s ease, background .12s ease;
     }
-    .connector:hover{
+    /* .connector:hover{
       transform: translateY(-1px);
       border-color: rgba(180,207,106,0.28);
-      background: rgba(180,207,106,0.05);
-    }
+      background: rgba(180,207,106,0.05); 
+    } */
 
     .cTop{
       display:flex;
