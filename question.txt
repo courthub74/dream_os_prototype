@@ -1,0 +1,59 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const emptyState = document.querySelector(".emptyState");
+  const grid = document.querySelector(".grid");
+  const pill = document.querySelector(".pill");
+  
+  if (!emptyState || !grid) return;
+
+  // --- Later: replace this section with real fetch ---
+  // async function loadCollections() {
+  //   const res = await fetch("/api/collections");
+  //   const collections = await res.json();
+  //   return collections.length;
+  // }
+  
+  // For now: count cards that exist in the DOM
+  const collectionsCount = grid.querySelectorAll(".card").length;
+  
+  console.log("Collections count:", collectionsCount); // Debug log
+  
+  // Toggle empty vs grid
+  if (collectionsCount === 0) {
+    emptyState.hidden = false;
+    grid.hidden = true;
+  } else {
+    console.log("There is a Collection added");
+    emptyState.hidden = true;
+    grid.hidden = false;
+  }
+  
+  // Update pill
+  if (pill) {
+    pill.textContent = `${collectionsCount} total`;
+  }
+});
+
+<!-- EMPTY STATE -->
+<div class="emptyState" hidden>
+    <!-- <div class="orb"></div> -->
+    <div class="empty-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M4 5h16v14H4V5z" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M7 15l3-3 3 3 4-5 3 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    </div>
+    <h3>No Collections Yet</h3>
+    <p>
+    Collections shape meaning over time.<br>
+    Create one to begin organizing your works.
+    </p>
+
+    <button class="btn primary" onclick="window.location.href='new-collection.html'">
+    <span class="dot"></span>
+    Create First Collection
+    </button>
+</div>
+
+The emptyState does not dissapear after a card is entered into the grid.
+What is missing here.
+

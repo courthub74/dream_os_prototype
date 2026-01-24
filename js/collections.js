@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     emptyState.hidden = false;
     grid.hidden = true;
   } else {
+    console.log("There is a Collection added");
     emptyState.hidden = true;
     grid.hidden = false;
   }
@@ -35,6 +36,35 @@ document.addEventListener("DOMContentLoaded", () => {
     pill.textContent = `${collectionsCount} total`;
   }
 });
+
+// Function to update UI elements based on collection count
+function updateCollectionsUI(){
+  const emptyState = document.querySelector(".emptyState");
+  const grid = document.querySelector(".grid");
+  const pill = document.querySelector(".pill");
+  if (!emptyState || !grid) return;
+
+  const count = grid.querySelectorAll(".card").length;
+
+  emptyState.hidden = count !== 0 ? true : false;
+  grid.hidden = count === 0 ? true : false;
+
+  if (pill) pill.textContent = `${count} total`;
+}
+
+// Run once on load
+document.addEventListener("DOMContentLoaded", updateCollectionsUI);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const grid = document.querySelector(".grid");
+  if (!grid) return;
+
+  const observer = new MutationObserver(() => updateCollectionsUI());
+  observer.observe(grid, { childList: true, subtree: true });
+
+  updateCollectionsUI();
+});
+
 
 // Edit collection button handler
 document.addEventListener("click", (e) => {

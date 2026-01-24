@@ -80,8 +80,13 @@
 
              <!-- EMPTY STATE -->
             <div class="emptyState" hidden>
-              <div class="emptyOrb"></div>
-
+              <!-- <div class="orb"></div> -->
+               <div class="empty-icon">
+                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 5h16v14H4V5z" stroke="currentColor" stroke-width="1.6"/>
+                  <path d="M7 15l3-3 3 3 4-5 3 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+               </div>
               <h3>No Collections Yet</h3>
               <p>
                 Collections shape meaning over time.<br>
@@ -97,6 +102,19 @@
             <!-- COLLECTION CARDS -->
             <div class="grid">
               <!-- Collection cards inserted here by JS -->
+                <!-- Fifth Collection Card-->
+              <div class="card">
+                <div class="badge">Active</div>
+                <div class="cover"></div>
+                <div class="cardHeader">
+                  <div class="name">Signals and Ascensions</div>
+                  <button class="cardEditInline" type="button" aria-label="Edit collection">
+                    Edit
+                  </button>
+                </div>
+                <div class="meta">Messages, rites, and vertical movements through data.</div>
+              </div>
+              
             </div>
           </div>
         </section>
