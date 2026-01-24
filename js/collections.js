@@ -1,94 +1,66 @@
-// COLLECTIONS.JS
+// // // COLLECTIONS.JS
 
-// Empty state handler
 // js/collections.js
-document.addEventListener("DOMContentLoaded", () => {
-  const emptyState = document.querySelector(".emptyState");
-  const grid = document.querySelector(".grid");
-  const pill = document.querySelector(".pill");
-  
-  if (!emptyState || !grid) return;
 
-  // --- Later: replace this section with real fetch ---
-  // async function loadCollections() {
-  //   const res = await fetch("/api/collections");
-  //   const collections = await res.json();
-  //   return collections.length;
-  // }
-  
-  // For now: count cards that exist in the DOM
-  const collectionsCount = grid.querySelectorAll(".card").length;
-  
-  console.log("Collections count:", collectionsCount); // Debug log
-  
-  // Toggle empty vs grid
-  if (collectionsCount === 0) {
-    emptyState.hidden = false;
-    grid.hidden = true;
-  } else {
-    console.log("There is a Collection added");
-    emptyState.hidden = true;
-    grid.hidden = false;
-  }
-  
-  // Update pill
-  if (pill) {
-    pill.textContent = `${collectionsCount} total`;
-  }
-});
+function visibleCardsCount(grid){
+  // Count ONLY cards that are actually visible (not hidden/display:none)
+  const cards = Array.from(grid.querySelectorAll(".card"));
 
-// Function to update UI elements based on collection count
-function updateCollectionsUI(){
-  const emptyState = document.querySelector(".emptyState");
-  const grid = document.querySelector(".grid");
-  const pill = document.querySelector(".pill");
-  if (!emptyState || !grid) return;
-
-  const count = grid.querySelectorAll(".card").length;
-
-  emptyState.hidden = count !== 0 ? true : false;
-  grid.hidden = count === 0 ? true : false;
-
-  if (pill) pill.textContent = `${count} total`;
+  return cards.filter(card => {
+    if (card.hidden) return false; // hidden attribute
+    const cs = getComputedStyle(card);
+    if (cs.display === "none" || cs.visibility === "hidden") return false;
+    // offsetParent is null for display:none (mostly), but can be null for fixed elements too
+    if (card.offsetParent === null && cs.position !== "fixed") return false;
+    return true;
+  }).length;
 }
 
-// Run once on load
-document.addEventListener("DOMContentLoaded", updateCollectionsUI);
+function setCollectionsState(count){
+  const emptyState = document.querySelector(".emptyState");
+  const grid = document.querySelector(".grid");
+  const pill = document.getElementById("collectionsPill");
+
+  if (!emptyState || !grid) return;
+
+  const showEmpty = count === 0;
+
+  emptyState.toggleAttribute("hidden", !showEmpty);
+  grid.toggleAttribute("hidden", showEmpty);
+
+  if (pill) pill.textContent = `${count} total`;
+
+  console.log("[Collections] visible count:", count, "showEmpty:", showEmpty);
+}
+
+function refreshCollectionsUI(){
+  const grid = document.querySelector(".grid");
+  if (!grid) return;
+  setCollectionsState(visibleCardsCount(grid));
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const grid = document.querySelector(".grid");
   if (!grid) return;
 
-  const observer = new MutationObserver(() => updateCollectionsUI());
-  observer.observe(grid, { childList: true, subtree: true });
+  // Initial pass
+  refreshCollectionsUI();
 
-  updateCollectionsUI();
+  // Watch BOTH removals/additions AND “hide/show” changes
+  const observer = new MutationObserver(() => refreshCollectionsUI());
+
+  observer.observe(grid, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["class", "style", "hidden"]
+  });
 });
 
-
-// Edit collection button handler
+// Single edit handler
 document.addEventListener("click", (e) => {
   const btn = e.target.closest(".cardEditInline, .cardEdit");
   if (!btn) return;
-  
-  const card = btn.closest(".card");
-  const slug = card?.dataset?.slug || "";
-  window.location.href = `edit-collection.html?c=${encodeURIComponent(slug)}`;
-});
-
-// Edit collection button handler
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest(".cardEditInline, .cardEdit");
-  if (!btn) return;
-  
-  const card = btn.closest(".card");
-  const slug = card?.dataset?.slug || "";
-  window.location.href = `edit-collection.html?c=${encodeURIComponent(slug)}`;
-});
-// Edit collection button handler
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest(".cardEditInline"); // matches your HTML
-  if (!btn) return;
 
   const card = btn.closest(".card");
   const slug = card?.dataset?.slug || "";
@@ -96,26 +68,54 @@ document.addEventListener("click", (e) => {
 });
 
 
-// // For now: count cards that exist in the DOM
-// const collectionsCount = grid.querySelectorAll(".card").length;
+// function setCollectionsState(count){
+//   const emptyState = document.querySelector(".emptyState");
+//   const grid = document.querySelector(".grid");
+//   const pill = document.querySelector(".pill");
 
-// // Pill Update Handler
-// const pill = document.querySelector('.pill');
-// pill.textContent = `${collectionsCount} total`;
+//   if (!emptyState || !grid) return;
 
-// For Later Fetching Collections
-// const collections = await fetch('/api/collections');
-// const collectionsCount = collections.length;
+//   const showEmpty = count === 0;
 
+//   emptyState.toggleAttribute("hidden", !showEmpty);
+//   grid.toggleAttribute("hidden", showEmpty);
 
-// Edit collection button handler
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest(".cardEdit");
-  if(!btn) return;
+//   if (pill) pill.textContent = `${count} total`;
 
-  const card = btn.closest(".card");
-  const slug = card?.dataset?.slug || "";
-  window.location.href = `edit-collection.html?c=${encodeURIComponent(slug)}`;
-});
+//   // Debug
+//   console.log("[Collections] count:", count, "showEmpty:", showEmpty);
+//   console.log("[Collections] empty display:", getComputedStyle(emptyState).display);
+//   console.log("[Collections] grid display:", getComputedStyle(grid).display);
+// }
 
+// function getCollectionsCountFromDOM(){
+//   const grid = document.querySelector(".grid");
+//   if (!grid) return 0;
+//   return grid.querySelectorAll(".card").length;
+// }
 
+// document.addEventListener("DOMContentLoaded", () => {
+//   const grid = document.querySelector(".grid");
+//   if (!grid) return;
+
+//   // Initial render
+//   setCollectionsState(getCollectionsCountFromDOM());
+
+//   // Auto-update when cards are added/removed
+//   const observer = new MutationObserver(() => {
+//     setCollectionsState(getCollectionsCountFromDOM());
+//   });
+
+//   observer.observe(grid, { childList: true, subtree: true });
+// });
+
+// // Single edit handler (no duplicates)
+// document.addEventListener("click", (e) => {
+//   const btn = e.target.closest(".cardEditInline, .cardEdit");
+//   if (!btn) return;
+
+//   const card = btn.closest(".card");
+//   const slug = card?.dataset?.slug || "";
+
+//   window.location.href = `edit-collection.html?c=${encodeURIComponent(slug)}`;
+// });

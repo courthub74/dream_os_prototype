@@ -460,4 +460,11 @@
   margin-bottom: 10px;
 }
 
+/* Hide empty state and grid when hidden */
+.emptyState[hidden],
+.grid[hidden]{
+  display: none !important;
+}
+
+
 
