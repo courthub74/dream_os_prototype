@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dream OS — Drops</title>
+  <link rel="stylesheet" href="dreamos.css">
+  <link rel="stylesheet" href="./css/drops.css">
+</head>
+
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="orb"></div>
+        <div class="brandText">
+          <strong>Dream Agent Studio</strong>
+          <span>Create. Shape. Release.</span>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="dashboard.html"><span>Dashboard</span><small>⌘1</small></a>
+        <a href="create.html"><span>Create</span><small>⌘2</small></a>
+        <a href="collections.html"><span>Collections</span><small>⌘3</small></a>
+        <a href="distribute.html"><span>Mint</span><small>⌘4</small></a>
+        <a class="active" href="drops.html"><span>Drops</span><small>⌘5</small></a>
+        <a href="socials.html">Socials <small>⌘6</small></a>
+        <a href="website.html">Website <small>⌘7</small></a>
+      </nav>
+
+      <!-- ACCOUNT / PROFILE (sidebar footer) -->
+      <div class="sidebar-footer account-footer">
+        <button class="account-btn" id="accountBtn" type="button" aria-haspopup="menu" aria-expanded="false">
+          <div class="account-avatar">
+            <img src="./img/blue_user.png" class="user_avatar" alt="User Avatar" />
+            <div class="account-meta">
+              <p class="account-name">The Usersname</p>
+              <p class="account-role">Artist</p>
+            </div>
+          </div>
+          <small class="account-chev" aria-hidden="true">⌄</small>
+        </button>
+
+        <div class="account-menu" id="accountMenu" role="menu" aria-label="Account menu">
+          <button class="menu-item" role="menuitem" type="button" data-go="profile.html">Profile Details</button>
+          <button class="menu-item" role="menuitem" type="button" data-go="profile_settings.html">Profile Settings</button>
+          <button class="menu-item" role="menuitem" type="button" data-go="display_settings.html">Display Settings</button>
+          <div class="menu-sep" aria-hidden="true"></div>
+          <button class="menu-item danger" role="menuitem" type="button" data-go="index.html">Logout</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Scrim for mobile -->
+    <div class="scrim" id="scrim" onclick="toggleSidebar(false)"></div>
+
+    <!-- Main -->
+    <main class="main">
+      <!-- Topbar -->
+      <div class="topbar">
+        <div class="topLeft">
+          <button class="burger" id="burger" aria-label="Open menu" onclick="toggleSidebar()">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M5 7h14M5 12h14M5 17h14" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <div class="crumbs">
+            <div class="kicker">Drops</div>
+            <div class="title">Schedule · Package · Launch</div>
+          </div>
+        </div>
+
+        <div class="topRight">
+          <button class="btn primary" type="button" onclick="alert('Hook: open drops calendar / timeline');">
+            <span class="dot"></span>Timeline
+          </button>
+        </div>
+      </div>
+
+      <div class="content">
+
+        <!-- DROP HEALTH / STATUS BAR -->
+        <section class="panel">
+          <div class="head">
+            <h2>Drop Health</h2>
+            <div class="pill">Make the launch boring (that’s the goal)</div>
+          </div>
+
+          <div class="body">
+            <div class="healthGrid">
+              <div class="healthCard">
+                <div class="hK">Next Drop</div>
+                <div class="hV" id="hNext">—</div>
+                <div class="hS" id="hNextMeta">No scheduled drops</div>
+              </div>
+
+              <div class="healthCard">
+                <div class="hK">Readiness</div>
+                <div class="hV" id="hReady">0%</div>
+                <div class="hBar" aria-hidden="true"><div class="hFill" id="hFill" style="width:0%"></div></div>
+                <div class="hS" id="hReadyMeta">Nothing queued</div>
+              </div>
+
+              <div class="healthCard">
+                <div class="hK">Platforms</div>
+                <div class="hV" id="hPlatforms">—</div>
+                <div class="hS">XRP Café · OpenSea · Socials</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="drop-grid">
+
+          <!-- LEFT: Create / Schedule a drop -->
+          <section class="panel">
+            <div class="head">
+              <h2>Create Drop</h2>
+              <div class="pill">Package → schedule → publish</div>
+            </div>
+
+            <div class="body" style="display:flex; flex-direction:column; gap:12px;">
+
+              <!-- Artwork selection (library later) -->
+              <div class="field">
+                <div class="label">Artwork <span class="hint">Source asset</span></div>
+
+                <div class="two">
+                  <button class="btn" type="button" id="chooseDropArtworkBtn" onclick="chooseDropArtwork()">
+                    Choose artwork
+                  </button>
+                  <div class="pill" id="dropArtworkState">none selected</div>
+                </div>
+
+                <div id="dropArtworkPreviewRow" style="display:none; gap:10px; align-items:center;">
+                  <img id="dropArtworkThumb" alt="" style="width:46px;height:46px;border-radius:14px;object-fit:cover;border:1px solid rgba(255,255,255,0.10);" />
+                  <div style="min-width:0;">
+                    <div style="font-weight:950;color:var(--text-2);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" id="dropArtworkName">—</div>
+                    <div style="font-family:var(--mono);font-size:11px;color:rgba(255,255,255,0.45);" id="dropArtworkMeta">—</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="label">Drop Name <span class="hint">Internal label</span></div>
+                <input id="dropName" type="text" placeholder="e.g. The Soap Wars · Saturday Drop" />
+              </div>
+
+              <div class="two">
+                <div class="field">
+                  <div class="label">Collection <span class="hint">Optional</span></div>
+                  <select id="dropCollection">
+                    <option value="">None</option>
+                    <option>War & Feast</option>
+                    <option>Signals & Ascensions</option>
+                    <option>Industrial Scriptures</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <div class="label">Drop Type <span class="hint">Default</span></div>
+                  <select id="dropType">
+                    <option value="1of1" selected>1/1</option>
+                    <option value="edition">Edition</option>
+                    <option value="open">Open edition window</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="two">
+                <div class="field">
+                  <div class="label">Date <span class="hint">Local</span></div>
+                  <input id="dropDate" type="date" />
+                </div>
+                <div class="field">
+                  <div class="label">Time <span class="hint">Local</span></div>
+                  <input id="dropTime" type="time" />
+                </div>
+              </div>
+
+              <div class="two">
+                <div class="field">
+                  <div class="label">Primary Marketplace <span class="hint">Mint rail</span></div>
+                  <select id="dropMarket">
+                    <option value="xrpcafe" selected>XRP Café (XRPL)</option>
+                    <option value="opensea">OpenSea (EVM)</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <div class="label">Price <span class="hint">Listing</span></div>
+                  <input id="dropPrice" type="text" placeholder="e.g. 125 XRP or 0.08 ETH" />
+                </div>
+              </div>
+
+              <div class="two">
+                <div class="field">
+                  <div class="label">Edition Size <span class="hint">If edition</span></div>
+                  <input id="dropEdition" type="number" min="1" value="1" />
+                </div>
+                <div class="field">
+                  <div class="label">Royalties % <span class="hint">EVM dependent</span></div>
+                  <input id="dropRoyalties" type="number" min="0" max="25" step="0.5" value="10" />
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="label">Listing Description <span class="hint">Marketplace text</span></div>
+                <textarea id="dropDescription" placeholder="Public description shown on the marketplace listing..."></textarea>
+              </div>
+
+              <!-- Social pack -->
+              <div class="field">
+                <div class="label">Social Pack <span class="hint">Optional</span></div>
+                <div class="socialPack">
+                  <div class="spRow">
+                    <div class="pill spTag">X / Twitter</div>
+                    <input id="capX" type="text" placeholder="Two-line caption for X..." />
+                  </div>
+                  <div class="spRow">
+                    <div class="pill spTag">Instagram</div>
+                    <input id="capIG" type="text" placeholder="Caption for IG..." />
+                  </div>
+                  <div class="spRow">
+                    <div class="pill spTag">BlueSky</div>
+                    <input id="capBS" type="text" placeholder="Caption for BlueSky..." />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Checklist -->
+              <div class="field">
+                <div class="label">Launch Checklist <span class="hint">Readiness</span></div>
+                <div class="checks" id="checks">
+                  <label class="check"><input type="checkbox" data-check="cover"> Cover exported (correct ratio)</label>
+                  <label class="check"><input type="checkbox" data-check="metadata"> Metadata verified (title/desc/traits)</label>
+                  <label class="check"><input type="checkbox" data-check="price"> Price + supply confirmed</label>
+                  <label class="check"><input type="checkbox" data-check="preview"> Listing preview looks right</label>
+                  <label class="check"><input type="checkbox" data-check="social"> Social captions ready</label>
+                </div>
+              </div>
+
+              <div class="dropActions">
+                <button class="btn primary" type="button" onclick="queueDrop()">
+                  <span class="dot"></span>Add Drop
+                </button>
+                <button class="btn" type="button" onclick="dropDryRun()">Dry run</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- RIGHT: Drops queue -->
+          <section class="panel">
+            <div class="head">
+              <h2>Drops Queue</h2>
+              <div class="pill">Upcoming + drafts</div>
+            </div>
+
+            <div class="body">
+              <div class="queue" id="dropQueue">
+
+                <!-- Sample item -->
+                <div class="qItem"
+                     data-dropname="The Soap Wars · Saturday Drop"
+                     data-artwork="The Soap Wars"
+                     data-when="2026-01-31 19:00"
+                     data-market="xrpcafe"
+                     data-price="125 XRP"
+                     data-type="1of1"
+                     data-edition="1"
+                     data-royalties="10%"
+                     data-status="scheduled"
+                     data-desc="Collector text locked. Cover verified. Ready to mint + announce."
+                     data-ready="4"
+                     data-readytotal="5">
+                  <div class="qLeft">
+                    <div class="qTitle">The Soap Wars · Saturday Drop</div>
+                    <div class="qMeta">scheduled · 2026-01-31 19:00 · xrpcafe · 125 XRP</div>
+                  </div>
+                  <div class="qRight">
+                    <div class="statusPill on">scheduled</div>
+                    <button class="iconBtn" type="button" onclick="openDropModal(this)" aria-label="Open drop">
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M9 18l6-6-6-6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="emptyState" id="dropEmpty" hidden>
+                <div class="emptyTitle">No drops yet</div>
+                <div class="emptyText">Build a drop package on the left and add it to your queue.</div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Drop Details Modal / Drawer -->
+  <div class="modal" id="dropModal" aria-hidden="true">
+    <div class="modalScrim" onclick="closeDropModal()"></div>
+
+    <div class="modalCard" role="dialog" aria-modal="true" aria-label="Drop details">
+      <div class="modalHead">
+        <div class="modalTitleWrap">
+          <div class="modalKicker">Drop details</div>
+          <div class="modalTitle" id="dTitle">—</div>
+          <div class="modalMeta" id="dMeta">—</div>
+        </div>
+
+        <button class="iconBtn" type="button" onclick="closeDropModal()" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M6 6l12 12M18 6L6 18" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modalBody">
+        <div class="modalGrid">
+          <div class="mBox" id="dStatusBox">
+            <div class="mK">Status</div>
+            <div class="mV statusText" id="dStatus">—</div>
+          </div>
+          <div class="mBox"><div class="mK">When</div><div class="mV" id="dWhen">—</div></div>
+          <div class="mBox"><div class="mK">Marketplace</div><div class="mV" id="dMarket">—</div></div>
+          <div class="mBox"><div class="mK">Type</div><div class="mV" id="dType">—</div></div>
+          <div class="mBox"><div class="mK">Edition</div><div class="mV" id="dEdition">—</div></div>
+          <div class="mBox"><div class="mK">Royalties</div><div class="mV" id="dRoyalties">—</div></div>
+          <div class="mBox"><div class="mK">Price</div><div class="mV" id="dPrice">—</div></div>
+          <div class="mBox"><div class="mK">Readiness</div><div class="mV" id="dReady">—</div></div>
+        </div>
+
+        <div class="mNotes">
+          <div class="mK">Description</div>
+          <div class="mNoteText" id="dDesc">—</div>
+        </div>
+
+        <div class="modalActions">
+          <button class="btn primary" type="button" onclick="alert('Hook: launch this drop');">
+            <span class="dot"></span>Launch
+          </button>
+          <button class="btn" type="button" onclick="alert('Hook: edit drop');">Edit</button>
+          <button class="btn" type="button" onclick="removeActiveDrop()">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="profile-menu.js"></script>
+  <script src="./js/drops.js"></script>
+</body>
+</html>

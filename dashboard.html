@@ -22,10 +22,11 @@
         <a class="active" href="dashboard.html">Dashboard <small>⌘1</small></a>
         <a href="create.html">Create<small>⌘2</small></a>
         <a href="collections.html">Collections <small>⌘3</small></a>
-        <a href="distribute.html"><span>Distribute</span><small>⌘4</small></a>
-        <a href="socials.html">Socials <small>⌘5</small></a>
-        <a href="website.html">Website <small>⌘6</small></a>
-        <!-- <a href="#">Settings <small>⌘7</small></a> -->
+        <a href="distribute.html"><span>Mint</span><small>⌘4</small></a>
+        <a href="drops.html"><span>Drops</span><small>⌘5</small></a>
+        <a href="socials.html">Socials <small>⌘6</small></a>
+        <a href="website.html">Website <small>⌘7</small></a>
+        <!-- <a href="#">Settings <small>⌘8</small></a> -->
       </nav>
 
       <!-- ACCOUNT / PROFILE (sidebar footer) -->
@@ -74,9 +75,8 @@
 
       <section class="content">
         <div class="grid">
-
-         <!-- EMPTY STATE (when no works exist) -->
-        <div class="empty-state">
+            <!-- EMPTY STATE (when no works exist) -->
+        <div class="empty-state" id="emptyState" hidden>
           <div class="empty-grid">
             <!-- LEFT: KPIs + No works panel -->
             <div>
@@ -152,6 +152,112 @@
           </div>
         </div>
         <!-- END EMPTY STATE -->
+        <!-- ------------------------------- -->
+        <!-- ------------------------------- -->
+        <!-- ------------------------------- -->
+        <!-- ------------------------------- -->
+        <!-- ------------------------------- -->
+        <!-- ACTIVE STATE (when works exist) -->
+        <div class="active-state" id="activeState" hidden>
+
+          <!-- LEFT COLUMN STACK -->
+          <div class="active-left">
+
+            <!-- 3) Next Recommended Action (Hero) -->
+            <section class="panel" id="nextActionPanel">
+              <div class="head">
+                <h2>Next Recommended Action</h2>
+                <span class="pill" id="nextActionPill">Priority</span>
+              </div>
+
+              <div class="body nextActionBody">
+                <div class="na-main">
+                  <div class="na-text">
+                    <div class="na-kicker" id="nextActionKicker">Up next</div>
+                    <div class="na-title" id="nextActionTitle">Continue “Mean and Clean”</div>
+                    <div class="na-sub" id="nextActionSub">
+                      Draft edited 12m ago. Assign to a collection to unlock publishing.
+                    </div>
+                  </div>
+
+                  <div class="na-actions">
+                    <button class="btn primary" type="button" id="nextActionBtn" data-go="create.html">
+                      Continue <span class="dot"></span>
+                    </button>
+                    <button class="btn" type="button" id="nextActionAltBtn" data-go="collections.html">
+                      Assign Collection
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 1) Works in Motion -->
+            <section class="panel" id="worksMotionPanel">
+              <div class="head">
+                <h2>Works in Motion</h2>
+                <span class="pill" id="attentionCount">Attention: 0</span>
+              </div>
+
+              <div class="body">
+                <!-- Attention list -->
+                <div class="wm-block">
+                  <div class="wm-top">
+                    <div class="wm-label">Requires attention</div>
+                    <button class="wm-link btn" type="button" data-go="works.html">View all</button>
+                  </div>
+
+                  <div class="list" id="attentionList">
+                    <!-- Example row (JS will render real items) -->
+                    <div class="item">
+                      <div class="meta">
+                        <div class="name">“Discovery of the Indigenous”</div>
+                        <div class="sub">Missing social post</div>
+                      </div>
+                      <div class="wm-right">
+                        <div class="tag">Needs Socials</div>
+                        <button class="btn" type="button" data-go="socials.html">Generate</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Continue list -->
+                <div class="wm-block" style="margin-top:12px;">
+                  <div class="wm-top">
+                    <div class="wm-label">Continue where you left off</div>
+                  </div>
+
+                  <div class="tiles" id="continueTiles">
+                    <div class="tile">
+                      <div class="t">“Mean and Clean”</div>
+                      <div class="d">Last edited · 12m ago</div>
+                      <div class="go">
+                        <span>Continue</span>
+                        <span>↗</span>
+                      </div>
+                    </div>
+
+                    <div class="tile">
+                      <div class="t">“Temple of Openings”</div>
+                      <div class="d">Last edited · 2d ago</div>
+                      <div class="go">
+                        <span>Continue</span>
+                        <span>↗</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+
+          </div>
+          <!-- END LEFT COLUMN STACK -->
+
+        </div>
+        <!-- END ACTIVE STATE -->
+
 
           <section class="panel" id="quickActionsPanel">
             <div class="head"><h2>Quick Actions</h2><span class="pill">Today</span></div>
@@ -269,5 +375,6 @@
 
   <script src="dreamos-shell.js"></script>
   <script src="profile-menu.js"></script>
+  <script src="js/dashboard.js"></script>
 </body>
 </html>

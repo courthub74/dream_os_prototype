@@ -1,0 +1,76 @@
+  <!-- First Collection Card-->
+              <div class="card">
+                <div class="badge">Active</div>
+                <div class="cover"></div>
+                <div class="cardHeader">
+                  <div class="name">Symbols in Motion</div>
+                  <button class="cardEditInline" type="button" aria-label="Edit collection">
+                    Edit
+                  </button>
+                </div>
+                <div class="meta">Recurring emblems traveling between scenes and meanings.</div>
+              </div>
+              <!-- Second Collection Card-->
+              <div class="card">
+                <div class="badge">Active</div>
+                <div class="cover"></div>
+                <div class="cardHeader">
+                  <div class="name">The Dominion Archive</div>
+                  <button class="cardEditInline" type="button" aria-label="Edit collection">
+                    Edit
+                  </button>
+                </div>
+                <div class="meta">Artifacts of authority, sealed records, gold as proof.</div>
+              </div>
+              <!-- Third Collection Card-->
+              <div class="card">
+                <div class="badge">Active</div>
+                <div class="cover"></div>
+                <div class="cardHeader">
+                  <div class="name">War and Feast</div>
+                  <button class="cardEditInline" type="button" aria-label="Edit collection">
+                    Edit
+                  </button>
+                </div>
+                <div class="meta">Conflict as currency. Celebration as infrastructure.</div>
+              </div>
+
+              <!-- Fourth Collection Card-->
+              <div class="card">
+                <div class="badge">Active</div>
+                <div class="cover"></div>
+                <div class="cardHeader">
+                  <div class="name">The Digital Unconscious</div>
+                  <button class="cardEditInline" type="button" aria-label="Edit collection">
+                    Edit
+                  </button>
+                </div>
+                <div class="meta">Dream logic rendered as systems, signals, and strange UI.</div>
+              </div>
+
+              <!-- Fifth Collection Card-->
+              <div class="card">
+                <div class="badge">Active</div>
+                <div class="cover"></div>
+                <div class="cardHeader">
+                  <div class="name">Signals and Ascensions</div>
+                  <button class="cardEditInline" type="button" aria-label="Edit collection">
+                    Edit
+                  </button>
+                </div>
+                <div class="meta">Messages, rites, and vertical movements through data.</div>
+              </div>
+
+              <!-- Sixth Collection Card-->
+              <div class="card">
+                <div class="badge">Active</div>
+                <div class="cover"></div>
+                <div class="cardHeader">
+                  <div class="name">Industrial Myths</div>
+                  <button class="cardEditInline" type="button" aria-label="Edit collection">
+                    Edit
+                  </button>
+                </div>
+                <div class="meta">Machines as folklore. Labor as legend.</div>
+              </div>
+            </div>

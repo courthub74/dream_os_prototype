@@ -22,9 +22,10 @@
         <a href="dashboard.html"><span>Dashboard</span><small>⌘1</small></a>
         <a href="create.html"><span>Create</span><small>⌘2</small></a>
         <a href="collections.html"><span>Collections</span><small>⌘3</small></a>
-        <a href="distribute.html"><span>Distribute</span><small>⌘4</small></a>
-        <a href="socials.html"><span>Socials</span><small>⌘5</small></a>
-        <a class="active" href="website.html"><span>Website</span><small>⌘6</small></a>
+        <a href="distribute.html"><span>Mint</span><small>⌘4</small></a>
+        <a href="drops.html"><span>Drops</span><small>⌘5</small></a>
+        <a href="socials.html"><span>Socials</span><small>⌘6</small></a>
+        <a class="active" href="website.html"><span>Website</span><small>⌘7</small></a>
       </nav>
 
       <!-- ACCOUNT / PROFILE (sidebar footer) -->
@@ -138,7 +139,7 @@
                 </div>
 
                 <div class="field">
-                  <div class="label">Image <span class="hint">Optional</span></div>
+                  <div class="label">Image</div>
                   <div class="two">
                     <div>
                       <label class="pill imageState" for="siteImage" id="siteImageState">none selected</label>
@@ -146,7 +147,7 @@
                       <div class="hint" style="margin-top:8px;">Later: cropper + compression + CDN.</div>
                     </div>
                     <div>
-                      <div class="label">Alt text <span class="hint">Accessibility</span></div>
+                      <div class="label">Alt text [Optional] <span class="hint">Accessibility</span></div>
                       <input id="siteAlt" type="text" placeholder="Short, descriptive alt text" />
                       <button class="ghostLink" type="button" onclick="alert('Hook: generate alt text');">
                         click here for alt-text suggestions
@@ -155,7 +156,7 @@
                   </div>
                 </div>
 
-                <div class="two">
+                <div class="two ctas">
                   <button class="btn" type="button" onclick="previewWebsiteUpdate()">Preview</button>
                   <button class="btn primary" type="button" onclick="queueWebsiteUpdate()"><span class="dot"></span>Queue update</button>
                 </div>

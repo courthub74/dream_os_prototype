@@ -23,10 +23,11 @@
         <a href="dashboard.html">Dashboard <small>⌘1</small></a>
         <a href="create.html">Create<small>⌘2</small></a>
         <a class="active" href="collections.html">Collections <small>⌘3</small></a>
-        <a href="distribute.html">Distribute <small>⌘4</small></a>
-        <a href="socials.html">Socials <small>⌘5</small></a>
-        <a href="website.html">Website <small>⌘6</small></a>
-        <!-- <a href="#">Settings <small>⌘7</small></a> -->
+        <a href="distribute.html">Mint <small>⌘4</small></a>
+        <a href="drops.html">Drops <small>⌘5</small></a>
+        <a href="socials.html">Socials <small>⌘6</small></a>
+        <a href="website.html">Website <small>⌘7</small></a>
+        <!-- <a href="#">Settings <small>⌘8</small></a> -->
       </nav>
 
       <!-- ACCOUNT / PROFILE (sidebar footer) -->
@@ -73,86 +74,39 @@
 
       <section class="content">
         <section class="panel">
-          <div class="head"><h2>Your Collections</h2><span class="pill">6 total</span></div>
+          <div class="head"><h2>Your Collections</h2><span class="pill" id="collectionsPill">0 total</span></div>
+
+
           <div class="body">
-            <div class="grid">
 
-              <!-- First Collection Card-->
-              <div class="card">
-                <div class="badge">Active</div>
-                <div class="cover"></div>
-                <div class="cardHeader">
-                  <div class="name">Symbols in Motion</div>
-                  <button class="cardEditInline" type="button" aria-label="Edit collection">
-                    Edit
-                  </button>
-                </div>
-                <div class="meta">Recurring emblems traveling between scenes and meanings.</div>
-              </div>
-              <!-- Second Collection Card-->
-              <div class="card">
-                <div class="badge">Active</div>
-                <div class="cover"></div>
-                <div class="cardHeader">
-                  <div class="name">The Dominion Archive</div>
-                  <button class="cardEditInline" type="button" aria-label="Edit collection">
-                    Edit
-                  </button>
-                </div>
-                <div class="meta">Artifacts of authority, sealed records, gold as proof.</div>
-              </div>
-              <!-- Third Collection Card-->
-              <div class="card">
-                <div class="badge">Active</div>
-                <div class="cover"></div>
-                <div class="cardHeader">
-                  <div class="name">War and Feast</div>
-                  <button class="cardEditInline" type="button" aria-label="Edit collection">
-                    Edit
-                  </button>
-                </div>
-                <div class="meta">Conflict as currency. Celebration as infrastructure.</div>
-              </div>
+             <!-- EMPTY STATE -->
+            <div class="emptyState" hidden>
+              <!-- <div class="orb"></div> -->
+               <div class="empty-icon">
+                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 5h16v14H4V5z" stroke="currentColor" stroke-width="1.6"/>
+                  <path d="M7 15l3-3 3 3 4-5 3 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+               </div>
+              <h3>No Collections Yet</h3>
+              <p>
+                Collections shape meaning over time.<br>
+                Create one to begin organizing your works.
+              </p>
 
-              <!-- Fourth Collection Card-->
-              <div class="card">
-                <div class="badge">Active</div>
-                <div class="cover"></div>
-                <div class="cardHeader">
-                  <div class="name">The Digital Unconscious</div>
-                  <button class="cardEditInline" type="button" aria-label="Edit collection">
-                    Edit
-                  </button>
-                </div>
-                <div class="meta">Dream logic rendered as systems, signals, and strange UI.</div>
-              </div>
-
-              <!-- Fifth Collection Card-->
-              <div class="card">
-                <div class="badge">Active</div>
-                <div class="cover"></div>
-                <div class="cardHeader">
-                  <div class="name">Signals and Ascensions</div>
-                  <button class="cardEditInline" type="button" aria-label="Edit collection">
-                    Edit
-                  </button>
-                </div>
-                <div class="meta">Messages, rites, and vertical movements through data.</div>
-              </div>
-
-              <!-- Sixth Collection Card-->
-              <div class="card">
-                <div class="badge">Active</div>
-                <div class="cover"></div>
-                <div class="cardHeader">
-                  <div class="name">Industrial Myths</div>
-                  <button class="cardEditInline" type="button" aria-label="Edit collection">
-                    Edit
-                  </button>
-                </div>
-                <div class="meta">Machines as folklore. Labor as legend.</div>
-              </div>
+              <button class="btn primary" onclick="window.location.href='new-collection.html'">
+                <span class="dot"></span>
+                Create First Collection
+              </button>
             </div>
+
+            <!-- COLLECTION CARDS (KEEP THIS GRID JS ADDS THE CARDS FROM THE BACKEND) -->
+            <div class="grid">
+          
+                 <!-- JS FETCHES THESE FROM BACKEND AND ADDS CARDS HERE-->
+
+            </div>
+
           </div>
         </section>
       </section>

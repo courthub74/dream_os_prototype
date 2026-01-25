@@ -31,42 +31,42 @@ const reviewEl = document.getElementById("artworkReview");
   });
 })();
 
-// Demo flag for now. Swap this with your real count later.
-  const worksCount = 0; // 0 = empty state
+// // Demo flag for now. Swap this with your real count later.
+//   const worksCount = 0; // 0 = empty state
 
-  const emptyState = document.querySelector(".empty-state");
-  const emptyQuickActionsSlot = document.getElementById("emptyQuickActionsSlot");
+//   const emptyState = document.querySelector(".empty-state");
+//   const emptyQuickActionsSlot = document.getElementById("emptyQuickActionsSlot");
 
-  const quickActionsPanel = document.getElementById("quickActionsPanel");
-  const recentActivityPanel = document.getElementById("recentActivityPanel");
+//   const quickActionsPanel = document.getElementById("quickActionsPanel");
+//   const recentActivityPanel = document.getElementById("recentActivityPanel");
 
-  const showEmpty = worksCount === 0;
+//   const showEmpty = worksCount === 0;
 
-  if(showEmpty){
-    // Show empty state
-    if(emptyState) emptyState.style.display = "block";
+//   if(showEmpty){
+//     // Show empty state
+//     if(emptyState) emptyState.style.display = "block";
 
-    // Hide Recent Activity
-    if(recentActivityPanel) recentActivityPanel.style.display = "none";
+//     // Hide Recent Activity
+//     if(recentActivityPanel) recentActivityPanel.style.display = "none";
 
-    // Move Quick Actions panel to the right column of empty state
-    if(quickActionsPanel && emptyQuickActionsSlot){
-      emptyQuickActionsSlot.appendChild(quickActionsPanel);
-    }
-  } else {
-    // Hide empty state
-    if(emptyState) emptyState.style.display = "none";
+//     // Move Quick Actions panel to the right column of empty state
+//     if(quickActionsPanel && emptyQuickActionsSlot){
+//       emptyQuickActionsSlot.appendChild(quickActionsPanel);
+//     }
+//   } else {
+//     // Hide empty state
+//     if(emptyState) emptyState.style.display = "none";
 
-    // Show Recent Activity
-    if(recentActivityPanel) recentActivityPanel.style.display = "";
+//     // Show Recent Activity
+//     if(recentActivityPanel) recentActivityPanel.style.display = "";
 
-    // Ensure Quick Actions lives in the normal grid again (left column)
-    // (Put it back at the top of the grid, before recent activity)
-    const grid = document.querySelector(".grid");
-    if(grid && quickActionsPanel){
-      grid.insertBefore(quickActionsPanel, recentActivityPanel || null);
-    }
-  }
+//     // Ensure Quick Actions lives in the normal grid again (left column)
+//     // (Put it back at the top of the grid, before recent activity)
+//     const grid = document.querySelector(".grid");
+//     if(grid && quickActionsPanel){
+//       grid.insertBefore(quickActionsPanel, recentActivityPanel || null);
+//     }
+//   }
 
   // Artwork Preview Drag and Drop
   const detailsEl = document.getElementById("artworkDetails");
@@ -79,8 +79,9 @@ const reviewEl = document.getElementById("artworkReview");
   const genHint = document.getElementById("genHint");
 
   let genTimer = null;
-
-  genBtn.addEventListener("click", () => {
+  
+  if (genBtn && detailsEl && genEl && stage && genFill && genHint && reviewEl)  {
+    genBtn.addEventListener("click", () => {
     // 1) Hide details, show generating
     detailsEl.classList.add("hidden");
     genEl.classList.remove("hidden");
@@ -142,6 +143,8 @@ const reviewEl = document.getElementById("artworkReview");
       }
     }, 700);
   });
+  }
+  
 
   function cancelGenerate(){
     clearInterval(genTimer);

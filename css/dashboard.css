@@ -54,3 +54,89 @@
       white-space:nowrap;
     }
 
+/* Active state layout inside the existing .grid */
+.active-state{
+  display: contents; /* lets children participate in parent grid columns */
+}
+
+/* Left column stack */
+.active-left{
+  display:flex;
+  flex-direction:column;
+  gap: 14px;
+}
+
+/* Next action styles (hero) */
+.nextActionBody .na-main{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 14px;
+}
+
+.na-kicker{
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.na-title{
+  font-weight: 900;
+  color: var(--text-2);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.na-sub{
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+  max-width: 62ch;
+}
+
+.na-actions{
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+  min-width: 220px;
+}
+
+@media (max-width: 520px){
+  .nextActionBody .na-main{ flex-direction:column; }
+  .na-actions{ min-width: 0; width:100%; }
+}
+
+/* Works in Motion: right side controls inside list rows */
+.wm-right{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.wm-block{ display:flex; flex-direction:column; gap: 10px; }
+
+.wm-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+}
+
+.wm-label{
+  font-weight: 900;
+  color: var(--text-2);
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* Link-styled button to match your UI */
+.wm-link.btn{
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}

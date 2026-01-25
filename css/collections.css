@@ -28,6 +28,7 @@
     .name{ font-weight: 900; color: var(--text-2); }
     .meta{ color: var(--muted); font-size: 12px; line-height: 1.45; }
     .badge{
+      display: none;
       position:absolute; top: 12px; right: 12px;
       font-family: var(--mono);
       font-size: 11px;
@@ -143,6 +144,8 @@
       margin-top: 10px;
       display:flex;
       gap: 10px;
+      padding: 5px;
+      /* background-color: aqua; */
     }
     .formActions .btn{ flex: 1; justify-content:center; }
     @media (max-width: 520px){
@@ -172,6 +175,7 @@
       font-size: 14px;
     }
     .badge{
+      display: none;
       font-family: var(--mono);
       font-size: 11px;
       color: rgba(255,255,255,0.65);
@@ -407,4 +411,60 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
+    .emptyState{
+  min-height: 320px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:14px;
+  color: var(--muted);
+}
+
+.emptyState h3{
+  margin:0;
+  font-size:18px;
+  font-weight:600;
+  color: var(--text);
+}
+
+.emptyState p{
+  max-width:360px;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.emptyOrb{
+  width:84px;
+  height:84px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(180,207,106,0.35), transparent 60%),
+    rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+  margin-bottom:8px;
+}
+
+.empty-icon{
+  width: 42px; height: 42px;
+  border-radius: 16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.78);
+  margin-bottom: 10px;
+}
+
+/* Hide empty state and grid when hidden */
+.emptyState[hidden],
+.grid[hidden]{
+  display: none !important;
+}
+
+
 
