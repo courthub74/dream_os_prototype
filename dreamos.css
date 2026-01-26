@@ -309,7 +309,7 @@ button{ font-family: inherit; }
 }
 .body{ padding: 16px; }
 
-/* ===== Empty-state dashboard ===== */
+/* ===== Empty-state dashboard =====
 .kpis{
   display:grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -349,7 +349,7 @@ button{ font-family: inherit; }
   letter-spacing: .10em;
   text-transform: uppercase;
 }
-@media (max-width: 520px){ .kpi-label{ font-size: 10px; } }
+@media (max-width: 520px){ .kpi-label{ font-size: 10px; } } */
 
 /* Work empty panel */
 .work-panel{ border-radius: var(--radius-lg); }
