@@ -59,12 +59,12 @@
 
           <div class="field">
             <div class="label">Email</div>
-            <input type="email" placeholder="you@studio.com" />
+            <input id="email" type="email" placeholder="you@studio.com" />
           </div>
 
           <div class="field">
             <div class="label">Password</div>
-            <input type="password" placeholder="••••••••" />
+            <input id="password" type="password" placeholder="••••••••" />
           </div>
 
           <div class="mini">
@@ -79,9 +79,10 @@
 
 
           <div class="login-actions">
-            <button class="btn primary" onclick="alert('Hook to auth. Then route to dashboard.');">
+            <button class="btn primary" id="signInBtn" type="button">
               <span class="dot"></span>Sign In
             </button>
+
 
             <button class="btn" onclick="window.location.href='dashboard.html';">
               Continue in Demo Mode
@@ -99,5 +100,8 @@
         </div>
       </section>
     </div>
+
+  <!-- JS -->
+  <script src="../js/login.js"></script>
 </body>
 </html>

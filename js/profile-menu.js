@@ -49,3 +49,23 @@
         window.location.href = btn.dataset.go;
       });
   });
+
+  // LOGOUT LOGIC
+  document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("logoutBtn");
+    if (!btn) return;
+
+    btn.addEventListener("click", async () => {
+      try {
+        await fetch("http://localhost:4000/auth/logout", {
+          method: "POST",
+          credentials: "include"
+        });
+      } catch {}
+
+      localStorage.removeItem("origin_access");
+      localStorage.removeItem("origin_user");
+      window.location.href = "index.html";
+    });
+  });
+
