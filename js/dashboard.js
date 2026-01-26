@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!emptyWorks || !activeWorks) return;
 
   // TEMP test value
-  const worksCount = 3;
+  const worksCount = 0;
 
   const showEmpty = worksCount === 0;
 
