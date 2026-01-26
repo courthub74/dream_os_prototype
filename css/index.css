@@ -114,3 +114,25 @@
         width: 100%;
       }
     }
+
+    /* REGISTRATION BUTTON */
+    .registerPrompt{
+      margin-top: 18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .btn.ghost{
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.85);
+    }
+
+    .btn.ghost:hover{
+      border-color: rgba(180,207,106,0.45);
+      background: rgba(180,207,106,0.08);
+    }
