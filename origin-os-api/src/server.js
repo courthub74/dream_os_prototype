@@ -1,3 +1,5 @@
+// SERVER JS
+
 require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
@@ -29,3 +31,11 @@ connectDB()
     console.error("❌ DB connection failed:", err.message);
     process.exit(1);
   });
+
+// Status Routes
+const statsRoutes = require("./routes/stats.routes");
+app.use("/stats", statsRoutes);
+
+// Artwork Routes
+const artworksRoutes = require("./routes/artworks.routes");
+app.use("/artworks", artworksRoutes);

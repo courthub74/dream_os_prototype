@@ -56,7 +56,7 @@
       <div class="sidebar-footer account-footer">
         <button class="account-btn" id="accountBtn" type="button" aria-haspopup="menu" aria-expanded="false">
           <div class="account-avatar">
-            <img src="./img/blue_user.png" class="user_avatar" alt="User Avatar" />
+            <img src="../img/blue_user.png" class="user_avatar" alt="User Avatar" />
             <div class="account-meta">
               <p class="account-name">The Usersname</p>
               <p class="account-role">Artist</p>
@@ -160,8 +160,8 @@
                   </div>
 
                   <div class="meta-actions">
-                    <button class="btn" type="button" onclick="alert('Hook: save draft');">Save Draft</button>
-                    <button class="btn" type="button" onclick="alert('Hook: preview');">Preview</button>
+                    <button class="btn" type="button" id="saveDraftBtn">Save Draft</button>
+                    <button class="btn" type="button" id="previewBtn">Preview</button>
                     <button class="btn primary" type="button" id="generateBtn">
                       <span class="dot"></span>Generate
                     </button>
@@ -217,50 +217,6 @@
               <!-- ------------------------------------------------------------------ -->
           </section>
 
-          <!-- <section class="panel">
-            <div class="head"><h2>Metadata</h2><span class="pill">Draft</span></div>
-            <div class="body">
-              <div class="row">
-                <div style="flex:1;">
-
-                  <div class="field">
-                    <div class="label">Description</div>
-                    <textarea placeholder="Collector prose, archive caption, and internal notes…"></textarea>
-                  </div>
-
-                  <div class="field">
-                    <div class="label">Title</div>
-                    <input placeholder='e.g., "Temple of Openings"' />
-                  </div>
-
-                  <div class="field">
-                    <div class="label">Year</div>
-                    <input placeholder="2026" />
-                  </div>
-                </div>
-
-      
-              </div>
-
-              <div class="field">
-                <div class="label">Collection</div>
-                <select>
-                  <option>The Dominion Archive</option>
-                  <option>War and Feast</option>
-                  <option>The Digital Unconscious</option>
-                  <option>Signals and Ascensions</option>
-                  <option>Industrial Myths</option>
-                  <option>Symbols in Motion</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <div class="label">Tags</div>
-                <input placeholder="e.g., crowned, archive, signal, ritual" />
-              </div>
-            </div>
-          </section> -->
-
           <!-- Artwork Preview -->
           <section class="panel">
             <div class="head"><h2>Artwork Preview</h2><span class="pill">PNG / JPG / MP4</span></div>
@@ -277,5 +233,8 @@
   <!-- JS -->
   <script src="../js/dreamos-shell.js"></script>
   <script src="../js/profile-menu.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/create.js"></script>
+
 </body>
 </html>

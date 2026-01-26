@@ -1,71 +1,82 @@
+// profile-menu.js
+document.addEventListener("DOMContentLoaded", () => {
+  const accountFooter = document.querySelector(".account-footer");
+  if (!accountFooter) return;
 
-  // Account menu logic
-  document.addEventListener('DOMContentLoaded', () => { 
-      const accountFooter = document.querySelector('.account-footer');
-      const accountBtn = accountFooter.querySelector('#accountBtn');
-      const accountMenu = accountFooter.querySelector('#accountMenu');
+  const accountBtn = accountFooter.querySelector("#accountBtn");
+  const accountMenu = accountFooter.querySelector("#accountMenu");
+  if (!accountBtn || !accountMenu) return;
 
-      function closeAccountMenu(){
-        accountMenu.classList.remove('show');
-        accountBtn.setAttribute('aria-expanded', 'false');
-      }
+  const API_BASE = "http://localhost:4000";
 
-      accountBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const isOpen = accountMenu.classList.toggle('show');
-        accountBtn.setAttribute('aria-expanded', String(isOpen));
+  function closeAccountMenu() {
+    accountMenu.classList.remove("show");
+    accountBtn.setAttribute("aria-expanded", "false");
+  }
+
+  function openAccountMenu() {
+    accountMenu.classList.add("show");
+    accountBtn.setAttribute("aria-expanded", "true");
+  }
+
+  function toggleAccountMenu() {
+    const isOpen = accountMenu.classList.contains("show");
+    isOpen ? closeAccountMenu() : openAccountMenu();
+  }
+
+  async function logout() {
+    try {
+      await fetch(`${API_BASE}/auth/logout`, {
+        method: "POST",
+        credentials: "include"
       });
+    } catch {}
 
-      accountMenu.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const btn = e.target.closest('[data-go]');
-        if (!btn) return;
-        closeAccountMenu();
-        window.location.href = btn.dataset.go;
-      });
+    localStorage.removeItem("origin_access");
+    localStorage.removeItem("origin_user");
 
-      document.addEventListener('click', (e) => {
-        if (!accountMenu.classList.contains('show')) return;
-        if (accountFooter.contains(e.target)) return;
-        closeAccountMenu();
-      });
+    // If your login file path differs, adjust:
+    window.location.href = "index.html";
+  }
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeAccountMenu();
-      });
-
-
-      // escape closes
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeAccountMenu();
-      });
-
-      // menu navigation
-      accountMenu?.addEventListener('click', (e) => {
-        const btn = e.target.closest('[data-go]');
-        if(!btn) return;
-        closeAccountMenu();
-        window.location.href = btn.dataset.go;
-      });
+  // Button toggles menu
+  accountBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleAccountMenu();
   });
 
-  // LOGOUT LOGIC
-  document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("logoutBtn");
+  // Menu click: navigate OR logout
+  accountMenu.addEventListener("click", async (e) => {
+    e.stopPropagation();
+
+    const btn = e.target.closest("button");
     if (!btn) return;
 
-    btn.addEventListener("click", async () => {
-      try {
-        await fetch("http://localhost:4000/auth/logout", {
-          method: "POST",
-          credentials: "include"
-        });
-      } catch {}
+    // Logout action
+    if (btn.dataset.action === "logout") {
+      closeAccountMenu();
+      await logout();
+      return;
+    }
 
-      localStorage.removeItem("origin_access");
-      localStorage.removeItem("origin_user");
-      window.location.href = "index.html";
-    });
+    // Normal navigation
+    const go = btn.dataset.go;
+    if (go) {
+      closeAccountMenu();
+      window.location.href = go;
+    }
   });
 
+  // Click outside closes
+  document.addEventListener("click", (e) => {
+    if (!accountMenu.classList.contains("show")) return;
+    if (accountFooter.contains(e.target)) return;
+    closeAccountMenu();
+  });
+
+  // Escape closes (only once)
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAccountMenu();
+  });
+});
