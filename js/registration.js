@@ -1,4 +1,6 @@
 
+console.log("register.js loaded ✅");
+
   const API_BASE = "http://localhost:4000";
 
   function setError(msg){
@@ -6,6 +8,8 @@
   }
 
   async function register(){
+    console.log("register() fired ✅");
+
   // ⛔ Prevent double-submit immediately
   const btn = document.getElementById("createAccountBtn");
   btn.disabled = true;
