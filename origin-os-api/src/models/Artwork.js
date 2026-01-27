@@ -21,9 +21,17 @@ const artworkSchema = new mongoose.Schema(
     thumbUrl: { type: String, default: "" },
 
     createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
+    updatedAt: { type: Date, default: Date.now },
+
+    // AI Fields
+    aiJobId: { type: String, default: "" },
+    aiProgress: { type: Number, default: 0 },        // 0-100
+    aiStage: { type: String, default: "" },          // "queued"|"running"|"uploading"|...
+    aiError: { type: String, default: "" },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
 module.exports = mongoose.model("Artwork", artworkSchema);
+
+

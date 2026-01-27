@@ -7,6 +7,9 @@ const cors = require("cors");
 const { connectDB } = require("./db");
 const authRoutes = require("./routes/auth.routes");
 
+// Start the AI Worker
+const { startAiWorker } = require("./jobs/workers/ai.worker");
+
 const app = express();
 
 app.use(express.json());
@@ -26,6 +29,9 @@ const port = process.env.PORT || 4000;
 connectDB()
   .then(() => {
     app.listen(port, () => console.log(`✅ API running on http://localhost:${port}`));
+  
+    // Start the AI worker
+    startAiWorker();
   })
   .catch((err) => {
     console.error("❌ DB connection failed:", err.message);
@@ -39,3 +45,17 @@ app.use("/stats", statsRoutes);
 // Artwork Routes
 const artworksRoutes = require("./routes/artworks.routes");
 app.use("/artworks", artworksRoutes);
+
+// AI Routes
+const aiRoutes = require("./routes/ai.routes");
+app.use("/ai", aiRoutes);
+
+// Upload Routes
+// const path = require("path");
+// app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
+
+// Local Uploads for now
+const path = require("path");
+app.use("/uploads", express.static(path.join(__dirname, "..", process.env.LOCAL_UPLOAD_DIR || "uploads")));
+
+

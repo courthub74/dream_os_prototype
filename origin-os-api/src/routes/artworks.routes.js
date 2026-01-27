@@ -73,4 +73,16 @@ router.get("/recent", requireAuth, async (req, res) => {
   return res.json({ ok: true, items });
 });
 
+// Artworks ID for Polling
+router.get("/:id", requireAuth, async (req, res) => {
+  const userId = req.user.sub;
+  const { id } = req.params;
+
+  const artwork = await Artwork.findOne({ _id: id, userId });
+  if (!artwork) return res.status(404).json({ error: "Artwork not found" });
+
+  return res.json({ ok: true, artwork });
+});
+
+
 module.exports = router;

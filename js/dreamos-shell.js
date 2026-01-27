@@ -79,8 +79,14 @@ const reviewEl = document.getElementById("artworkReview");
   const genHint = document.getElementById("genHint");
 
   let genTimer = null;
+
+  // Wrap the Fake Generator with a guard.
+  // keeps it alive in case we cant connect with AI
+  // store it in a variable and set it to false
   
-  if (genBtn && detailsEl && genEl && stage && genFill && genHint && reviewEl)  {
+  const USE_FAKE_GENERATION = false;
+
+  if (USE_FAKE_GENERATION && genBtn && detailsEl && genEl && stage && genFill && genHint && reviewEl)  {
     genBtn.addEventListener("click", () => {
     // 1) Hide details, show generating
     detailsEl.classList.add("hidden");
