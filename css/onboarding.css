@@ -434,7 +434,7 @@ details.linksBox summary{
 
 /* Label Padding */
 .label{
-  margin-bottom: 5px;
+  margin-bottom: 13px;
   font-weight: 400;
   font-size: 15px;
   color: var(--text-2);
