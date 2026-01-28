@@ -1109,3 +1109,14 @@ textarea.notes{ min-height: 110px; }
   display:block;
 }
 
+
+/* Logo Override */
+/* Force the brand logo to use Origin OS accent */
+.sidebar .brand .dreamos-logo{
+  color: var(--accent);
+}
+
+/* Optional: make sure the SVG really inherits */
+.sidebar .brand .dreamos-logo svg{
+  color: inherit;
+}

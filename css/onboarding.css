@@ -1,0 +1,457 @@
+/* Onboarding adapter: maps onboarding classes to DreamOS shell language */
+
+:root{
+  color-scheme: dark;
+}
+
+/* ===== Sidebar ===== */
+
+/* Your HTML uses .navItem, core CSS styles .nav a */
+.nav .navItem{
+  padding:11px 12px;
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  color: var(--muted);
+  display:flex; align-items:center; justify-content:space-between; gap: 12px;
+  transition: transform .12s ease, border-color .12s ease, background .12s ease, color .12s ease;
+}
+.nav .navItem:hover{
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+}
+.nav .navItem.active{
+  border-color: rgba(180,207,106,0.35);
+  background: rgba(180,207,106,0.10);
+  color: rgba(255,255,255,0.92);
+}
+
+/* Brand text in your onboarding uses .t/.s not strong/span */
+.brandText .t{
+  color: var(--text-2);
+  font-size: 13px;
+  letter-spacing:.06em;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+.brandText .s{
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Your HTML uses accountBtn/accountMenu, core uses account-btn/account-menu */
+.accountBtn{
+  width:100%;
+  padding: 11px 12px;
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.02);
+  color: rgba(255,255,255,0.65);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+  cursor:pointer;
+  transition: transform .12s ease, border-color .12s ease, background .12s ease, color .12s ease;
+}
+.accountBtn:hover{
+  transform: translateY(-1px);
+  border-color: rgba(180,207,106,0.40);
+  background: rgba(180,207,106,0.08);
+  color: rgba(255,255,255,0.9);
+}
+.accountBtn .name{
+  margin:0;
+  font-weight:900;
+  font-size:13px;
+  color: var(--text-2);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.accountBtn .meta{
+  margin:3px 0 0 0;
+  font-size:11px;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+.accountBtn .chev{ font-family: var(--mono); opacity:.7; }
+
+.accountMenu{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom: calc(100% + 10px);
+  padding: 10px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  box-shadow: 0 24px 70px rgba(0,0,0,0.55);
+  backdrop-filter: blur(14px);
+  z-index: 200;
+
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s cubic-bezier(.2,.9,.2,1);
+}
+.accountMenu.show{
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.accountMenu button{
+  width:100%;
+  text-align:left;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  color: rgba(255,255,255,0.82);
+  padding: 10px 12px;
+  border-radius: 14px;
+  cursor:pointer;
+  font-size: 13px;
+  transition: transform .12s ease, background .12s ease, border-color .12s ease;
+}
+.accountMenu button + button{ margin-top: 8px; }
+.accountMenu button:hover{
+  transform: translateY(-1px);
+  border-color: rgba(180,207,106,0.35);
+  background: rgba(180,207,106,0.08);
+}
+
+/* ===== Topbar ===== */
+
+.topbar{
+  /* use your existing topbar, but keep your layout */
+  align-items:flex-start;
+}
+.topbar h1{
+  margin:0;
+  font-size:15px;
+  font-weight:900;
+  color: var(--text-2);
+}
+.topbar .sub{
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+/* progress dots */
+.stepDots .dot{
+  width:10px; height:10px; border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  opacity:.7;
+}
+.stepDots .dot.on{ opacity:1; box-shadow: 0 0 0 5px rgba(180,207,106,0.10); }
+
+/* ===== Panels ===== */
+
+.panel{
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+  margin-top: 14px;
+}
+
+/* Map panelHead/panelBody to core head/body feel */
+.panelHead{
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.panelHead .h2{
+  margin:0;
+  font-size:14px;
+  font-weight:900;
+  color: var(--text-2);
+  letter-spacing:.02em;
+}
+.panelHead .hint{
+  margin:6px 0 0;
+  opacity:1;
+  font-size:12px;
+  color: var(--muted);
+}
+.panelBody{
+  padding: 16px;
+}
+
+/* Notice */
+.notice{
+  margin:14px 0;
+  padding:12px 14px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.25);
+}
+
+/* ===== Tile buttons + segmented buttons ===== */
+
+.tileBtn,
+.segBtn{
+  border:1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  border-radius: 16px;
+  cursor:pointer;
+  transition: transform .12s ease, border-color .12s ease, background .12s ease;
+}
+.tileBtn:hover,
+.segBtn:hover{
+  transform: translateY(-1px);
+  border-color: rgba(180,207,106,0.45);
+  background: rgba(180,207,106,0.08);
+}
+.tileBtn.selected,
+.segBtn.selected{
+  border-color: rgba(180,207,106,0.40);
+  background: rgba(180,207,106,0.10);
+  box-shadow: 0 0 0 1px rgba(180,207,106,0.18);
+}
+
+/* Make tile internals match system text tones */
+.tileBtn .k{ font-weight: 950; color: var(--text-2); }
+.tileBtn .d{ font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+/* ===== Avatar preview styling ===== */
+
+.avatarPreview{
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+.avatarFallback{
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+/* Details box */
+details.linksBox{
+  border:1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  border-radius: 18px;
+  padding: 12px 14px;
+}
+details.linksBox summary{
+  cursor:pointer;
+  font-weight:900;
+  color: var(--text-2);
+}
+
+/* Logo Override */
+/* Force the brand logo to use Origin OS accent */
+.sidebar .brand .dreamos-logo{
+  color: var(--dreamos-accent);
+}
+
+/* Optional: make sure the SVG really inherits */
+.sidebar .brand .dreamos-logo svg{
+  color: inherit;
+}
+
+/* ===== Role tile icon layout ===== */
+
+.tileHead{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.roleIcon{
+  width:18px;
+  height:18px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color: var(--accent);
+  opacity: .9;
+  flex: 0 0 auto;
+}
+
+.roleIcon svg{
+  width:100%;
+  height:100%;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Selected state glow */
+.tileBtn.selected .roleIcon{
+  color: var(--accent);
+  filter: drop-shadow(0 0 6px rgba(180,207,106,0.35));
+}
+
+/* Hover subtle lift */
+.tileBtn:hover .roleIcon{
+  opacity: 1;
+}
+
+
+/* Focus Buttons */
+/* ===== Step 1: Focus + Actions (clean, equal buttons) ===== */
+
+/* Desktop: focus on left, actions on right, with divider */
+#step1 .focusRow{
+  display:grid;
+  grid-template-columns: 1fr auto;
+  align-items:center;
+  gap: 5px;
+}
+
+/* Actions sit to the right of focusRow */
+#step1 .focusRow + .actions{
+  margin-top: 0 !important;            /* overrides inline */
+  justify-self: end;
+  padding-left: 14px;
+  border-left: 1px solid rgba(255,255,255,0.08);
+
+  display:grid;
+  grid-template-columns: 1fr 1fr;      /* ✅ equal width buttons */
+  gap: 10px;
+}
+
+/* Make the buttons fill their equal grid cells */
+#step1 .focusRow + .actions .btn{
+  width: 100%;
+  justify-content:center;
+  white-space: nowrap;
+}
+
+/* Mobile: stack, full width */
+@media (max-width: 640px){
+  #step1 .focusRow{
+    grid-template-columns: 1fr;
+  }
+
+  #step1 .focusRow + .actions{
+    justify-self: stretch;
+    grid-template-columns: 1fr 1fr;        /* stack */
+    padding-left: 0;
+    border-left: 0;
+    margin-top: 14px !important;
+  }
+}
+
+/* ===== Desktop only: Actions sit beside Focus (do not affect mobile) ===== */
+@media (min-width: 981px){
+
+  /* Keep Focus exactly as-is. Only adjust the Actions block that follows it. */
+  #step1 .focusRow + .actions{
+    margin-top: 0 !important;              /* overrides inline margin-top */
+    display: grid;
+    grid-template-columns: 1fr 1fr;        /* equal-width buttons */
+    gap: 10px;
+
+    /* place to the right of focus buttons */
+    align-self: center;
+    margin-left: auto;
+
+    /* divider */
+    padding-left: 14px;
+    border-left: 1px solid rgba(255,255,255,0.08);
+  }
+
+  #step1 + .actions .btn{
+    /* width: 100%; */
+    width: 50%;
+    justify-content: center;
+    white-space: nowrap;
+  }
+
+  .focusRow {
+    width: 100%;
+  }
+
+  /* Make the Focus row and Actions share the same line (desktop) */
+  #step1 .focusRow{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+}
+
+
+@media (min-width: 981px){
+  #step1 .focusRow + .actions{
+    background: rgba(255,255,255,0.02);
+    border-radius: 14px;
+    padding-right: 6px;
+  }
+}
+
+@media (min-width: 981px){
+
+  /* Constrain the Actions group width */
+  #step1 .focusRow + .actions{
+    /* width: auto; */
+    max-width: 320px;          /* 👈 tune this (280–360px feels right) */
+  }
+
+  /* Ensure equal buttons inside that cap */
+  #step1 .focusRow + .actions .btn{
+    min-width: 0;              /* prevent flex/grid overflow */
+  }
+}
+
+/* ===== Desktop only: Actions under Focus (left-aligned) ===== */
+@media (min-width: 981px){
+
+  /* Keep Focus unchanged */
+  #step1 .focusRow{
+    display:block;
+  }
+
+  /* Actions sit directly under Focus */
+  #step1 .focusRow + .actions{
+    margin-top: 10px !important;     /* tighter than mobile */
+    margin-left: 0;
+    padding-left: 0;
+    border-left: 0;
+
+    display:grid;
+    grid-template-columns: 1fr 1fr; /* equal buttons */
+    gap: 10px;
+
+    width: auto;
+    max-width: 320px;               /* keeps it compact */
+  }
+
+  #step1 .focusRow + .actions .btn{
+    width:100%;
+    justify-content:center;
+    white-space: nowrap;
+  }
+}
+
+/* Label Padding */
+.label{
+  margin-bottom: 5px;
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--text-2);
+}
+
+/* TileGrid */
+.tileGrid {
+    padding-bottom: 12px;
+}
+
+/* Focus Row */
+.focusRow {
+    margin-bottom: 30px;
+    margin-top: 15px;
+}
+
+
+
+
+
